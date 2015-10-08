@@ -14,4 +14,10 @@ class SessionManager: NSObject {
     func isSignedIn() -> Bool {
         return FBSDKAccessToken.currentAccessToken() != nil
     }
+    
+    func name() -> String {
+        let firstName = FBSDKProfile.currentProfile().firstName
+        let lastName = FBSDKProfile.currentProfile().lastName
+        return "\(firstName) \(lastName[lastName.startIndex])."
+    }
 }

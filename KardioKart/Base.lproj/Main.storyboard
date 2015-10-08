@@ -228,8 +228,22 @@
                     <view key="view" contentMode="scaleToFill" id="o7N-Hc-1L8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powerup_store" translatesAutoresizingMaskIntoConstraints="NO" id="hd9-A9-6xS">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="imN-Ch-Bv9" firstAttribute="top" secondItem="hd9-A9-6xS" secondAttribute="bottom" id="A3U-CM-qNE"/>
+                            <constraint firstItem="hd9-A9-6xS" firstAttribute="centerY" secondItem="o7N-Hc-1L8" secondAttribute="centerY" id="FHg-7p-a5c"/>
+                            <constraint firstItem="hd9-A9-6xS" firstAttribute="centerX" secondItem="o7N-Hc-1L8" secondAttribute="centerX" id="Yxl-aW-Jgn"/>
+                            <constraint firstAttribute="trailing" secondItem="hd9-A9-6xS" secondAttribute="trailing" id="Zeu-0I-8rb"/>
+                            <constraint firstItem="hd9-A9-6xS" firstAttribute="leading" secondItem="o7N-Hc-1L8" secondAttribute="leading" id="kDF-zb-c1Z"/>
+                            <constraint firstItem="hd9-A9-6xS" firstAttribute="top" secondItem="FSy-Io-Y1H" secondAttribute="bottom" id="oBu-c8-M40"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Powerups" image="powerup_icon" selectedImage="powerup_icon" id="U1O-YS-Olf"/>
                 </viewController>
@@ -248,8 +262,22 @@
                     <view key="view" contentMode="scaleToFill" id="xCE-6S-YXR">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="race_dashboard" translatesAutoresizingMaskIntoConstraints="NO" id="wvz-7x-kW4">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wvz-7x-kW4" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="20Q-eT-Kzx"/>
+                            <constraint firstItem="wvz-7x-kW4" firstAttribute="centerY" secondItem="xCE-6S-YXR" secondAttribute="centerY" id="5po-NX-ZmO"/>
+                            <constraint firstItem="wvz-7x-kW4" firstAttribute="leading" secondItem="xCE-6S-YXR" secondAttribute="leading" id="MpA-Lk-uPl"/>
+                            <constraint firstItem="wvz-7x-kW4" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" id="kPV-TG-sCr"/>
+                            <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="wvz-7x-kW4" secondAttribute="bottom" id="s7o-IU-yve"/>
+                            <constraint firstAttribute="trailing" secondItem="wvz-7x-kW4" secondAttribute="trailing" id="xJd-YJ-S4K"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Race" image="race_progress_icon" selectedImage="race_progress_icon" id="zUe-k6-xRF"/>
                 </viewController>
@@ -377,7 +405,7 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joel O." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIx-Wy-QhT">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Joel O." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIx-Wy-QhT">
                                             <rect key="frame" x="92" y="10" width="62" height="34.5"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" name="AvenirNextCondensed-Medium" family="Avenir Next Condensed" pointSize="25"/>
@@ -398,14 +426,22 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="XQH-HE-bJJ">
+                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lfs-bn-1BC" customClass="FBSDKProfilePictureView">
                                             <rect key="frame" x="46" y="10" width="34" height="34"/>
                                             <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="aZO-Ob-kpC"/>
-                                                <constraint firstAttribute="width" constant="34" id="oZy-BY-xSr"/>
-                                            </constraints>
-                                        </imageView>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="17"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                    <color key="value" red="0.33333333333333331" green="0.42745098039215684" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" red="0.99215686274509807" green="0.83921568627450982" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
@@ -413,13 +449,13 @@
                                         <constraint firstItem="yIx-Wy-QhT" firstAttribute="centerY" secondItem="EyE-bF-gr5" secondAttribute="centerY" id="1Ne-5s-tcX"/>
                                         <constraint firstItem="qhD-Fc-1o4" firstAttribute="centerY" secondItem="EyE-bF-gr5" secondAttribute="centerY" id="3RF-zo-GT0"/>
                                         <constraint firstItem="Omb-Tz-lGQ" firstAttribute="leading" secondItem="EyE-bF-gr5" secondAttribute="leadingMargin" constant="12" id="CAj-fm-g7q"/>
+                                        <constraint firstItem="yIx-Wy-QhT" firstAttribute="leading" secondItem="lfs-bn-1BC" secondAttribute="trailing" constant="12" id="Cht-Nf-aGz"/>
                                         <constraint firstItem="UIP-rO-ROQ" firstAttribute="leading" secondItem="qhD-Fc-1o4" secondAttribute="trailing" constant="8" id="Juq-BR-NbL"/>
-                                        <constraint firstItem="XQH-HE-bJJ" firstAttribute="centerY" secondItem="EyE-bF-gr5" secondAttribute="centerY" id="bZa-yT-oay"/>
+                                        <constraint firstItem="lfs-bn-1BC" firstAttribute="centerY" secondItem="EyE-bF-gr5" secondAttribute="centerY" id="Thb-S2-PUd"/>
                                         <constraint firstItem="Omb-Tz-lGQ" firstAttribute="centerY" secondItem="EyE-bF-gr5" secondAttribute="centerY" id="csr-As-4g2"/>
-                                        <constraint firstItem="yIx-Wy-QhT" firstAttribute="leading" secondItem="XQH-HE-bJJ" secondAttribute="trailing" constant="12" id="dCB-X0-hcX"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="UIP-rO-ROQ" secondAttribute="trailing" constant="12" id="hq9-Y7-6TB"/>
-                                        <constraint firstItem="XQH-HE-bJJ" firstAttribute="leading" secondItem="Omb-Tz-lGQ" secondAttribute="trailing" constant="8" id="j7X-GP-EJk"/>
                                         <constraint firstItem="UIP-rO-ROQ" firstAttribute="baseline" secondItem="qhD-Fc-1o4" secondAttribute="baseline" id="js4-an-c5c"/>
+                                        <constraint firstItem="lfs-bn-1BC" firstAttribute="leading" secondItem="Omb-Tz-lGQ" secondAttribute="trailing" constant="8" id="wFR-vU-90W"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
@@ -464,11 +500,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="avatar" width="68" height="68"/>
         <image name="green_light" width="160" height="400"/>
         <image name="kardio_kart_logo" width="411" height="79"/>
         <image name="leaderboard_icon" width="30" height="30"/>
         <image name="powerup_icon" width="31" height="31"/>
+        <image name="powerup_store" width="750" height="1334"/>
+        <image name="race_dashboard" width="750" height="1334"/>
         <image name="race_progress_icon" width="30" height="30"/>
         <image name="red_light" width="160" height="400"/>
         <image name="tune_up_button" width="317" height="84"/>

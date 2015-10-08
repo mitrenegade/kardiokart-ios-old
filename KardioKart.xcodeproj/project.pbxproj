@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C15991B7B141BDE46E628322 /* libPods.a */; };
+		8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449AB631BC628DD0076071E /* UIView+Storyboard.swift */; settings = {ASSET_TAGS = (); }; };
 		8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC881BC3346D00CE554E /* AppDelegate.swift */; };
 		8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC8A1BC3346D00CE554E /* SignInViewController.swift */; };
 		8494FC8E1BC3346D00CE554E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC8C1BC3346D00CE554E /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		8449AB631BC628DD0076071E /* UIView+Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Storyboard.swift"; sourceTree = "<group>"; };
 		8494FC851BC3346D00CE554E /* KardioKart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KardioKart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8494FC881BC3346D00CE554E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8494FC8A1BC3346D00CE554E /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */,
 				8494FC941BC3346D00CE554E /* Info.plist */,
 				8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */,
+				8449AB631BC628DD0076071E /* UIView+Storyboard.swift */,
 			);
 			path = KardioKart;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */,
 				8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */,
 				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
+				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
 				8494FCC71BC4187500CE554E /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
