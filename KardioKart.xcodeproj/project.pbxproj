@@ -1,0 +1,646 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C15991B7B141BDE46E628322 /* libPods.a */; };
+		8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC881BC3346D00CE554E /* AppDelegate.swift */; };
+		8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC8A1BC3346D00CE554E /* SignInViewController.swift */; };
+		8494FC8E1BC3346D00CE554E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC8C1BC3346D00CE554E /* Main.storyboard */; };
+		8494FC901BC3346D00CE554E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC8F1BC3346D00CE554E /* Assets.xcassets */; };
+		8494FC931BC3346D00CE554E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */; };
+		8494FC9E1BC3346D00CE554E /* KardioKartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC9D1BC3346D00CE554E /* KardioKartTests.swift */; };
+		8494FCA91BC3346D00CE554E /* KardioKartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCA81BC3346D00CE554E /* KardioKartUITests.swift */; };
+		8494FCB71BC3357700CE554E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 8494FCB61BC3357700CE554E /* Podfile */; settings = {ASSET_TAGS = (); }; };
+		8494FCBA1BC36AAF00CE554E /* HealthKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC01BC37A3C00CE554E /* HealthManager.swift */; settings = {ASSET_TAGS = (); }; };
+		8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		8494FCC71BC4187500CE554E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC61BC4187500CE554E /* SessionManager.swift */; settings = {ASSET_TAGS = (); }; };
+		8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8499A3B51BC48B46002A4099 /* HealthKit.framework */; };
+		8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8494FC9A1BC3346D00CE554E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8494FC7D1BC3346C00CE554E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494FC841BC3346D00CE554E;
+			remoteInfo = CardioKart;
+		};
+		8494FCA51BC3346D00CE554E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8494FC7D1BC3346C00CE554E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494FC841BC3346D00CE554E;
+			remoteInfo = CardioKart;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		8494FC851BC3346D00CE554E /* KardioKart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KardioKart.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8494FC881BC3346D00CE554E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8494FC8A1BC3346D00CE554E /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		8494FC8D1BC3346D00CE554E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8494FC8F1BC3346D00CE554E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8494FC921BC3346D00CE554E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8494FC941BC3346D00CE554E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8494FC991BC3346D00CE554E /* KardioKart.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KardioKart.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8494FC9D1BC3346D00CE554E /* KardioKartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KardioKartTests.swift; sourceTree = "<group>"; };
+		8494FC9F1BC3346D00CE554E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8494FCA41BC3346D00CE554E /* KardioKart.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KardioKart.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8494FCA81BC3346D00CE554E /* KardioKartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KardioKartUITests.swift; sourceTree = "<group>"; };
+		8494FCAA1BC3346D00CE554E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8494FCB61BC3357700CE554E /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "KardioKart-Bridging-Header.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthKitViewController.swift; sourceTree = "<group>"; };
+		8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		8494FCBD1BC3798700CE554E /* KardioKart.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = KardioKart.entitlements; sourceTree = "<group>"; };
+		8494FCC01BC37A3C00CE554E /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
+		8494FCC61BC4187500CE554E /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		8499A3B51BC48B46002A4099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
+		9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C15991B7B141BDE46E628322 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8494FC821BC3346D00CE554E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */,
+				8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FC961BC3346D00CE554E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FCA11BC3346D00CE554E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A714695EC66080291D4B5EE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */,
+				9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8494FC7C1BC3346C00CE554E = {
+			isa = PBXGroup;
+			children = (
+				8494FCB61BC3357700CE554E /* Podfile */,
+				8494FC871BC3346D00CE554E /* KardioKart */,
+				8494FC9C1BC3346D00CE554E /* KardioKartTests */,
+				8494FCA71BC3346D00CE554E /* KardioKartUITests */,
+				8494FC861BC3346D00CE554E /* Products */,
+				1A714695EC66080291D4B5EE /* Pods */,
+				EC2BF059D3C181342EB8C46A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8494FC861BC3346D00CE554E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8494FC851BC3346D00CE554E /* KardioKart.app */,
+				8494FC991BC3346D00CE554E /* KardioKart.xctest */,
+				8494FCA41BC3346D00CE554E /* KardioKart.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8494FC871BC3346D00CE554E /* KardioKart */ = {
+			isa = PBXGroup;
+			children = (
+				8494FCBD1BC3798700CE554E /* KardioKart.entitlements */,
+				8494FC881BC3346D00CE554E /* AppDelegate.swift */,
+				8499A3B91BC57C65002A4099 /* Views */,
+				8494FCC41BC4087700CE554E /* View Controllers */,
+				8494FCC51BC4088000CE554E /* Managers */,
+				8494FC8C1BC3346D00CE554E /* Main.storyboard */,
+				8494FC8F1BC3346D00CE554E /* Assets.xcassets */,
+				8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */,
+				8494FC941BC3346D00CE554E /* Info.plist */,
+				8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */,
+			);
+			path = KardioKart;
+			sourceTree = "<group>";
+		};
+		8494FC9C1BC3346D00CE554E /* KardioKartTests */ = {
+			isa = PBXGroup;
+			children = (
+				8494FC9D1BC3346D00CE554E /* KardioKartTests.swift */,
+				8494FC9F1BC3346D00CE554E /* Info.plist */,
+			);
+			path = KardioKartTests;
+			sourceTree = "<group>";
+		};
+		8494FCA71BC3346D00CE554E /* KardioKartUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8494FCA81BC3346D00CE554E /* KardioKartUITests.swift */,
+				8494FCAA1BC3346D00CE554E /* Info.plist */,
+			);
+			path = KardioKartUITests;
+			sourceTree = "<group>";
+		};
+		8494FCC41BC4087700CE554E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8494FC8A1BC3346D00CE554E /* SignInViewController.swift */,
+				8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */,
+				8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */,
+				8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		8494FCC51BC4088000CE554E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8494FCC01BC37A3C00CE554E /* HealthManager.swift */,
+				8494FCC61BC4187500CE554E /* SessionManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		8499A3B91BC57C65002A4099 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		EC2BF059D3C181342EB8C46A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8499A3B51BC48B46002A4099 /* HealthKit.framework */,
+				C15991B7B141BDE46E628322 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8494FC841BC3346D00CE554E /* KardioKart */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8494FCAD1BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKart" */;
+			buildPhases = (
+				0312AB8609DEDC91E745D9EB /* Check Pods Manifest.lock */,
+				8494FC811BC3346D00CE554E /* Sources */,
+				8494FC821BC3346D00CE554E /* Frameworks */,
+				8494FC831BC3346D00CE554E /* Resources */,
+				10217CCFC8625D325C535E71 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KardioKart;
+			productName = CardioKart;
+			productReference = 8494FC851BC3346D00CE554E /* KardioKart.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8494FC981BC3346D00CE554E /* KardioKartTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8494FCB01BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKartTests" */;
+			buildPhases = (
+				8494FC951BC3346D00CE554E /* Sources */,
+				8494FC961BC3346D00CE554E /* Frameworks */,
+				8494FC971BC3346D00CE554E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8494FC9B1BC3346D00CE554E /* PBXTargetDependency */,
+			);
+			name = KardioKartTests;
+			productName = CardioKartTests;
+			productReference = 8494FC991BC3346D00CE554E /* KardioKart.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8494FCA31BC3346D00CE554E /* KardioKartUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8494FCB31BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKartUITests" */;
+			buildPhases = (
+				8494FCA01BC3346D00CE554E /* Sources */,
+				8494FCA11BC3346D00CE554E /* Frameworks */,
+				8494FCA21BC3346D00CE554E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8494FCA61BC3346D00CE554E /* PBXTargetDependency */,
+			);
+			name = KardioKartUITests;
+			productName = CardioKartUITests;
+			productReference = 8494FCA41BC3346D00CE554E /* KardioKart.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8494FC7D1BC3346C00CE554E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = Kartio;
+				TargetAttributes = {
+					8494FC841BC3346D00CE554E = {
+						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = UM2XL37PDS;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
+					8494FC981BC3346D00CE554E = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 8494FC841BC3346D00CE554E;
+					};
+					8494FCA31BC3346D00CE554E = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 8494FC841BC3346D00CE554E;
+					};
+				};
+			};
+			buildConfigurationList = 8494FC801BC3346C00CE554E /* Build configuration list for PBXProject "KardioKart" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8494FC7C1BC3346C00CE554E;
+			productRefGroup = 8494FC861BC3346D00CE554E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8494FC841BC3346D00CE554E /* KardioKart */,
+				8494FC981BC3346D00CE554E /* KardioKartTests */,
+				8494FCA31BC3346D00CE554E /* KardioKartUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8494FC831BC3346D00CE554E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8494FC931BC3346D00CE554E /* LaunchScreen.storyboard in Resources */,
+				8494FC901BC3346D00CE554E /* Assets.xcassets in Resources */,
+				8494FCB71BC3357700CE554E /* Podfile in Resources */,
+				8494FC8E1BC3346D00CE554E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FC971BC3346D00CE554E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FCA21BC3346D00CE554E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0312AB8609DEDC91E745D9EB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		10217CCFC8625D325C535E71 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8494FC811BC3346D00CE554E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */,
+				8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */,
+				8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */,
+				8494FCBA1BC36AAF00CE554E /* HealthKitViewController.swift in Sources */,
+				8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */,
+				8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */,
+				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
+				8494FCC71BC4187500CE554E /* SessionManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FC951BC3346D00CE554E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8494FC9E1BC3346D00CE554E /* KardioKartTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8494FCA01BC3346D00CE554E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8494FCA91BC3346D00CE554E /* KardioKartUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8494FC9B1BC3346D00CE554E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8494FC841BC3346D00CE554E /* KardioKart */;
+			targetProxy = 8494FC9A1BC3346D00CE554E /* PBXContainerItemProxy */;
+		};
+		8494FCA61BC3346D00CE554E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8494FC841BC3346D00CE554E /* KardioKart */;
+			targetProxy = 8494FCA51BC3346D00CE554E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8494FC8C1BC3346D00CE554E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8494FC8D1BC3346D00CE554E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8494FC921BC3346D00CE554E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8494FCAB1BC3346D00CE554E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8494FCAC1BC3346D00CE554E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8494FCAE1BC3346D00CE554E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.KardioKart;
+				PRODUCT_NAME = KardioKart;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8494FCAF1BC3346D00CE554E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.KardioKart;
+				PRODUCT_NAME = KardioKart;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		8494FCB11BC3346D00CE554E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CardioKartTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.CardioKartTests;
+				PRODUCT_NAME = KardioKart;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KardioKart.app/KardioKart";
+			};
+			name = Debug;
+		};
+		8494FCB21BC3346D00CE554E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CardioKartTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.CardioKartTests;
+				PRODUCT_NAME = KardioKart;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KardioKart.app/KardioKart";
+			};
+			name = Release;
+		};
+		8494FCB41BC3346D00CE554E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = CardioKartUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.CardioKartUITests;
+				PRODUCT_NAME = KardioKart;
+				TEST_TARGET_NAME = CardioKart;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		8494FCB51BC3346D00CE554E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = CardioKartUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Kartio.CardioKartUITests;
+				PRODUCT_NAME = KardioKart;
+				TEST_TARGET_NAME = CardioKart;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8494FC801BC3346C00CE554E /* Build configuration list for PBXProject "KardioKart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494FCAB1BC3346D00CE554E /* Debug */,
+				8494FCAC1BC3346D00CE554E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8494FCAD1BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494FCAE1BC3346D00CE554E /* Debug */,
+				8494FCAF1BC3346D00CE554E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8494FCB01BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKartTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494FCB11BC3346D00CE554E /* Debug */,
+				8494FCB21BC3346D00CE554E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8494FCB31BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKartUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494FCB41BC3346D00CE554E /* Debug */,
+				8494FCB51BC3346D00CE554E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8494FC7D1BC3346C00CE554E /* Project object */;
+}
