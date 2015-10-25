@@ -12,6 +12,8 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
+#import <Parse/Parse.h>
+#import <ParseFacebookUtilsV4/ParseFacebookUtilsV4.h>
 
 
 #endif /* KardioKart_Bridging_Header_h */

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C15991B7B141BDE46E628322 /* libPods.a */; };
-		8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449AB631BC628DD0076071E /* UIView+Storyboard.swift */; settings = {ASSET_TAGS = (); }; };
+		8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449AB631BC628DD0076071E /* UIView+Storyboard.swift */; };
 		8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC881BC3346D00CE554E /* AppDelegate.swift */; };
 		8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC8A1BC3346D00CE554E /* SignInViewController.swift */; };
 		8494FC8E1BC3346D00CE554E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC8C1BC3346D00CE554E /* Main.storyboard */; };
@@ -16,14 +16,13 @@
 		8494FC931BC3346D00CE554E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */; };
 		8494FC9E1BC3346D00CE554E /* KardioKartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC9D1BC3346D00CE554E /* KardioKartTests.swift */; };
 		8494FCA91BC3346D00CE554E /* KardioKartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCA81BC3346D00CE554E /* KardioKartUITests.swift */; };
-		8494FCB71BC3357700CE554E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 8494FCB61BC3357700CE554E /* Podfile */; settings = {ASSET_TAGS = (); }; };
-		8494FCBA1BC36AAF00CE554E /* HealthKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC01BC37A3C00CE554E /* HealthManager.swift */; settings = {ASSET_TAGS = (); }; };
-		8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		8494FCC71BC4187500CE554E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC61BC4187500CE554E /* SessionManager.swift */; settings = {ASSET_TAGS = (); }; };
+		8494FCB71BC3357700CE554E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 8494FCB61BC3357700CE554E /* Podfile */; };
+		8494FCBA1BC36AAF00CE554E /* HealthKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */; };
+		8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */; };
+		8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC01BC37A3C00CE554E /* HealthManager.swift */; };
+		8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */; };
 		8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8499A3B51BC48B46002A4099 /* HealthKit.framework */; };
-		8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +65,6 @@
 		8494FCBD1BC3798700CE554E /* KardioKart.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = KardioKart.entitlements; sourceTree = "<group>"; };
 		8494FCC01BC37A3C00CE554E /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
-		8494FCC61BC4187500CE554E /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		8499A3B51BC48B46002A4099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				8494FCC01BC37A3C00CE554E /* HealthManager.swift */,
-				8494FCC61BC4187500CE554E /* SessionManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -217,6 +214,7 @@
 				8494FC821BC3346D00CE554E /* Frameworks */,
 				8494FC831BC3346D00CE554E /* Resources */,
 				10217CCFC8625D325C535E71 /* Copy Pods Resources */,
+				BCD9D98921BF141F763C2505 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -370,6 +368,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BCD9D98921BF141F763C2505 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -385,7 +398,6 @@
 				8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */,
 				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
 				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
-				8494FCC71BC4187500CE554E /* SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

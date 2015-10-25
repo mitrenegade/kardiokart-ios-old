@@ -16,10 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         HealthManager.sharedManager.enableBackgroundDelivery()
         HealthManager.sharedManager.observeSteps()
-        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
-        let fbDidFinishLaunching = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions:launchOptions)
+        
+        Parse.setApplicationId("ROI9AB3SOnwT2Xa5mgsyGUW7pUAgiS7RMme9qBMj", clientKey:"9NmB99u6209449LE2ATUKNtxxk1xdsWv84zRfBmm")
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         initializeUserInterface()
-        return fbDidFinishLaunching
+        return true
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -53,15 +54,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        if SessionManager.sharedManager.isSignedIn() {
+        if PFUser.currentUser() != nil {
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("TabBarController")
             window?.rootViewController = initialViewController
         } else {
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("OnboardingNavigationController")
             window?.rootViewController = initialViewController
-
         }
+        
         self.window?.makeKeyAndVisible()
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
 

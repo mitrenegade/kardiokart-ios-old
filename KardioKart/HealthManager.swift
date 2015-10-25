@@ -39,15 +39,6 @@ class HealthManager: NSObject {
         }
     }
     
-    func stepCount() -> Double {
-        if let steps = NSUserDefaults.standardUserDefaults().valueForKey("stepCount") {
-            return steps as! Double
-        } else {
-            return Double(0)
-        }
-        
-    }
-    
     func isHealthEnabled() -> Bool {
         if let healthkitEnabled = NSUserDefaults.standardUserDefaults().valueForKey("healthkitEnabled") as? Bool {
             return healthkitEnabled
@@ -82,8 +73,11 @@ class HealthManager: NSObject {
                 }
                 
                 print("UPDATING STEP COUNT")
-                print("STEPS: \(self.stepCount())")
-                NSUserDefaults.standardUserDefaults().setDouble(totalSteps, forKey: "stepCount")
+                print("STEPS: \(totalSteps)")
+                if let user = PFUser.currentUser() {
+                    user["stepCount"] = totalSteps ?? Double(0.0)
+                    user.saveInBackground()
+                }
         }
         
         healthKitStore.executeQuery(query)
