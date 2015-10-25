@@ -23,8 +23,9 @@
 		8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */; };
 		8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8499A3B51BC48B46002A4099 /* HealthKit.framework */; };
 		8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */; };
-		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; settings = {ASSET_TAGS = (); }; };
+		84F36D4C1BDD301B00CF512A /* RaceTrackAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */; };
+		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; };
+		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		8494FCC21BC3867800CE554E /* LeaderboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
 		8499A3B51BC48B46002A4099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
+		84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackAvatar.swift; sourceTree = "<group>"; };
 		9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackViewController.swift; sourceTree = "<group>"; };
 		9F1E06001BDD181100D927DC /* RaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrack.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */,
 				9F1E06001BDD181100D927DC /* RaceTrack.swift */,
+				84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 			files = (
 				8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */,
 				8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */,
+				84F36D4C1BDD301B00CF512A /* RaceTrackAvatar.swift in Sources */,
 				8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */,
 				8494FCBA1BC36AAF00CE554E /* HealthKitViewController.swift in Sources */,
 				8494FCBC1BC374EB00CE554E /* LoadingViewController.swift in Sources */,

@@ -11,10 +11,12 @@ import UIKit
 class RaceTrack: UIView {
 
     override func drawRect(rect: CGRect) {
-        let trackPath = UIBezierPath(rect: self.bounds)
-        UIColor.blackColor().setStroke()
-        // let graphicsContext = UIGraphicsGetCurrentContext()
-        trackPath.lineWidth = 5
+        let radius = rect.width / 2
+        let lineWidth = 5.0
+        let insetRect = CGRectInset(rect, CGFloat(lineWidth / 2.0), CGFloat(lineWidth / 2.0))
+        let trackPath = UIBezierPath(roundedRect: insetRect, cornerRadius: radius)
+        UIColor(red:0.333,  green:0.427,  blue:0.475, alpha:1).setStroke()
+        trackPath.lineWidth = CGFloat(lineWidth)
         trackPath.stroke()
     }
     
