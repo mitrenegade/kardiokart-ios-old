@@ -66,17 +66,17 @@ class HealthManager: NSObject {
         let query = HKStatisticsQuery(quantityType: sampleType!,
             quantitySamplePredicate: predicate,
             options: .CumulativeSum) { query, result, error in
-                var totalSteps = 0.0
+                var totalSteps: Double?
                 if let quantity = result!.sumQuantity() {
                     let unit = HKUnit.countUnit()
                     totalSteps = quantity.doubleValueForUnit(unit)
                 }
                 
-                print("UPDATING STEP COUNT")
-                print("STEPS: \(totalSteps)")
-                if let user = PFUser.currentUser() {
-                    user["stepCount"] = totalSteps ?? Double(0.0)
-                    user.saveInBackground()
+                if totalSteps != nil {
+                    if let user = PFUser.currentUser() {
+                        user["stepCount"] = totalSteps ?? Double(0.0)
+                        user.saveInBackground()
+                    }
                 }
         }
         

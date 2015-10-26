@@ -336,7 +336,7 @@
                     <tabBarItem key="tabBarItem" title="Race" image="race_progress_icon" selectedImage="race_progress_icon" id="zUe-k6-xRF"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="trackPath" destination="x3o-7b-CIO" id="wUl-A6-Ttx"/>
+                        <outlet property="raceTrack" destination="x3o-7b-CIO" id="eeC-4c-Bna"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ae-Dn-b8U" userLabel="First Responder" sceneMemberID="firstResponder"/>

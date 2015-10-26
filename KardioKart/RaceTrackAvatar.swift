@@ -10,14 +10,17 @@ import UIKit
 
 class RaceTrackAvatar: UIView {
     var label = UILabel()
+    var user: PFObject?
     
-    convenience init(name: String) {
+    convenience init(user: PFObject) {
         self.init(frame: CGRectMake(0.0, 0.0, 50.0, 50.0))
-        label.textColor = UIColor(red:0.333,  green:0.427,  blue:0.475, alpha:1)
+        self.user = user
+        let name = user["name"] as? String ?? ""
         self.layer.borderColor = UIColor(red:0.333,  green:0.427,  blue:0.475, alpha:1).CGColor
         self.layer.borderWidth = 2.5
         self.layer.cornerRadius = self.bounds.width / 2
         self.backgroundColor = UIColor.whiteColor()
+        label.textColor = UIColor(red:0.333,  green:0.427,  blue:0.475, alpha:1)
         let names: [String] = name.componentsSeparatedByString(" ")
         var initials = ""
         for name in names {
