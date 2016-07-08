@@ -6,6 +6,7 @@
 //  Copyright © 2015 Kartio. All rights reserved.
 //
 
+import UIKit
 import Foundation
 
 extension UIView {

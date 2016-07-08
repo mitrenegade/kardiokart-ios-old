@@ -5,8 +5,9 @@
 //  Created by Brent Raines on 10/6/15.
 //  Copyright © 2015 Kartio. All rights reserved.
 //
-
+import UIKit
 import Foundation
+import Parse
 
 class LeaderboardViewController: UITableViewController {
     var users: [PFObject]?

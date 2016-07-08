@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ParseFacebookUtilsV4
+import Parse
 
 class SignInViewController: UIViewController {
     

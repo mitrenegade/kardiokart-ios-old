@@ -8,6 +8,7 @@
 
 import Foundation
 import HealthKit
+import Parse
 
 class HealthManager: NSObject {
     static let sharedManager = HealthManager()
