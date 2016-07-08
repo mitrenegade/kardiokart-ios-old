@@ -41,13 +41,10 @@ class LeaderboardViewController: UITableViewController {
     
     func queryUsers() {
         let query = PFUser.query()
+        query?.orderByDescending("stepCount")
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let result = result {
-                self.users = result.sort({
-                    let steps_0 = $0["stepCount"] as! Double
-                    let steps_1 = $1["stepCount"] as! Double
-                    return steps_0 > steps_1
-                })
+                self.users = result
                 self.tableView.reloadData()
             }
         }
