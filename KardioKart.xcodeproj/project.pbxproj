@@ -281,7 +281,7 @@
 				TargetAttributes = {
 					8494FC841BC3346D00CE554E = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = UM2XL37PDS;
+						DevelopmentTeam = H799H8B8DD;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -555,7 +555,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Kartio.KardioKart;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
@@ -573,7 +573,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Kartio.KardioKart;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
