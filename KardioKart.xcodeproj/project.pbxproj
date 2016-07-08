@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C15991B7B141BDE46E628322 /* libPods.a */; };
 		8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449AB631BC628DD0076071E /* UIView+Storyboard.swift */; };
 		8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC881BC3346D00CE554E /* AppDelegate.swift */; };
 		8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494FC8A1BC3346D00CE554E /* SignInViewController.swift */; };
@@ -26,6 +25,7 @@
 		84F36D4C1BDD301B00CF512A /* RaceTrackAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */; };
 		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; };
 		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; };
+		E74B1C48B35C724102B9564D /* Pods_KardioKart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B91DE5A15A0BCC535AF8A4 /* Pods_KardioKart.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		219166F9342E1006C155F951 /* Pods-KardioKart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KardioKart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart.debug.xcconfig"; sourceTree = "<group>"; };
+		61B91DE5A15A0BCC535AF8A4 /* Pods_KardioKart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KardioKart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8449AB631BC628DD0076071E /* UIView+Storyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Storyboard.swift"; sourceTree = "<group>"; };
 		8494FC851BC3346D00CE554E /* KardioKart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KardioKart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8494FC881BC3346D00CE554E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,10 +72,9 @@
 		8499A3B51BC48B46002A4099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackAvatar.swift; sourceTree = "<group>"; };
-		9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackViewController.swift; sourceTree = "<group>"; };
 		9F1E06001BDD181100D927DC /* RaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrack.swift; sourceTree = "<group>"; };
-		C15991B7B141BDE46E628322 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KardioKart.release.xcconfig"; path = "Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FEE9054A8ADBF0E888A3628 /* libPods.a in Frameworks */,
 				8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */,
+				E74B1C48B35C724102B9564D /* Pods_KardioKart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,11 +104,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A714695EC66080291D4B5EE /* Pods */ = {
+		7AF9D7F4C1795225B6268366 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */,
-				9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */,
+				219166F9342E1006C155F951 /* Pods-KardioKart.debug.xcconfig */,
+				B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -121,8 +121,8 @@
 				8494FC9C1BC3346D00CE554E /* KardioKartTests */,
 				8494FCA71BC3346D00CE554E /* KardioKartUITests */,
 				8494FC861BC3346D00CE554E /* Products */,
-				1A714695EC66080291D4B5EE /* Pods */,
 				EC2BF059D3C181342EB8C46A /* Frameworks */,
+				7AF9D7F4C1795225B6268366 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -206,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				8499A3B51BC48B46002A4099 /* HealthKit.framework */,
-				C15991B7B141BDE46E628322 /* libPods.a */,
+				61B91DE5A15A0BCC535AF8A4 /* Pods_KardioKart.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,12 +218,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8494FCAD1BC3346D00CE554E /* Build configuration list for PBXNativeTarget "KardioKart" */;
 			buildPhases = (
-				0312AB8609DEDC91E745D9EB /* Check Pods Manifest.lock */,
+				A28644E11F97769EA4DF3765 /* [CP] Check Pods Manifest.lock */,
 				8494FC811BC3346D00CE554E /* Sources */,
 				8494FC821BC3346D00CE554E /* Frameworks */,
 				8494FC831BC3346D00CE554E /* Resources */,
-				10217CCFC8625D325C535E71 /* Copy Pods Resources */,
-				BCD9D98921BF141F763C2505 /* Embed Pods Frameworks */,
+				4BD097EB580E71641B82DCC6 /* [CP] Embed Pods Frameworks */,
+				6E815A3633B257E2B04DF280 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -347,49 +347,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0312AB8609DEDC91E745D9EB /* Check Pods Manifest.lock */ = {
+		4BD097EB580E71641B82DCC6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E815A3633B257E2B04DF280 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A28644E11F97769EA4DF3765 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		10217CCFC8625D325C535E71 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BCD9D98921BF141F763C2505 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -547,7 +547,7 @@
 		};
 		8494FCAE1BC3346D00CE554E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13F3333B41C0BA8A18FC3437 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 219166F9342E1006C155F951 /* Pods-KardioKart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
@@ -565,7 +565,7 @@
 		};
 		8494FCAF1BC3346D00CE554E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9619C4477FCB33E12648C7F4 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
