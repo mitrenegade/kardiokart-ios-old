@@ -9,18 +9,31 @@
 import UIKit
 import Parse
 import ParseFacebookUtilsV4
+let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
+let PARSE_SERVER_URL: String = "https://kardiokart-server.herokuapp.com/parse"
+let PARSE_CLIENT_KEY: String = "unused"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         HealthManager.sharedManager.enableBackgroundDelivery()
         HealthManager.sharedManager.observeSteps()
         
-        Parse.setApplicationId("ROI9AB3SOnwT2Xa5mgsyGUW7pUAgiS7RMme9qBMj", clientKey:"9NmB99u6209449LE2ATUKNtxxk1xdsWv84zRfBmm")
-        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+        // Parse
+        let configuration = ParseClientConfiguration {
+            $0.applicationId = PARSE_APP_ID
+            $0.clientKey = PARSE_CLIENT_KEY
+            $0.server = PARSE_SERVER_URL
+        }
+        Parse.initializeWithConfiguration(configuration)
+        
+        // Facebook
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions);
+        
         initializeUserInterface()
         return true
     }
