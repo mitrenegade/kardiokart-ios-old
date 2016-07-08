@@ -7,12 +7,11 @@
 //
 
 import UIKit
-
+import Parse
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
     let scorePerLap = 2000.0
     var path: CGPath?
-    var users: [PFObject] = []
     var userAvatars: [RaceTrackAvatar] = []
     var pointsInPath = [CGPoint]()
     @IBOutlet weak var trackPath: UIView!
@@ -74,6 +73,7 @@ class RaceTrackViewController: UIViewController {
             userAvatars.removeAtIndex(userAvatars.indexOf(avatar)!)
         }
         
+        guard let users = self.users else { return }
         for user in users {
             let avatar = RaceTrackAvatar(user: user)
             userAvatars.append(avatar)

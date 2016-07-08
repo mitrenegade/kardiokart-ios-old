@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class RaceTrackAvatar: UIView {
     var label = UILabel()

@@ -5,7 +5,7 @@
 //  Created by Brent Raines on 10/7/15.
 //  Copyright © 2015 Kartio. All rights reserved.
 //
-
+import UIKit
 import Foundation
 
 class LeaderboardTableViewCell: UITableViewCell {
