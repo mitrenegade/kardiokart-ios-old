@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -247,36 +248,100 @@
         <!--Race-->
         <scene sceneID="wvc-nk-7cj">
             <objects>
-                <viewController id="wz1-dW-WTd" sceneMemberID="viewController">
+                <viewController id="wz1-dW-WTd" customClass="RaceTrackViewController" customModule="KardioKart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="S4t-w2-5nb"/>
                         <viewControllerLayoutGuide type="bottom" id="zbt-EV-wk2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xCE-6S-YXR">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="race_dashboard" translatesAutoresizingMaskIntoConstraints="NO" id="wvz-7x-kW4">
-                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                            <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55f-9P-WDC" customClass="RaceTrackAvatar" customModule="KardioKart" customModuleProvider="target">
+                                <rect key="frame" x="162.5" y="284" width="50" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="RG" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eKJ-FI-7d4">
+                                        <rect key="frame" x="12" y="8.5" width="26" height="34.5"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="26" id="3GU-GK-uV1"/>
+                                            <constraint firstAttribute="height" constant="35" id="uFe-C1-L9X"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="25"/>
+                                        <color key="textColor" red="0.33333333329999998" green="0.42745098040000001" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="3GU-GK-uV1"/>
+                                                <exclude reference="uFe-C1-L9X"/>
+                                            </mask>
+                                        </variation>
+                                    </label>
+                                </subviews>
                                 <animations/>
-                            </imageView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Tbp-5N-vuD"/>
+                                    <constraint firstItem="eKJ-FI-7d4" firstAttribute="centerX" secondItem="55f-9P-WDC" secondAttribute="centerX" id="dh7-EG-uoc"/>
+                                    <constraint firstItem="eKJ-FI-7d4" firstAttribute="centerY" secondItem="55f-9P-WDC" secondAttribute="centerY" id="idz-sx-518"/>
+                                    <constraint firstAttribute="width" constant="50" id="kTc-O4-Pfr"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.26666666666666666" green="0.35294117647058826" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="2.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x3o-7b-CIO" customClass="RaceTrack" customModule="KardioKart" customModuleProvider="target">
+                                <rect key="frame" x="94" y="134" width="187.5" height="350"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="x3o-7b-CIO" secondAttribute="height" multiplier="187:350" id="yym-78-kqT"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.99607843137254903" green="0.8666666666666667" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="wvz-7x-kW4" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="20Q-eT-Kzx"/>
-                            <constraint firstItem="wvz-7x-kW4" firstAttribute="centerY" secondItem="xCE-6S-YXR" secondAttribute="centerY" id="5po-NX-ZmO"/>
-                            <constraint firstItem="wvz-7x-kW4" firstAttribute="leading" secondItem="xCE-6S-YXR" secondAttribute="leading" id="MpA-Lk-uPl"/>
-                            <constraint firstItem="wvz-7x-kW4" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" id="kPV-TG-sCr"/>
-                            <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="wvz-7x-kW4" secondAttribute="bottom" id="s7o-IU-yve"/>
-                            <constraint firstAttribute="trailing" secondItem="wvz-7x-kW4" secondAttribute="trailing" id="xJd-YJ-S4K"/>
+                            <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="x3o-7b-CIO" secondAttribute="bottom" constant="139" id="8rB-xT-PnR"/>
+                            <constraint firstItem="55f-9P-WDC" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" constant="248" id="BpZ-2I-ktT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="55f-9P-WDC" secondAttribute="trailing" constant="42" id="ERT-Nz-9Ka"/>
+                            <constraint firstItem="55f-9P-WDC" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="I9A-5R-X7g"/>
+                            <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="x3o-7b-CIO" secondAttribute="bottom" constant="134" id="N8V-oT-tPm"/>
+                            <constraint firstItem="x3o-7b-CIO" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" constant="114" id="QYB-fE-MuP"/>
+                            <constraint firstItem="x3o-7b-CIO" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="Xo1-f4-i2a"/>
+                            <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="55f-9P-WDC" secondAttribute="bottom" constant="300" id="kSH-HT-2TS"/>
+                            <constraint firstItem="55f-9P-WDC" firstAttribute="centerY" secondItem="xCE-6S-YXR" secondAttribute="centerY" id="maW-Tk-TYD"/>
+                            <constraint firstItem="55f-9P-WDC" firstAttribute="leading" secondItem="xCE-6S-YXR" secondAttribute="leadingMargin" constant="243" id="oc8-Sz-1cs"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="BpZ-2I-ktT"/>
+                                <exclude reference="ERT-Nz-9Ka"/>
+                                <exclude reference="I9A-5R-X7g"/>
+                                <exclude reference="maW-Tk-TYD"/>
+                                <exclude reference="oc8-Sz-1cs"/>
+                                <exclude reference="8rB-xT-PnR"/>
+                                <exclude reference="kSH-HT-2TS"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Race" image="race_progress_icon" selectedImage="race_progress_icon" id="zUe-k6-xRF"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="trackPath" destination="x3o-7b-CIO" id="wUl-A6-Ttx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ae-Dn-b8U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1201" y="2469"/>
+            <point key="canvasLocation" x="1200.5" y="2468.5"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="V0t-cE-Mlm">
@@ -480,7 +545,6 @@
         <image name="leaderboard_icon" width="30" height="30"/>
         <image name="powerup_icon" width="31" height="31"/>
         <image name="powerup_store" width="750" height="1334"/>
-        <image name="race_dashboard" width="750" height="1334"/>
         <image name="race_progress_icon" width="30" height="30"/>
         <image name="red_light" width="160" height="400"/>
         <image name="tune_up_button" width="317" height="84"/>
