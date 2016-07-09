@@ -551,13 +551,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bobby Ren (UQA7D88UV9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "27e131fd-103f-409f-8d4b-482bd62286ba";
+				PROVISIONING_PROFILE = "d855d7fe-2005-481b-aa8c-f7d289d94dfa";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -569,13 +569,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Bobby Ren (H799H8B8DD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bobby Ren (UQA7D88UV9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "27e131fd-103f-409f-8d4b-482bd62286ba";
+				PROVISIONING_PROFILE = "d855d7fe-2005-481b-aa8c-f7d289d94dfa";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

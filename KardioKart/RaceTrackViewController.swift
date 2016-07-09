@@ -12,15 +12,19 @@ class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
     let scorePerLap = 2000.0
     var path: CGPath?
-    var userAvatars: [RaceTrackAvatar] = []
+    var userAvatars: [String: RaceTrackAvatar] = [:]
     var pointsInPath = [CGPoint]()
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
-    var users: [PFObject]?
+    var users: [PFUser]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        for user in userAvatars.keys {
+            userAvatars[user]?.removeFromSuperview()
+            userAvatars[user] = nil
+        }
     }
     
     typealias MyPathApplier = @convention(block) (UnsafePointer<CGPathElement>) -> Void
@@ -68,20 +72,18 @@ class RaceTrackViewController: UIViewController {
     }
     
     func addUserAvatars() {
-        for avatar in userAvatars {
-            avatar.removeFromSuperview()
-            userAvatars.removeAtIndex(userAvatars.indexOf(avatar)!)
-        }
-        
         guard let users = self.users else { return }
         for user in users {
-            let avatar = RaceTrackAvatar(user: user)
-            userAvatars.append(avatar)
-            self.view.addSubview(avatar)
+            var avatar = userAvatars[user.objectId!]
+            if avatar == nil {
+                avatar = RaceTrackAvatar(user: user)
+                userAvatars[user.objectId!] = avatar
+                self.view.addSubview(avatar!)
+            }
             let score = user["stepCount"] as? Double ?? 0.0
             let pointIndex: Int = Int(((score % scorePerLap) / scorePerLap) * Double(pointsInPath.count))
             let point = pointsInPath[pointIndex]
-            avatar.center = point
+            avatar!.center = point
         }
 
     }
@@ -109,16 +111,8 @@ class RaceTrackViewController: UIViewController {
         query?.orderByDescending("stepCount")
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let result = result {
-                for (index, user) in result.enumerate() {
-                    self.users = result
-                    if let currentUser = PFUser.currentUser(){
-                        let userEmail = user["email"] as? String
-                        let currentUserEmail = currentUser["email"] as? String
-                        if userEmail == currentUserEmail {
-                            self.updateLapPositionLabel(index)
-                        }
-                    }
-                }
+                self.users = result as? [PFUser]
+                self.addUserAvatars()
             }
         }
     }
