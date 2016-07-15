@@ -8,12 +8,11 @@
 
 import UIKit
 import Parse
+
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
     let scorePerLap = 2000.0
-    var path: CGPath?
     var userAvatars: [String: RaceTrackAvatar] = [:]
-    var pointsInPath = [CGPoint]()
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
@@ -27,40 +26,7 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
-    typealias MyPathApplier = @convention(block) (UnsafePointer<CGPathElement>) -> Void
-    
-    func myPathApply(path: CGPath!, block: MyPathApplier) {
-        let callback: @convention(c) (UnsafeMutablePointer<Void>, UnsafePointer<CGPathElement>) -> Void = { (info, element) in
-            let block = unsafeBitCast(info, MyPathApplier.self)
-            block(element)
-        }
-        
-        CGPathApply(path, unsafeBitCast(block, UnsafeMutablePointer<Void>.self), unsafeBitCast(callback, CGPathApplierFunction.self))
-    }
-    
     override func viewDidAppear(animated: Bool) {
-        if path == nil {
-            var translation = CGAffineTransformMakeTranslation(CGFloat(raceTrack.frame.origin.x), CGFloat(raceTrack.frame.origin.y))
-            path = raceTrack.path.CGPath
-            path = CGPathCreateCopyByDashingPath(path, &translation, 0.0, [2,2], 2)
-            path = CGPathCreateMutableCopy(path)
-            myPathApply(path) { element in
-                switch element.memory.type {
-                case .MoveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddLineToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddQuadCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                case .AddCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                default:
-                    break
-                }
-            }
-        }
         queryUsers()
         updateCurrentLapLabel()
         super.viewWillAppear(animated)
@@ -80,10 +46,14 @@ class RaceTrackViewController: UIViewController {
                 userAvatars[user.objectId!] = avatar
                 self.view.addSubview(avatar!)
             }
-            let score = user["stepCount"] as? Double ?? 0.0
-            let pointIndex: Int = Int(((score % scorePerLap) / scorePerLap) * Double(pointsInPath.count))
-            let point = pointsInPath[pointIndex]
-            avatar!.center = point
+            let steps = user["stepCount"] as? Int ?? 0
+            if let point = self.raceTrack.pointForSteps(steps) {
+                avatar!.center = point
+                avatar!.hidden = false
+            }
+            else {
+                avatar!.hidden = true
+            }
         }
 
     }
