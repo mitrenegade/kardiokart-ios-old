@@ -10,8 +10,7 @@ import UIKit
 import Parse
 
 class RaceTrackViewController: UIViewController {
-    @IBOutlet weak var raceTrack: RaceTrack!
-    let scorePerLap = 2000.0
+    @IBOutlet weak var raceTrack: AnimatedRaceTrack!
     var userAvatars: [String: RaceTrackAvatar] = [:]
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
@@ -24,6 +23,8 @@ class RaceTrackViewController: UIViewController {
             userAvatars[user]?.removeFromSuperview()
             userAvatars[user] = nil
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -37,7 +38,7 @@ class RaceTrackViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func addUserAvatars() {
+    func refreshAvatars() {
         guard let users = self.users else { return }
         for user in users {
             var avatar = userAvatars[user.objectId!]
@@ -82,7 +83,7 @@ class RaceTrackViewController: UIViewController {
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let result = result {
                 self.users = result as? [PFUser]
-                self.addUserAvatars()
+                self.refreshAvatars()
             }
         }
     }

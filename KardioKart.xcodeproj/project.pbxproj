@@ -23,6 +23,7 @@
 		8499A3B61BC48B46002A4099 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8499A3B51BC48B46002A4099 /* HealthKit.framework */; };
 		8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */; };
 		84F36D4C1BDD301B00CF512A /* RaceTrackAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */; };
+		8E01D78F1D38612A00664BD8 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E01D78E1D38612A00664BD8 /* AnimatedRaceTrack.swift */; };
 		92453009E267C002F0C8D7A6 /* Pods_KardioKart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE5A4218B2B889A2747CF18 /* Pods_KardioKart.framework */; };
 		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; };
 		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; };
@@ -72,6 +73,7 @@
 		8499A3B51BC48B46002A4099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackAvatar.swift; sourceTree = "<group>"; };
+		8E01D78E1D38612A00664BD8 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
 		9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackViewController.swift; sourceTree = "<group>"; };
 		9F1E06001BDD181100D927DC /* RaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrack.swift; sourceTree = "<group>"; };
 		B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KardioKart.release.xcconfig"; path = "Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart.release.xcconfig"; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				8499A3B71BC4D41D002A4099 /* LeaderboardTableViewCell.swift */,
 				9F1E06001BDD181100D927DC /* RaceTrack.swift */,
+				8E01D78E1D38612A00664BD8 /* AnimatedRaceTrack.swift */,
 				84F36D4B1BDD301B00CF512A /* RaceTrackAvatar.swift */,
 			);
 			name = Views;
@@ -400,6 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */,
+				8E01D78F1D38612A00664BD8 /* AnimatedRaceTrack.swift in Sources */,
 				8499A3B81BC4D41D002A4099 /* LeaderboardTableViewCell.swift in Sources */,
 				84F36D4C1BDD301B00CF512A /* RaceTrackAvatar.swift in Sources */,
 				8494FC891BC3346D00CE554E /* AppDelegate.swift in Sources */,

@@ -73,11 +73,14 @@ class RaceTrack: UIView {
 
 
     // Track calculations
-    func pointForSteps(steps: Int) -> CGPoint? {
-        guard pointsInPath.count > 0 else { return nil }
+    internal func pointIndexForSteps(steps: Int) -> Int {
         let pointIndex: Int = steps % pointsInPath.count
+        return pointIndex
+    }
 
-        guard pointsInPath.count > pointIndex else { return nil }
+    func pointForSteps(steps: Int) -> CGPoint? {
+        let pointIndex = self.pointIndexForSteps(steps)
+        guard pointIndex >= 0 && pointIndex < self.pointsInPath.count else { return nil }
         return pointsInPath[pointIndex]
     }
 }
