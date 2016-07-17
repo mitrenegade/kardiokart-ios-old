@@ -8,33 +8,17 @@
 
 import UIKit
 
+enum RaceTrackSegment {
+    case Straight0
+    case Arc1
+    case Straight2
+    case Arc3
+}
+
+// THIS CLASS SHOULD BE ABSTRACT
+
 class RaceTrack: UIView {
-    var path: UIBezierPath! {
-        didSet {
-            var translation = CGAffineTransformMakeTranslation(CGFloat(self.frame.origin.x), CGFloat(self.frame.origin.y))
-            let copy = CGPathCreateMutableCopy(CGPathCreateCopyByDashingPath(self.path.CGPath, &translation, 0.0, [2,2], 2))
-            self.pointsInPath.removeAll()
-            
-            myPathApply(copy) { element in
-                switch element.memory.type {
-                case .MoveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddLineToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddQuadCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                case .AddCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                default:
-                    break
-                }
-                print("point: \(element.memory.points[0]), \(element.memory.points[1])")
-            }
-        }
-    }
-    var pointsInPath = [CGPoint]()
+    var path: UIBezierPath!
 
     // Track parameters
     var trackColor: UIColor {
@@ -45,42 +29,29 @@ class RaceTrack: UIView {
         return 5.0
     }
 
-    // Track points
-    typealias MyPathApplier = @convention(block) (UnsafePointer<CGPathElement>) -> Void
-    
-    private func myPathApply(path: CGPath!, block: MyPathApplier) {
-        let callback: @convention(c) (UnsafeMutablePointer<Void>, UnsafePointer<CGPathElement>) -> Void = { (info, element) in
-            let block = unsafeBitCast(info, MyPathApplier.self)
-            block(element)
-        }
-        
-        CGPathApply(path, unsafeBitCast(block, UnsafeMutablePointer<Void>.self), unsafeBitCast(callback, CGPathApplierFunction.self))
-    }
-    
     // draw
     override func drawRect(rect: CGRect) {
+        self.setupTrack()
+        self.trackColor.setStroke()
+        path.lineWidth = CGFloat(self.trackWidth)
+        path.stroke()
+    }
+    
+    func setupTrack() {
         let radius = self.frame.width / 2
         var rect = self.frame
         rect.origin.x = 0
         rect.origin.y = 0
         let insetRect = CGRectInset(rect, CGFloat(self.trackWidth/2), CGFloat(self.trackWidth))
         self.path = UIBezierPath(roundedRect: insetRect, cornerRadius: radius)
-
-        self.trackColor.setStroke()
-        path.lineWidth = CGFloat(self.trackWidth)
-        path.stroke()
     }
-
 
     // Track calculations
-    internal func pointIndexForSteps(steps: Int) -> Int {
-        let pointIndex: Int = steps % pointsInPath.count
-        return pointIndex
-    }
-
     func pointForSteps(steps: Int) -> CGPoint? {
-        let pointIndex = self.pointIndexForSteps(steps)
-        guard pointIndex >= 0 && pointIndex < self.pointsInPath.count else { return nil }
-        return pointsInPath[pointIndex]
+        return CGPointMake(0, 0)
+    }
+    
+    func pointForStart() -> CGPoint? {
+        return CGPointMake(0, self.frame.size.height - self.frame.size.width/2)
     }
 }
