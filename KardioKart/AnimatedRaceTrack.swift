@@ -29,29 +29,10 @@ class AnimatedRaceTrack: RaceTrack {
         self.timer?.fire()
     }
     
-    func tick() {
-        percentOffset = percentOffset + (speed * timerInterval)
-        if percentOffset >= 1 {
-            percentOffset = percentOffset - 1
-        }
-        self.setNeedsLayout()
-        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
-    }
-
-    override func pointForSteps(steps: Int) -> CGPoint? {
-        var percent = min(1, Double(steps) / 10000.0) + percentOffset
-        // for an animating track, percent is augmented
-        if percent > 1.0 {
-            percent = percent - 1.0
-        }
-        let point = self.pointForPercent(percent)
-//        print("steps: \(steps) percent \(percent) point \(point)")
-        return point
-    }
-    
-    func setupPoints() {
+    // MARK: Setup
+    private func setupPoints() {
         self.radius = self.frame.size.width / 2 - self.trackWidth
-
+        
         point0 = CGPointMake(self.trackWidth, self.frame.size.height - self.trackWidth - self.radius)
         point1 = CGPointMake(self.trackWidth, self.radius + self.trackWidth)
         center2 = CGPointMake(self.radius + self.trackWidth, self.radius + self.trackWidth)
@@ -73,15 +54,38 @@ class AnimatedRaceTrack: RaceTrack {
         // Positive Y axis is down
         // also clockwise seems to be reversed
         CGPathAddArc(path, nil, self.center2.x, self.center2.y, self.radius, CGFloat(M_PI), CGFloat(2*M_PI), false)
-
+        
         CGPathMoveToPoint(path, nil, self.point3.x, self.point3.y)
         CGPathAddLineToPoint(path, nil, self.point4.x, self.point4.y)
         CGPathAddArc(path, nil, self.center5.x, self.center5.y, self.radius, 0, CGFloat(M_PI), false)
-
+        
         self.path = UIBezierPath(CGPath: path)
     }
     
-    func lengthOfSegment(segment: RaceTrackSegment) -> CGFloat {
+    // MARK: Ticker for animation
+    internal func tick() {
+        percentOffset = percentOffset + (speed * timerInterval)
+        if percentOffset >= 1 {
+            percentOffset = percentOffset - 1
+        }
+        self.setNeedsLayout()
+        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+    }
+
+    // MARK: Display
+    override func pointForSteps(steps: Int) -> CGPoint? {
+        var percent = min(1, Double(steps) / 10000.0) + percentOffset
+        // for an animating track, percent is augmented
+        if percent > 1.0 {
+            percent = percent - 1.0
+        }
+        let point = self.pointForPercent(percent)
+//        print("steps: \(steps) percent \(percent) point \(point)")
+        return point
+    }
+    
+    // MARK: - Calculations
+    internal func lengthOfSegment(segment: RaceTrackSegment) -> CGFloat {
         if segment == .Straight0 {
             let length = self.point0.y - self.point1.y
             //print("length of segment \(segment) = \(length)")
@@ -97,7 +101,7 @@ class AnimatedRaceTrack: RaceTrack {
         return length
     }
     
-    func totalLength() -> CGFloat {
+    internal func totalLength() -> CGFloat {
         let segments: [RaceTrackSegment] = [.Straight0, .Arc1, .Straight2, .Arc3]
         let length = segments.map { (segment) -> CGFloat in
             return self.lengthOfSegment(segment)
@@ -105,7 +109,7 @@ class AnimatedRaceTrack: RaceTrack {
         return length
     }
     
-    func segmentForPercent(percent: Double) -> RaceTrackSegment {
+    internal func segmentForPercent(percent: Double) -> RaceTrackSegment {
         var lengthOfTrackCovered = self.totalLength() * CGFloat(percent)
 //        print("finding segment for \(percent)")
         let segments: [RaceTrackSegment] = [.Straight0, .Arc1, .Straight2, .Arc3]
@@ -120,7 +124,7 @@ class AnimatedRaceTrack: RaceTrack {
         return .Arc3 // last segment
     }
     
-    func pointForPercent(percent: Double) -> CGPoint {
+    internal func pointForPercent(percent: Double) -> CGPoint {
         let segment = segmentForPercent(percent)
         switch segment {
         case .Straight0:

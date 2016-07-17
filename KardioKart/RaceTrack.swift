@@ -37,7 +37,7 @@ class RaceTrack: UIView {
         path.stroke()
     }
     
-    func setupTrack() {
+    internal func setupTrack() {
         let radius = self.frame.width / 2
         var rect = self.frame
         rect.origin.x = 0
@@ -46,12 +46,12 @@ class RaceTrack: UIView {
         self.path = UIBezierPath(roundedRect: insetRect, cornerRadius: radius)
     }
 
-    // Track calculations
+    // MARK: - Track calculations
     func pointForSteps(steps: Int) -> CGPoint? {
-        return CGPointMake(0, 0)
+        return CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2)
     }
     
     func pointForStart() -> CGPoint? {
-        return CGPointMake(0, self.frame.size.height - self.frame.size.width/2)
+        return self.pointForSteps(0)
     }
 }
