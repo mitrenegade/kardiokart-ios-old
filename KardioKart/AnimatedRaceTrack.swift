@@ -9,7 +9,7 @@
 import UIKit
 
 class AnimatedRaceTrack: RaceTrack {
-    var speed: Double = 0.01 // in percent, 0 to 1
+    var speed: Double = 0.1 // in percent per second, 0 to 1
     var percentOffset: Double = 0 // 0 to 1
     var timer: NSTimer?
     var timerInterval: NSTimeInterval = 0.1 // in seconds
@@ -82,8 +82,13 @@ class AnimatedRaceTrack: RaceTrack {
     }
     
     func lengthOfSegment(segment: RaceTrackSegment) -> CGFloat {
-        if segment == .Straight0  || segment == .Straight2 {
-            let length = self.frame.size.height - self.radius * 2
+        if segment == .Straight0 {
+            let length = self.point0.y - self.point1.y
+            //print("length of segment \(segment) = \(length)")
+            return length
+        }
+        else if segment == .Straight2 {
+            let length = self.point4.y - self.point3.y
             //print("length of segment \(segment) = \(length)")
             return length
         }
@@ -102,18 +107,17 @@ class AnimatedRaceTrack: RaceTrack {
     
     func segmentForPercent(percent: Double) -> RaceTrackSegment {
         var lengthOfTrackCovered = self.totalLength() * CGFloat(percent)
-        print("finding segment for \(percent)")
+//        print("finding segment for \(percent)")
         let segments: [RaceTrackSegment] = [.Straight0, .Arc1, .Straight2, .Arc3]
         for segment in segments {
             let segmentLength = self.lengthOfSegment(segment)
-            print("length left: \(lengthOfTrackCovered) segment \(segment) = \(segmentLength)")
+//            print("length left: \(lengthOfTrackCovered) segment \(segment) = \(segmentLength)")
             if lengthOfTrackCovered < segmentLength {
                 print("->found segment \(segment)")
                 return segment
             }
             lengthOfTrackCovered -= segmentLength
         }
-        print("->segment not found")
         return .Arc3 // last segment
     }
     
@@ -124,10 +128,12 @@ class AnimatedRaceTrack: RaceTrack {
             let length = CGFloat(percent) * self.totalLength()
             return CGPointMake(self.point0.x, self.point0.y - length)
         case .Arc1:
-            let length = self.totalLength() - self.lengthOfSegment(.Straight0)
+            let length = CGFloat(percent) * self.totalLength() - self.lengthOfSegment(.Straight0)
             let angle = CGFloat(M_PI) * (length / self.lengthOfSegment(.Arc1))
-            let x = self.frame.width - fabs(cos(angle))
-            let y = self.point1.y - fabs(sin(angle))
+            print("length \(length) of \(self.lengthOfSegment(.Arc1)) angle \(angle) cos \(cos(angle)) sin \(sin(angle))")
+            let x = self.center2.x - self.radius * cos(angle)
+            let y = self.center2.y - self.radius * sin(angle)
+            print("x \(x) y \(y)")
             return CGPointMake(x, y)
         case .Straight2:
             let length = self.totalLength() * CGFloat(percent)  - self.lengthOfSegment(.Straight0) - self.lengthOfSegment(.Arc1)
@@ -135,7 +141,7 @@ class AnimatedRaceTrack: RaceTrack {
         case .Arc3:
             let length = self.totalLength() - self.lengthOfSegment(.Straight0) - self.lengthOfSegment(.Arc1) - self.lengthOfSegment(.Straight2)
             let angle = CGFloat(M_PI) * (length / self.lengthOfSegment(.Arc1))
-            let x = self.frame.width + fabs(cos(angle))
+            let x = self.point4.x + fabs(cos(angle))
             let y = self.point4.y + fabs(sin(angle))
             return CGPointMake(x, y)
         }
