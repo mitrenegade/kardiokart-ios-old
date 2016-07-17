@@ -15,11 +15,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1</string>
+	<string>0.1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -30,11 +28,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>FacebookAppID</key>
 	<string>1167373223283423</string>
 	<key>FacebookDisplayName</key>
 	<string>KardioKart</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbauth2</string>
