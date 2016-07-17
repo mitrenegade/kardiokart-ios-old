@@ -8,55 +8,26 @@
 
 import UIKit
 import Parse
+
 class RaceTrackViewController: UIViewController {
-    @IBOutlet weak var raceTrack: RaceTrack!
-    let scorePerLap = 2000.0
-    var path: CGPath?
-    var userAvatars: [RaceTrackAvatar] = []
-    var pointsInPath = [CGPoint]()
+    @IBOutlet weak var raceTrack: AnimatedRaceTrack!
+    var userAvatars: [String: RaceTrackAvatar] = [:]
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
-    var users: [PFObject]?
+    var users: [PFUser]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    typealias MyPathApplier = @convention(block) (UnsafePointer<CGPathElement>) -> Void
-    
-    func myPathApply(path: CGPath!, block: MyPathApplier) {
-        let callback: @convention(c) (UnsafeMutablePointer<Void>, UnsafePointer<CGPathElement>) -> Void = { (info, element) in
-            let block = unsafeBitCast(info, MyPathApplier.self)
-            block(element)
+        for user in userAvatars.keys {
+            userAvatars[user]?.removeFromSuperview()
+            userAvatars[user] = nil
         }
         
-        CGPathApply(path, unsafeBitCast(block, UnsafeMutablePointer<Void>.self), unsafeBitCast(callback, CGPathApplierFunction.self))
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
-        if path == nil {
-            var translation = CGAffineTransformMakeTranslation(CGFloat(raceTrack.frame.origin.x), CGFloat(raceTrack.frame.origin.y))
-            path = raceTrack.path.CGPath
-            path = CGPathCreateCopyByDashingPath(path, &translation, 0.0, [2,2], 2)
-            path = CGPathCreateMutableCopy(path)
-            myPathApply(path) { element in
-                switch element.memory.type {
-                case .MoveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddLineToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                case .AddQuadCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                case .AddCurveToPoint:
-                    self.pointsInPath.append(element.memory.points[0])
-                    self.pointsInPath.append(element.memory.points[1])
-                default:
-                    break
-                }
-            }
-        }
         queryUsers()
         updateCurrentLapLabel()
         super.viewWillAppear(animated)
@@ -67,21 +38,27 @@ class RaceTrackViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func addUserAvatars() {
-        for avatar in userAvatars {
-            avatar.removeFromSuperview()
-            userAvatars.removeAtIndex(userAvatars.indexOf(avatar)!)
-        }
-        
+    func refreshAvatars() {
         guard let users = self.users else { return }
         for user in users {
-            let avatar = RaceTrackAvatar(user: user)
-            userAvatars.append(avatar)
-            self.view.addSubview(avatar)
-            let score = user["stepCount"] as? Double ?? 0.0
-            let pointIndex: Int = Int(((score % scorePerLap) / scorePerLap) * Double(pointsInPath.count))
-            let point = pointsInPath[pointIndex]
-            avatar.center = point
+            var avatar = userAvatars[user.objectId!]
+            if avatar == nil {
+                avatar = RaceTrackAvatar(user: user)
+                userAvatars[user.objectId!] = avatar
+                self.raceTrack.addSubview(avatar!)
+                if let point = self.raceTrack.pointForStart() {
+                    avatar!.center = point
+                }
+            }
+            
+            let steps = user["stepCount"] as? Int ?? 0
+            if let point = self.raceTrack.pointForSteps(steps) {
+                avatar!.center = point
+                avatar!.hidden = false
+            }
+            else {
+                avatar!.hidden = true
+            }
         }
 
     }
@@ -109,16 +86,8 @@ class RaceTrackViewController: UIViewController {
         query?.orderByDescending("stepCount")
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let result = result {
-                for (index, user) in result.enumerate() {
-                    self.users = result
-                    if let currentUser = PFUser.currentUser(){
-                        let userEmail = user["email"] as? String
-                        let currentUserEmail = currentUser["email"] as? String
-                        if userEmail == currentUserEmail {
-                            self.updateLapPositionLabel(index)
-                        }
-                    }
-                }
+                self.users = result as? [PFUser]
+                self.refreshAvatars()
             }
         }
     }
