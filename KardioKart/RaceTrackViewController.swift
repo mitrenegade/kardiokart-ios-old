@@ -53,14 +53,6 @@ class RaceTrackViewController: UIViewController {
             
             let steps = user["stepCount"] as? Int ?? 0
             if let point = self.raceTrack.pointForSteps(steps) {
-                /*
-                let animation = CAKeyframeAnimation(keyPath: "position")
-                animation.path = self.raceTrack.path.CGPath
-                animation.duration = self.raceTrack.timerInterval
-                animation.beginTime = 0
-                
-                avatar!.layer.addAnimation(animation, forKey: nil)
-                */
                 avatar!.center = point
                 avatar!.hidden = false
             }
