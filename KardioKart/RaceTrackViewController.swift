@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 class RaceTrackViewController: UIViewController {
-    @IBOutlet weak var raceTrack: AnimatedRaceTrack!
+    @IBOutlet weak var raceTrack: RaceTrack!
     var userAvatars: [String: RaceTrackAvatar] = [:]
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
