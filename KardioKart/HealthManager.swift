@@ -54,8 +54,7 @@ class HealthManager: NSObject {
             if error != nil {
                 print("*** An error occured while setting up the stepCount observer. \(error!.localizedDescription) ***")
             }
-            }
-        )
+        })
     }
     
     func updateStepCount() {
