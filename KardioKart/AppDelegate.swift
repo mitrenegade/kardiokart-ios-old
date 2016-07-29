@@ -79,7 +79,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.makeKeyAndVisible()
     }
+
+    // Push
+    // MARK: - Push
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        // Store the deviceToken in the current Installation and save it to Parse
+        
+        let installation = PFInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        let channel: String = "global"
+        installation.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
+
+        installation.saveInBackground()
+        
+        let channels = installation.objectForKey("channels")
+        print("installation registered for remote notifications: token \(deviceToken) channel \(channels)")
+    }
     
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("failed: error \(error)")
+        NSNotificationCenter.defaultCenter().postNotificationName("push:enable:failed", object: nil)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        print("notification received: \(userInfo)")
+        /* format:
+         [aps: {
+         alert = "test push 2";
+         sound = default;
+         }]
+         
+         ]
+         */
+        guard let title = userInfo["title"] as? String else { return }
+        guard let message = userInfo["message"] as? String else { return }
+        guard let sender = userInfo["sender"] as? String else {
+            return
+        }
+        
+        //let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        //alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        
+        //self.revealController?.presentViewController(alert, animated: true, completion: nil)
+    }
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
