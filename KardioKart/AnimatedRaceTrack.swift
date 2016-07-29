@@ -16,6 +16,10 @@ class AnimatedRaceTrack: OvalRaceTrack {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.initiateAnimation()
+    }
+    
+    func initiateAnimation() {
         self.timer = NSTimer.scheduledTimerWithTimeInterval(timerInterval, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         self.timer?.fire()
     }
