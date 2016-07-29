@@ -157,6 +157,7 @@ class RaceTrackViewController: UIViewController {
             self.animateUser(user, step: step)
         }
 
+        print("animationPercent \(animationPercent)")
         animationPercent += 1
         if animationPercent == 100 {
             animationTimer?.invalidate()

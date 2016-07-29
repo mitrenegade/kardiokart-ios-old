@@ -17,7 +17,7 @@ class PowerupManager: NSObject {
     var powerups: [PFObject]?
     
     func initialize() {
-        let interval: NSTimeInterval = 60 // poll every minute for new boxes
+        let interval: NSTimeInterval = 5 // poll every minute for new boxes
         timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         timer!.fire()
     }
@@ -30,13 +30,14 @@ class PowerupManager: NSObject {
             }
             else {
                 self.powerups = results
+                print("Powerups: \(self.powerups?.count)")
                 NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
             }
         }
     }
     
     func queryPowerups(completion: ((results: [PFObject]?, error: NSError?)->Void)) {
-        let query: PFQuery = PFQuery(className: "Activity")
+        let query: PFQuery = PFQuery(className: "Powerup")
         query.whereKey("count", greaterThan: 0)
         query.findObjectsInBackgroundWithBlock { (results, error) in
             completion(results: results, error: error)
