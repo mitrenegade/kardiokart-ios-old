@@ -28,6 +28,7 @@ class RaceTrackViewController: UIViewController {
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
         
         // make sure that cached steps are from today, or clear them
         let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
@@ -177,5 +178,8 @@ class RaceTrackViewController: UIViewController {
         else {
             avatar.hidden = true
         }
+    }
+    
+    func refreshPowerups() {
     }
 }

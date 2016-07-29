@@ -298,13 +298,12 @@
 				TargetAttributes = {
 					8494FC841BC3346D00CE554E = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = H799H8B8DD;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};

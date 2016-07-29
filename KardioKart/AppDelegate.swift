@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         initializeUserInterface()
         
-        PowerupManager.initialize()
+        PowerupManager.sharedManager.initialize()
         return true
     }
 

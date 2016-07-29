@@ -11,7 +11,10 @@ import UIKit
 import Parse
 
 class PowerupManager: NSObject {
+    static let sharedManager = PowerupManager()
+
     var timer: NSTimer?
+    var powerups: [PFObject]?
     
     func initialize() {
         let interval: NSTimeInterval = 60 // poll every minute for new boxes
@@ -21,13 +24,23 @@ class PowerupManager: NSObject {
     
     // MARK: - Polling for powerups
     internal func tick() {
-        // TODO: call server
-        
+        self.queryPowerups { (results, error) in
+            if let error = error {
+                print("Error in querying powerups: \(error)")
+            }
+            else {
+                self.powerups = results
+                NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
+            }
+        }
     }
     
-    class func queryPowerups(completion: ((results: [PFObject]?, error: NSError?)->Void)) {
+    func queryPowerups(completion: ((results: [PFObject]?, error: NSError?)->Void)) {
         let query: PFQuery = PFQuery(className: "Activity")
-        query.whereKey("count", equalTo: 3)        
+        query.whereKey("count", greaterThan: 0)
+        query.findObjectsInBackgroundWithBlock { (results, error) in
+            completion(results: results, error: error)
+        }
     }
 
 }
