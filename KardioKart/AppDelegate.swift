@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions);
         
         initializeUserInterface()
+        
+        PowerupManager.initialize()
         return true
     }
 
