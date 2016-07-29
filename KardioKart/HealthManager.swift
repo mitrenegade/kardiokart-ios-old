@@ -73,10 +73,12 @@ class HealthManager: NSObject {
                 }
                 
                 if totalSteps != nil {
-                    if let user = PFUser.currentUser() {
-                        user["stepCount"] = totalSteps ?? Double(0.0)
-                        user.saveInBackground()
-                    }
+                    guard let user = PFUser.currentUser() else { return }
+
+                    let params: [String: AnyObject] = ["stepCount": totalSteps ?? Double(0.0)]
+                    PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
+                        print("results: \(results)")
+                    })
                 }
         }
         
