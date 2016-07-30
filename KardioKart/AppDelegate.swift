@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import ParseFacebookUtilsV4
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
-let PARSE_SERVER_URL: String = "https://kardiokart-server.herokuapp.com/parse"
+let PARSE_SERVER_URL: String = "http://localhost:1337/parse" //"https://kardiokart-server.herokuapp.com/parse"
 let PARSE_CLIENT_KEY: String = "unused"
 
 @UIApplicationMain
@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let user = PFUser.currentUser()
+        
         HealthManager.sharedManager.enableBackgroundDelivery()
         HealthManager.sharedManager.observeSteps()
         
