@@ -115,10 +115,12 @@ class RaceTrackViewController: UIViewController {
     
     // MARK: Cached steps
     func loadCachedSteps(users: [PFUser]) {
-            // do initial animation
-            let interval: NSTimeInterval = 0.01 // every 1/100 second, total 1 second animation
+        // do initial animation
+        let interval: NSTimeInterval = 0.01 // every 1/100 second, total 1 second animation
+        if animationTimer == nil {
             animationTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
             animationTimer!.fire()
+        }
     }
     
     func cachedStepsForUser(user: PFUser) -> Int {
@@ -164,6 +166,7 @@ class RaceTrackViewController: UIViewController {
             animationTimer = nil
             
             self.updateCachedStepsForUser(users)
+            animationPercent = 0
         }
     }
 

@@ -77,7 +77,7 @@ class HealthManager: NSObject {
 
                     let params: [String: AnyObject] = ["stepCount": totalSteps ?? Double(0.0)]
                     PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-                        print("results: \(results)")
+                        print("results: \(results) error: \(error)")
                     })
                 }
         }
