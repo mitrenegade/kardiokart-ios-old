@@ -66,23 +66,24 @@ class HealthManager: NSObject {
         let query = HKStatisticsQuery(quantityType: sampleType!,
             quantitySamplePredicate: predicate,
             options: .CumulativeSum) { query, result, error in
-                var totalSteps: Double?
+                var totalSteps: Double = 0
                 if let quantity = result!.sumQuantity() {
                     let unit = HKUnit.countUnit()
                     totalSteps = quantity.doubleValueForUnit(unit)
-                }
-                
-                if totalSteps != nil {
-                    guard let user = PFUser.currentUser() else { return }
-
-                    let params: [String: AnyObject] = ["stepCount": totalSteps ?? Double(0.0)]
-                    PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-                        print("results: \(results) error: \(error)")
-                    })
+                    self.setUserSteps(totalSteps)
                 }
         }
         
         healthKitStore.executeQuery(query)
+    }
+    
+    internal func setUserSteps(steps: Double) {
+        guard let _ = PFUser.currentUser() else { return }
+        
+        let params: [String: AnyObject] = ["stepCount": steps]
+        PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
+            print("results: \(results) error: \(error)")
+        })
     }
     
     func observeSteps() {
