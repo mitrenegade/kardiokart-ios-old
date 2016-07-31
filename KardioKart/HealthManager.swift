@@ -9,6 +9,7 @@
 import Foundation
 import HealthKit
 import Parse
+import DateTools
 
 class HealthManager: NSObject {
     static let sharedManager = HealthManager()
@@ -58,11 +59,16 @@ class HealthManager: NSObject {
     }
     
     func updateStepCount() {
-        let now = NSDate()
-        let oneDayAgo: NSTimeInterval = -24*60*60
-        let past = NSDate(timeIntervalSinceNow: oneDayAgo)
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+        guard let components = calendar?.components(unitFlags, fromDate: NSDate()) else { return }
+        components.hour = 0
+        components.minute = 0
+        components.second = 0
+        let past = calendar?.dateFromComponents(components)
+        
         let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
-        let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: now, options: .None)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: NSDate(), options: .None)
         let query = HKStatisticsQuery(quantityType: sampleType!,
             quantitySamplePredicate: predicate,
             options: .CumulativeSum) { query, result, error in
