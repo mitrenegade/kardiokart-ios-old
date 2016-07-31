@@ -119,6 +119,7 @@ class HealthManager: NSObject {
         notification.fireDate = NSDate().dateByAddingTimeInterval(5)
         
         notification.alertBody = "New step count: \(steps)"
+        notification.soundName = UILocalNotificationDefaultSoundName
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
         let scheduled = UIApplication.sharedApplication().scheduledLocalNotifications
