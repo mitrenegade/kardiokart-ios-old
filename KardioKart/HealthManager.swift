@@ -9,7 +9,6 @@
 import Foundation
 import HealthKit
 import Parse
-import DateTools
 
 class HealthManager: NSObject {
     static let sharedManager = HealthManager()
@@ -58,32 +57,29 @@ class HealthManager: NSObject {
         })
     }
     
-    func updateStepCount() {
+    func getStepCount(completion: ((steps: Double)->Void)?) {
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
-        guard let components = calendar?.components(unitFlags, fromDate: NSDate()) else { return }
-        components.hour = 0
-        components.minute = 0
-        components.second = 0
-        let past = calendar?.dateFromComponents(components)
+        let past = calendar?.startOfDayForDate(NSDate())
         
         let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
         let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: NSDate(), options: .None)
+        
         let query = HKStatisticsQuery(quantityType: sampleType!,
-            quantitySamplePredicate: predicate,
-            options: .CumulativeSum) { query, result, error in
-                var totalSteps: Double = 0
-                if let quantity = result!.sumQuantity() {
-                    let unit = HKUnit.countUnit()
-                    totalSteps = quantity.doubleValueForUnit(unit)
-                    self.setUserSteps(totalSteps)
-                }
+                                      quantitySamplePredicate: predicate,
+                                      options: .CumulativeSum) { query, result, error in
+                                        var totalSteps: Double = 0
+                                        if let quantity = result!.sumQuantity() {
+                                            let unit = HKUnit.countUnit()
+                                            totalSteps = quantity.doubleValueForUnit(unit)
+                                        }
+                                        completion?(steps: totalSteps)
         }
         
         healthKitStore.executeQuery(query)
     }
     
-    internal func setUserSteps(steps: Double) {
+    
+    func setUserSteps(steps: Double) {
         guard let _ = PFUser.currentUser() else { return }
         
         let params: [String: AnyObject] = ["stepCount": steps]
@@ -102,7 +98,9 @@ class HealthManager: NSObject {
                     return
                 }
                 
-                self.updateStepCount()
+                self.getStepCount({ (steps) in
+                    self.setUserSteps(steps)
+                })
                 completionHandler()
             })
             
