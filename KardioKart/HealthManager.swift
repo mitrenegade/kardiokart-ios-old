@@ -100,12 +100,39 @@ class HealthManager: NSObject {
                 
                 self.getStepCount({ (steps) in
                     self.setUserSteps(steps)
+                    self.sendLocalNotificationForSteps(steps)
                 })
                 completionHandler()
             })
             
             healthKitStore.executeQuery(query)
         }
+    }
+
+    // MARK: - local notifications
+    //create local notification
+    func sendLocalNotificationForSteps(steps: Double) {
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+
+        let notification = UILocalNotification()
+        notification.fireDate = NSDate().dateByAddingTimeInterval(5)
+        
+        notification.alertBody = "New step count: \(steps)"
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
+        let scheduled = UIApplication.sharedApplication().scheduledLocalNotifications
+        print("scheduled notifications: \(scheduled)")
+    }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        print("local notification received: \(notification)")
+        /*
+        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        
+        self.revealController?.presentViewController(alert, animated: true, completion: nil)
+         */
     }
 
 }
