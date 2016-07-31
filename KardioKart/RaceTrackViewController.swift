@@ -16,6 +16,7 @@ class RaceTrackViewController: UIViewController {
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
     var users: [PFUser]?
+    var currentUser: PFUser? // current user loaded from queryUsers so information is updated - don't use PFUser.currentUser for steps
     
     var animationTimer: NSTimer?
     var animationPercent: Int = 0
@@ -93,7 +94,7 @@ class RaceTrackViewController: UIViewController {
     }
     
     func updateCurrentLapLabel() {
-        if let user = PFUser.currentUser(){
+        if let user = self.currentUser{
             let lapLength:Double = 2500
             let totalLaps:Int = 20
             let step_count = user["stepCount"] as? Double ?? 0.0
@@ -109,6 +110,12 @@ class RaceTrackViewController: UIViewController {
             if let users = result as? [PFUser] {
                 self.users = users
                 self.loadCachedSteps(users)
+                
+                for user in users {
+                    if user.objectId == PFUser.currentUser()?.objectId {
+                        self.currentUser = user
+                    }
+                }
             }
         }
     }
@@ -132,7 +139,7 @@ class RaceTrackViewController: UIViewController {
         return userCachedSteps
     }
     
-    func updateCachedStepsForUser(users: [PFUser]) {
+    func updateCachedStepsForUsers(users: [PFUser]) {
         let key = "steps:cached"
         var allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Int] ?? [:]
         for user: PFUser in users {
@@ -146,6 +153,7 @@ class RaceTrackViewController: UIViewController {
 
         NSUserDefaults.standardUserDefaults().synchronize()
         
+        self.refreshCurrentSteps()
     }
     
     // MARK: Animation of cached steps
@@ -165,7 +173,7 @@ class RaceTrackViewController: UIViewController {
             animationTimer?.invalidate()
             animationTimer = nil
             
-            self.updateCachedStepsForUser(users)
+            self.updateCachedStepsForUsers(users)
             animationPercent = 0
         }
     }
@@ -184,6 +192,20 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
+    // MARK: - Active listener
+    func refreshCurrentSteps() {
+        // loading of cached steps done; request actual steps
+        HealthManager.sharedManager.getStepCount({ (steps) in
+            guard let user = self.currentUser else { return }
+            let oldSteps: Double = user["stepCount"] as? Double ?? 0
+            print("current steps \(steps) old steps \(oldSteps)")
+            if steps != oldSteps {
+                HealthManager.sharedManager.setUserSteps(steps)
+                self.animateUser(user, step: Int(steps))
+            }
+        })
+    }
+    // MARK: - Powerups
     func refreshPowerups() {
     }
 }

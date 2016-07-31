@@ -57,27 +57,29 @@ class HealthManager: NSObject {
         })
     }
     
-    func updateStepCount() {
-        let now = NSDate()
-        let oneDayAgo: NSTimeInterval = -24*60*60
-        let past = NSDate(timeIntervalSinceNow: oneDayAgo)
+    func getStepCount(completion: ((steps: Double)->Void)?) {
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+        let past = calendar?.startOfDayForDate(NSDate())
+        
         let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
-        let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: now, options: .None)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: NSDate(), options: .None)
+        
         let query = HKStatisticsQuery(quantityType: sampleType!,
-            quantitySamplePredicate: predicate,
-            options: .CumulativeSum) { query, result, error in
-                var totalSteps: Double = 0
-                if let quantity = result!.sumQuantity() {
-                    let unit = HKUnit.countUnit()
-                    totalSteps = quantity.doubleValueForUnit(unit)
-                    self.setUserSteps(totalSteps)
-                }
+                                      quantitySamplePredicate: predicate,
+                                      options: .CumulativeSum) { query, result, error in
+                                        var totalSteps: Double = 0
+                                        if let quantity = result!.sumQuantity() {
+                                            let unit = HKUnit.countUnit()
+                                            totalSteps = quantity.doubleValueForUnit(unit)
+                                        }
+                                        completion?(steps: totalSteps)
         }
         
         healthKitStore.executeQuery(query)
     }
     
-    internal func setUserSteps(steps: Double) {
+    
+    func setUserSteps(steps: Double) {
         guard let _ = PFUser.currentUser() else { return }
         
         let params: [String: AnyObject] = ["stepCount": steps]
@@ -96,12 +98,41 @@ class HealthManager: NSObject {
                     return
                 }
                 
-                self.updateStepCount()
+                self.getStepCount({ (steps) in
+                    self.setUserSteps(steps)
+                    self.sendLocalNotificationForSteps(steps)
+                })
                 completionHandler()
             })
             
             healthKitStore.executeQuery(query)
         }
+    }
+
+    // MARK: - local notifications
+    //create local notification
+    func sendLocalNotificationForSteps(steps: Double) {
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+
+        let notification = UILocalNotification()
+        notification.fireDate = NSDate().dateByAddingTimeInterval(5)
+        
+        notification.alertBody = "New step count: \(steps)"
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
+        let scheduled = UIApplication.sharedApplication().scheduledLocalNotifications
+        print("scheduled notifications: \(scheduled)")
+    }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        print("local notification received: \(notification)")
+        /*
+        let alert = UIAlertController(title: "Alert", message: "You have an event in one hour!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        
+        self.revealController?.presentViewController(alert, animated: true, completion: nil)
+         */
     }
 
 }
