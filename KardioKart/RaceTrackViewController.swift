@@ -23,6 +23,7 @@ class RaceTrackViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         for user in userAvatars.keys {
             userAvatars[user]?.removeFromSuperview()
             userAvatars[user] = nil
@@ -200,8 +201,9 @@ class RaceTrackViewController: UIViewController {
             let oldSteps: Double = user["stepCount"] as? Double ?? 0
             print("current steps \(steps) old steps \(oldSteps)")
             if steps != oldSteps {
-                HealthManager.sharedManager.setUserSteps(steps)
-                self.animateUser(user, step: Int(steps))
+                HealthManager.sharedManager.setUserSteps(steps, completion: { 
+                    self.animateUser(user, step: Int(steps))
+                })
             }
         })
     }

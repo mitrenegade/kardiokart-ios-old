@@ -20,9 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        HealthManager.sharedManager.enableBackgroundDelivery()
-        HealthManager.sharedManager.observeSteps()
-        
         // Parse
         let configuration = ParseClientConfiguration {
             $0.applicationId = PARSE_APP_ID
@@ -38,6 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initializeUserInterface()
         
         PowerupManager.sharedManager.initialize()
+
+        HealthManager.sharedManager.enableBackgroundDelivery()
+        HealthManager.sharedManager.observeSteps()
+        
         return true
     }
 

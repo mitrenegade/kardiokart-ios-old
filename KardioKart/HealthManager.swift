@@ -79,12 +79,15 @@ class HealthManager: NSObject {
     }
     
     
-    func setUserSteps(steps: Double) {
+    func setUserSteps(steps: Double, completion: (()->Void)?) {
         guard let _ = PFUser.currentUser() else { return }
         
-        let params: [String: AnyObject] = ["stepCount": steps]
+        var params: [String: AnyObject] = ["stepCount": steps]
+        params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
+
         PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
             print("results: \(results) error: \(error)")
+            completion?()
         })
     }
     
@@ -99,10 +102,11 @@ class HealthManager: NSObject {
                 }
                 
                 self.getStepCount({ (steps) in
-                    self.setUserSteps(steps)
-                    self.sendLocalNotificationForSteps(steps)
+                    self.setUserSteps(steps, completion: { 
+                        self.sendLocalNotificationForSteps(steps)
+                        completionHandler()
+                    })
                 })
-                completionHandler()
             })
             
             healthKitStore.executeQuery(query)
@@ -112,6 +116,7 @@ class HealthManager: NSObject {
     // MARK: - local notifications
     //create local notification
     func sendLocalNotificationForSteps(steps: Double) {
+        /*
         let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
         UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
 
@@ -124,6 +129,7 @@ class HealthManager: NSObject {
         
         let scheduled = UIApplication.sharedApplication().scheduledLocalNotifications
         print("scheduled notifications: \(scheduled)")
+        */
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {

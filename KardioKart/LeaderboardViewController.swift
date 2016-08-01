@@ -29,7 +29,9 @@ class LeaderboardViewController: UITableViewController {
             let userPositionLastDigit = userPosition % 10
             let userPositionPostfix = postfixDict[userPositionLastDigit]!
             cell.positionLabel.text = "\(userPosition)\(userPositionPostfix)"
-            cell.stepLabel.text = String(user["stepCount"])
+            if let steps = user["stepCount"] as? Double {
+                cell.stepLabel.text = "\(Int(steps))"
+            }
             cell.nameLabel.text = user["name"] as? String
         }
 
