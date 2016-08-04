@@ -241,6 +241,7 @@
 				8494FC831BC3346D00CE554E /* Resources */,
 				4BD097EB580E71641B82DCC6 /* [CP] Embed Pods Frameworks */,
 				6E815A3633B257E2B04DF280 /* [CP] Copy Pods Resources */,
+				8E9A03A91D52D1F30015D2AA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -298,6 +299,7 @@
 				TargetAttributes = {
 					8494FC841BC3346D00CE554E = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 36A757JM2P;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -395,6 +397,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8E9A03A91D52D1F30015D2AA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" b721eacab2230f0d8a20ca887d75b31784b433c4 5d2754ef6dbcdc967b222d434090ab04723a33fb94bfcf518a802dc0e4345c8a";
 		};
 		A28644E11F97769EA4DF3765 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -577,9 +592,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "80c37106-a405-4fce-9502-94946fd89106";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -591,13 +606,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: jingqing ren (36A757JM2P)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "80c37106-a405-4fce-9502-94946fd89106";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
