@@ -9,6 +9,9 @@
 import UIKit
 import Parse
 import ParseFacebookUtilsV4
+import Fabric
+import Crashlytics
+
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"
 let PARSE_SERVER_URL = "https://kardiokart-server.herokuapp.com/parse"
@@ -38,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         HealthManager.sharedManager.enableBackgroundDelivery()
         HealthManager.sharedManager.observeSteps()
+        
+        Fabric.with([Crashlytics.self])
         
         return true
     }
