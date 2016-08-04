@@ -299,6 +299,7 @@
 				TargetAttributes = {
 					8494FC841BC3346D00CE554E = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 36A757JM2P;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -591,9 +592,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "22031ec6-bdf3-45c2-989a-0a2a5d2af596";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -605,13 +606,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "22031ec6-bdf3-45c2-989a-0a2a5d2af596";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
