@@ -37,11 +37,11 @@ class PowerupManager: NSObject {
     }
     
     func queryPowerups(completion: ((results: [PFObject]?, error: NSError?)->Void)) {
-//        let query: PFQuery = PFQuery(className: "Powerup")
-//        query.whereKey("count", greaterThan: 0)
-//        query.findObjectsInBackgroundWithBlock { (results, error) in
-//            completion(results: results, error: error)
-//        }
+        let query: PFQuery = PFQuery(className: "Powerup")
+        query.whereKey("count", greaterThan: 0)
+        query.findObjectsInBackgroundWithBlock { (results, error) in
+            completion(results: results, error: error)
+        }
     }
 
 }

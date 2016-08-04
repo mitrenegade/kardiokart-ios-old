@@ -588,13 +588,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: jingqing ren (9U7H34T5V8)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "80c37106-a405-4fce-9502-94946fd89106";
+				PROVISIONING_PROFILE = "22031ec6-bdf3-45c2-989a-0a2a5d2af596";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
