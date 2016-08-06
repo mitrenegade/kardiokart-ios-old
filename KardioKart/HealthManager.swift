@@ -59,7 +59,7 @@ class HealthManager: NSObject {
     
     func getStepCount(completion: ((steps: Double)->Void)?) {
         guard !Platform.isSimulator else {
-            completion!(steps:3000)
+            completion!(steps:5000)
             return
         }
         
