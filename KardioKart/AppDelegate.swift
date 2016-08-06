@@ -12,6 +12,8 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
+let LOCAL_TEST = true
+
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"
 let PARSE_SERVER_URL = "https://kardiokart-server.herokuapp.com/parse"
@@ -27,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = ParseClientConfiguration {
             $0.applicationId = PARSE_APP_ID
             $0.clientKey = PARSE_CLIENT_KEY
-            $0.server = PARSE_SERVER_URL
+            $0.server = LOCAL_TEST ? PARSE_SERVER_URL_LOCAL : PARSE_SERVER_URL
         }
         Parse.initializeWithConfiguration(configuration)
         

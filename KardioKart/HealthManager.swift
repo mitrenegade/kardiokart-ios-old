@@ -58,6 +58,11 @@ class HealthManager: NSObject {
     }
     
     func getStepCount(completion: ((steps: Double)->Void)?) {
+        guard !Platform.isSimulator else {
+            completion!(steps:5000)
+            return
+        }
+        
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let past = calendar?.startOfDayForDate(NSDate())
         
