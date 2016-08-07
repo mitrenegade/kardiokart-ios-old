@@ -90,7 +90,7 @@ class HealthManager: NSObject {
         healthKitStore.executeQuery(query)
     }
     
-    func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: Double)->Void)?) {
+    func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
 //        guard !Platform.isSimulator else {
 //            completion!(steps:5000)
 //            return
@@ -109,16 +109,14 @@ class HealthManager: NSObject {
         { [unowned self] (query, results, error) in
             if let results = results as? [HKQuantitySample] {
 //                self.steps = results
-                print("Steps samples: \(results)")
-
                 /*
                 var totalSteps: Double = 0
                 if let quantity = result!.sumQuantity() {
                     let unit = HKUnit.countUnit()
                     totalSteps = quantity.doubleValueForUnit(unit)
                 }
-                completion?(steps: totalSteps)
                  */
+                completion?(steps: results)
             }
         }
         
@@ -204,7 +202,7 @@ class HealthManager: NSObject {
     
     func tick() {
         self.getStepSamples(start: nil, end: nil) { (steps) in
-            // nothing
+            NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
         }
     }
 

@@ -20,7 +20,7 @@ class RaceTrackViewController: UIViewController {
     
     var animationTimer: NSTimer?
     var animationPercent: Int = 0
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -154,12 +154,27 @@ class RaceTrackViewController: UIViewController {
 
         NSUserDefaults.standardUserDefaults().synchronize()
         
-        self.refreshCurrentSteps()
+        self.listenForLiveUpdates()
+    }
+    
+    func listenForLiveUpdates() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshCurrentSteps(_:)), name: "steps:live:updated", object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: Animation of cached steps
     internal func tick() {
+        if let _ = self.animationTimer {
+            self.nextAnimation()
+        }
+    }
+    
+    func nextAnimation() {
         guard let users = self.users else { return }
+
         for user: PFUser in users {
             let startSteps = cachedStepsForUser(user)
             let endSteps = user["stepCount"] as? Int ?? startSteps
@@ -167,7 +182,7 @@ class RaceTrackViewController: UIViewController {
             let step = (endSteps - startSteps) / 100 * self.animationPercent + startSteps
             self.animateUser(user, step: step)
         }
-
+        
         print("animationPercent \(animationPercent)")
         animationPercent += 1
         if animationPercent == 100 {
@@ -194,19 +209,12 @@ class RaceTrackViewController: UIViewController {
     }
     
     // MARK: - Active listener
-    func refreshCurrentSteps() {
-        // loading of cached steps done; request actual steps
-        HealthManager.sharedManager.getStepCount({ (steps) in
-            guard let user = self.currentUser else { return }
-            let oldSteps: Double = user["stepCount"] as? Double ?? 0
-            print("current steps \(steps) old steps \(oldSteps)")
-            if steps != oldSteps {
-                HealthManager.sharedManager.setUserSteps(steps, completion: { 
-                    self.animateUser(user, step: Int(steps))
-                })
-            }
-        })
+    func refreshCurrentSteps(notification: NSNotification) {
+        guard let userInfo: [NSObject: AnyObject] = notification.userInfo else { return }
+        guard let steps: AnyObject = userInfo["steps"] else { return }
+        print("Steps: \(steps)")
     }
+    
     // MARK: - Powerups
     func refreshPowerups() {
     }
