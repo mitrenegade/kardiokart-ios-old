@@ -27,6 +27,7 @@
 		8E3834A11D52EC5C0032DB8F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3834A01D52EC5C0032DB8F /* Platform.swift */; };
 		8EB31E241D454515006E8100 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */; };
 		8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */; };
+		8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */; };
 		92453009E267C002F0C8D7A6 /* Pods_KardioKart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE5A4218B2B889A2747CF18 /* Pods_KardioKart.framework */; };
 		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; };
 		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; };
@@ -80,6 +81,7 @@
 		8E3834A01D52EC5C0032DB8F /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
 		8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupManager.swift; sourceTree = "<group>"; };
+		8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackViewController.swift; sourceTree = "<group>"; };
 		9F1E06001BDD181100D927DC /* RaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrack.swift; sourceTree = "<group>"; };
 		B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KardioKart.release.xcconfig"; path = "Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,16 +150,16 @@
 			isa = PBXGroup;
 			children = (
 				8494FCBD1BC3798700CE554E /* KardioKart.entitlements */,
-				8494FC881BC3346D00CE554E /* AppDelegate.swift */,
+				8ED2D1131D56F11B00F1AA11 /* Storyboards */,
 				8499A3B91BC57C65002A4099 /* Views */,
 				8494FCC41BC4087700CE554E /* View Controllers */,
 				8494FCC51BC4088000CE554E /* Managers */,
-				8494FC8C1BC3346D00CE554E /* Main.storyboard */,
 				8494FC8F1BC3346D00CE554E /* Assets.xcassets */,
-				8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */,
 				8494FC941BC3346D00CE554E /* Info.plist */,
+				8494FC881BC3346D00CE554E /* AppDelegate.swift */,
 				8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */,
 				8449AB631BC628DD0076071E /* UIView+Storyboard.swift */,
+				8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */,
 				8E3834A01D52EC5C0032DB8F /* Platform.swift */,
 			);
 			path = KardioKart;
@@ -220,6 +222,15 @@
 				8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */,
 			);
 			name = Track;
+			sourceTree = "<group>";
+		};
+		8ED2D1131D56F11B00F1AA11 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8494FC911BC3346D00CE554E /* LaunchScreen.storyboard */,
+				8494FC8C1BC3346D00CE554E /* Main.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		EC2BF059D3C181342EB8C46A /* Frameworks */ = {
@@ -436,6 +447,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */,
 				8E3834A11D52EC5C0032DB8F /* Platform.swift in Sources */,
 				8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */,
 				8E01D78F1D38612A00664BD8 /* OvalRaceTrack.swift in Sources */,
