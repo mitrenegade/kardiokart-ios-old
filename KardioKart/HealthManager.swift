@@ -202,7 +202,9 @@ class HealthManager: NSObject {
     
     func tick() {
         self.getStepSamples(start: nil, end: nil) { (steps) in
-            NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
+            dispatch_async(dispatch_get_main_queue(), { 
+                NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
+            })
         }
     }
 

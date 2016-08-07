@@ -227,7 +227,8 @@ class RaceTrackViewController: UIViewController {
         user["stepCount"] = total
         
 //        print("user stepcount \(user["stepCount"]) allUsers \(self.users)")
-        
+        userPlace.text = "\(NSDate()): \(total)"
+
         // animate updated step count
         self.startAnimationForNewSteps(users)
     }
