@@ -104,25 +104,28 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
+    // MARK: Steps from Parse
     func queryUsers() {
         let query = PFUser.query()
         query?.orderByDescending("stepCount")
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
                 self.users = users
-                self.loadCachedSteps(users)
+                self.startAnimationForNewSteps(users)
                 
                 for user in users {
                     if user.objectId == PFUser.currentUser()?.objectId {
                         self.currentUser = user
                     }
                 }
+                
+                self.listenForLiveUpdates()
             }
         }
     }
     
     // MARK: Cached steps
-    func loadCachedSteps(users: [PFUser]) {
+    func startAnimationForNewSteps(users: [PFUser]) {
         // do initial animation
         let interval: NSTimeInterval = 0.01 // every 1/100 second, total 1 second animation
         if animationTimer == nil {
@@ -153,8 +156,6 @@ class RaceTrackViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "steps:cached:date")
 
         NSUserDefaults.standardUserDefaults().synchronize()
-        
-        self.listenForLiveUpdates()
     }
     
     func listenForLiveUpdates() {
@@ -210,9 +211,25 @@ class RaceTrackViewController: UIViewController {
     
     // MARK: - Active listener
     func refreshCurrentSteps(notification: NSNotification) {
+        guard let user = self.currentUser else { return }
+        guard let users = self.users else { return }
         guard let userInfo: [NSObject: AnyObject] = notification.userInfo else { return }
-        guard let steps: AnyObject = userInfo["steps"] else { return }
-        print("Steps: \(steps)")
+        guard let steps: [[String: AnyObject]] = userInfo["steps"] as? [[String: AnyObject]] else { return }
+
+        var total = 0.0
+        for sample: [String: AnyObject] in steps {
+            if let count = sample["count"] as? Double {
+                total = total + count
+            }
+        }
+        
+        // update stepcount locally
+        user["stepCount"] = total
+        
+//        print("user stepcount \(user["stepCount"]) allUsers \(self.users)")
+        
+        // animate updated step count
+        self.startAnimationForNewSteps(users)
     }
     
     // MARK: - Powerups

@@ -104,16 +104,16 @@ class HealthManager: NSObject {
                                              limit: 1000,
                                              sortDescriptors: nil)
         { [unowned self] (query, results, error) in
+            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
             if let results = results as? [HKQuantitySample] {
-//                self.steps = results
-                /*
-                var totalSteps: Double = 0
-                if let quantity = result!.sumQuantity() {
-                    let unit = HKUnit.countUnit()
-                    totalSteps = quantity.doubleValueForUnit(unit)
+                for sample: HKQuantitySample in results {
+                    let steps = sample.quantity.doubleValueForUnit(HKUnit.countUnit())
+                    let start = sample.startDate
+                    let end = sample.endDate
+                    
+                    allSamples.append(["count":steps, "start": start, "end": end])
                 }
-                 */
-                completion?(steps: results)
+                completion?(steps: allSamples)
             }
         }
         
