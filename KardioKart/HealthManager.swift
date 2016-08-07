@@ -42,9 +42,6 @@ class HealthManager: NSObject {
                 self.observeSteps()
             }
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
     }
     
     func isHealthEnabled() -> Bool {
@@ -155,6 +152,9 @@ class HealthManager: NSObject {
             })
             
             healthKitStore.executeQuery(query)
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
         }
     }
 
