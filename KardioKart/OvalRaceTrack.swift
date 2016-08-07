@@ -18,6 +18,8 @@ class OvalRaceTrack: RaceTrack {
     var point4: CGPoint! // end of segment2, beginning of segment3 (arc)
     var center5: CGPoint! // center of segment3
     
+    var totalSteps: Double = 10000.0 // number of steps on the track
+    
     // MARK: Setup
     private func setupPoints() {
         self.radius = self.frame.size.width / 2 - self.trackWidth
@@ -54,7 +56,7 @@ class OvalRaceTrack: RaceTrack {
 
     // MARK: Display
     override func pointForSteps(steps: Int) -> CGPoint? {
-        var percent = min(1, Double(steps) / 10000.0)
+        var percent = min(1, Double(steps) / totalSteps)
         // for an animating track, percent is augmented
         if percent > 1.0 {
             percent = percent - 1.0
