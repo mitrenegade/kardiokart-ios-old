@@ -9,6 +9,7 @@ pod 'FBSDKLoginKit'
 pod 'FBSDKShareKit'
 pod 'Parse'
 pod 'ParseFacebookUtilsV4'
+pod 'ParseLiveQuery'
 pod 'Fabric'
 pod 'Crashlytics'
 

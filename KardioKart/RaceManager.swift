@@ -8,6 +8,8 @@
 
 import UIKit
 import Parse
+import ParseLiveQuery
+
 class RaceManager: NSObject {
     static let sharedManager = RaceManager()
 
@@ -21,11 +23,12 @@ class RaceManager: NSObject {
     var newStepsToAnimate: [String: Double] = [:]
 
     // live query for Parse steps
+    let liveQueryClient = ParseLiveQuery.Client()
+    var subscription: Subscription<PFUser>?
     
     // MARK: - load from web - should be ultimate truth
-    func listenForParseUpdates() {
+    func queryUsers() {
         let query = PFUser.query()
-//        let subscription = query.subscribe()
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
                 self.users = users
@@ -34,25 +37,23 @@ class RaceManager: NSObject {
                     if user.objectId == PFUser.currentUser()?.objectId {
                         self.currentUser = user
                     }
-                    
-                    // compare with cache and update to most recent
-                    if let userId = user.objectId {
-                        let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
-                        let parseSteps = user["stepCount"] as? Double ?? 0
-                        if let parseDate = user["stepDate"] as? NSDate where self.isToday(parseDate) {
-                            let mostCurrent = max(cachedSteps, parseSteps)
-                            self.currentSteps[userId] = mostCurrent
-                            self.newStepsToAnimate[userId] = mostCurrent
-                        }
-                        else {
-                            self.currentSteps[userId] = cachedSteps
-                            self.newStepsToAnimate[userId] = cachedSteps
-                        }
-                    }
+                    self.updateParseStepsForUser(user)
                 }
                 self.trackController?.startAnimationForNewSteps()
+//                self.listenForHealthKitUpdates()
+                self.listenForParseUpdates()
             }
         }
+    }
+    
+    func listenForParseUpdates() {
+        let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
+        self.subscription = liveQueryClient.subscribe(query!)
+            .handle(Event.Updated, { (_, user) in
+                print("received update for user \(user.objectId!)")
+                self.updateParseStepsForUser(user)
+                self.trackController?.startAnimationForNewSteps()
+        })
     }
 
     func listenForHealthKitUpdates() {
@@ -62,6 +63,40 @@ class RaceManager: NSObject {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func updateParseStepsForUser(user: PFUser) {
+        // compare with cache and update to most recent
+        if let userId = user.objectId {
+            let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
+            var mostCurrent = cachedSteps
+            let parseSteps = user["stepCount"] as? Double ?? 0
+            if let parseDate = user["stepDate"] as? NSDate {
+                if self.isToday(parseDate) {
+                    mostCurrent = max(cachedSteps, parseSteps)
+                }
+            }
+            else if let dateInfo = user["stepDate"] as? [String: AnyObject] {
+                // HACK: in the subscription handler, the raw user type is returned
+                // stepDate has a representation like 
+                // 
+                // stepDate =     {
+                //     "__type" = Date;
+                //     iso = "2016-08-09T03:27:32.978Z";
+                // };
+                if let parseDate = dateInfo["iso"] as? String {
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+                    dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
+                    let date = dateFormatter.dateFromString(parseDate)
+                    if self.isToday(date) {
+                        mostCurrent = max(cachedSteps, parseSteps)
+                    }
+                }
+            }
+            self.currentSteps[userId] = mostCurrent
+            self.newStepsToAnimate[userId] = mostCurrent
+        }
     }
 
     // MARK: Cached steps
