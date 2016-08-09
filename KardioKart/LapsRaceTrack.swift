@@ -9,9 +9,9 @@
 import UIKit
 
 class LapsRaceTrack: OvalRaceTrack {
-    var totalLaps = 20
+    var totalLaps: Int = 20
     
-    override func pointForSteps(steps: Int) -> CGPoint? {
+    override func pointForSteps(steps: Double) -> CGPoint? {
         let stepsPerLap = self.totalSteps / Double(self.totalLaps)
         let lapSteps = Double(steps) % stepsPerLap
         
@@ -21,7 +21,7 @@ class LapsRaceTrack: OvalRaceTrack {
             percent = percent - 1.0
         }
         let point = self.pointForPercent(percent)
-        print("steps: \(steps) percent \(percent) point \(point)")
+        //print("steps: \(steps) percent \(percent) point \(point)")
         return point
     }
 

@@ -87,11 +87,15 @@ class HealthManager: NSObject {
         healthKitStore.executeQuery(query)
     }
     
+    private var SIMULATED_STEPS = 0
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
-//        guard !Platform.isSimulator else {
-//            completion!(steps:5000)
-//            return
-//        }
+        guard !Platform.isSimulator else {
+            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
+            SIMULATED_STEPS = SIMULATED_STEPS + 50
+            allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
+            completion!(steps:allSamples)
+            return
+        }
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let beginningOfDay = calendar?.startOfDayForDate(NSDate())
@@ -202,6 +206,7 @@ class HealthManager: NSObject {
     
     func tick() {
         self.getStepSamples(start: nil, end: nil) { (steps) in
+            print("health manager tick")
             dispatch_async(dispatch_get_main_queue(), { 
                 NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
             })

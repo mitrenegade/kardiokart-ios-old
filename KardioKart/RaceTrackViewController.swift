@@ -19,7 +19,7 @@ class RaceTrackViewController: UIViewController {
     var currentUser: PFUser? // current user loaded from queryUsers so information is updated - don't use PFUser.currentUser for steps
     
     var animationTimer: NSTimer?
-    var animationPercent: Int = 0
+    var animationPercent: Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,7 @@ class RaceTrackViewController: UIViewController {
         for user in users {
             guard let avatar = self.avatarForUser(user) else { continue }
             
-            let steps = user["stepCount"] as? Int ?? 0
+            let steps = user["stepCount"] as? Double ?? 0
             if let point = self.raceTrack.pointForSteps(steps) {
                 avatar.center = point
                 avatar.hidden = false
@@ -134,21 +134,21 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
-    func cachedStepsForUser(user: PFUser) -> Int {
+    func cachedStepsForUser(user: PFUser) -> Double {
         guard let userId = user.objectId else { return 0 }
 
         let key = "steps:cached"
-        let allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Int] ?? [:]
+        let allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Double] ?? [:]
         let userCachedSteps = allCachedSteps[userId] ?? 0
         return userCachedSteps
     }
     
     func updateCachedStepsForUsers(users: [PFUser]) {
         let key = "steps:cached"
-        var allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Int] ?? [:]
+        var allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Double] ?? [:]
         for user: PFUser in users {
             guard let userId = user.objectId else { return }
-            let endSteps = user["stepCount"] as? Int ?? 0
+            let endSteps = user["stepCount"] as? Double ?? 0
             allCachedSteps[userId] = endSteps
         }
         print("allCachedSteps: \(allCachedSteps)")
@@ -175,18 +175,21 @@ class RaceTrackViewController: UIViewController {
     
     func nextAnimation() {
         guard let users = self.users else { return }
+        print("animationPercent \(animationPercent)")
 
         for user: PFUser in users {
             let startSteps = cachedStepsForUser(user)
-            let endSteps = user["stepCount"] as? Int ?? startSteps
+            let endSteps = user["stepCount"] as? Double ?? startSteps
             
-            let step = (endSteps - startSteps) / 100 * self.animationPercent + startSteps
+            let step = Double(endSteps - startSteps) / 100.0 * self.animationPercent + Double(startSteps)
+            if user.objectId == self.currentUser?.objectId {
+                print("animating start \(startSteps) step \(step) end \(endSteps)")
+            }
             self.animateUser(user, step: step)
         }
         
-        print("animationPercent \(animationPercent)")
         animationPercent += 1
-        if animationPercent == 100 {
+        if animationPercent >= 100 {
             animationTimer?.invalidate()
             animationTimer = nil
             
@@ -195,10 +198,12 @@ class RaceTrackViewController: UIViewController {
         }
     }
 
-    func animateUser(user: PFUser, step: Int) {
+    func animateUser(user: PFUser, step: Double) {
         guard let avatar = self.avatarForUser(user) else { return }
         
-        print("Animating steps for user \(user.objectId!) to \(step)")
+        if user.objectId == self.currentUser?.objectId {
+            print("Animating steps for user \(user.objectId!) to \(step)")
+        }
         
         if let point = self.raceTrack.pointForSteps(step) {
             avatar.center = point
@@ -213,7 +218,7 @@ class RaceTrackViewController: UIViewController {
     func refreshCurrentSteps(notification: NSNotification) {
         guard let user = self.currentUser else { return }
         guard let users = self.users else { return }
-        guard let userInfo: [NSObject: AnyObject] = notification.userInfo else { return }
+        guard let userInfo = notification.userInfo else { return }
         guard let steps: [[String: AnyObject]] = userInfo["steps"] as? [[String: AnyObject]] else { return }
 
         var total = 0.0

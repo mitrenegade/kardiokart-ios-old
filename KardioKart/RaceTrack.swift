@@ -47,7 +47,7 @@ class RaceTrack: UIView {
     }
 
     // MARK: - Track calculations
-    func pointForSteps(steps: Int) -> CGPoint? {
+    func pointForSteps(steps: Double) -> CGPoint? {
         return CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2)
     }
     
