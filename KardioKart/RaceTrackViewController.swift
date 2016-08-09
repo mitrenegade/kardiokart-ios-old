@@ -49,7 +49,8 @@ class RaceTrackViewController: UIViewController {
         
         manager.trackController = self
         manager.checkCacheDate()
-        manager.queryUsers()
+        manager.listenForParseUpdates() // query users and listen for updates to steps
+        manager.listenForHealthKitUpdates() // listen for updates from healthkit
     }
     
     override func viewDidAppear(animated: Bool) {

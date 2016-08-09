@@ -12,17 +12,20 @@ class RaceManager: NSObject {
     static let sharedManager = RaceManager()
 
     // TODO: this could be a Race object instead of a RaceManager object
-    
+    var trackController: RaceTrackViewController?
     var users: [PFUser]?
     var currentUser: PFUser? // current user loaded from queryUsers so information is updated - don't use PFUser.currentUser for steps
+    
+    // locally stored steps for animation
     var currentSteps: [String: Double] = [:]
     var newStepsToAnimate: [String: Double] = [:]
 
-    var trackController: RaceTrackViewController?
+    // live query for Parse steps
     
     // MARK: - load from web - should be ultimate truth
-    func queryUsers() {
+    func listenForParseUpdates() {
         let query = PFUser.query()
+//        let subscription = query.subscribe()
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
                 self.users = users
@@ -48,12 +51,11 @@ class RaceManager: NSObject {
                     }
                 }
                 self.trackController?.startAnimationForNewSteps()
-                self.listenForLiveUpdates()
             }
         }
     }
 
-    func listenForLiveUpdates() {
+    func listenForHealthKitUpdates() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshLiveSteps(_:)), name: "steps:live:updated", object: nil)
     }
