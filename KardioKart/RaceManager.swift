@@ -37,7 +37,20 @@ class RaceManager: NSObject {
                     if user.objectId == PFUser.currentUser()?.objectId {
                         self.currentUser = user
                     }
-                    self.updateParseStepsForUser(user)
+                    // compare with cache and update to most recent
+                    if let userId = user.objectId {
+                        let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
+                        let parseSteps = user["stepCount"] as? Double ?? 0
+                        if let parseDate = user["stepDate"] as? NSDate where self.isToday(parseDate) {
+                            let mostCurrent = max(cachedSteps, parseSteps)
+                            self.currentSteps[userId] = mostCurrent
+                            self.newStepsToAnimate[userId] = mostCurrent
+                        }
+                        else {
+                            self.currentSteps[userId] = cachedSteps
+                            self.newStepsToAnimate[userId] = cachedSteps
+                        }
+                    }
                 }
                 self.trackController?.startAnimationForNewSteps()
 //                self.listenForHealthKitUpdates()
@@ -50,9 +63,11 @@ class RaceManager: NSObject {
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
-                print("received update for user \(user.objectId!)")
-                self.updateParseStepsForUser(user)
-                self.trackController?.startAnimationForNewSteps()
+                dispatch_async(dispatch_get_main_queue(), { 
+                    print("received update for user \(user.objectId!)")
+                    self.updateParseStepsForUser(user)
+                    self.trackController?.startAnimationForNewSteps()
+                })
         })
     }
 
@@ -66,17 +81,10 @@ class RaceManager: NSObject {
     }
     
     func updateParseStepsForUser(user: PFUser) {
-        // compare with cache and update to most recent
         if let userId = user.objectId {
-            let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
-            var mostCurrent = cachedSteps
             let parseSteps = user["stepCount"] as? Double ?? 0
-            if let parseDate = user["stepDate"] as? NSDate {
-                if self.isToday(parseDate) {
-                    mostCurrent = max(cachedSteps, parseSteps)
-                }
-            }
-            else if let dateInfo = user["stepDate"] as? [String: AnyObject] {
+            var mostCurrent = self.currentSteps[userId] ?? 0
+            if let dateInfo = user["stepDate"] as? [String: AnyObject] {
                 // HACK: in the subscription handler, the raw user type is returned
                 // stepDate has a representation like 
                 // 
@@ -90,11 +98,10 @@ class RaceManager: NSObject {
                     dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
                     let date = dateFormatter.dateFromString(parseDate)
                     if self.isToday(date) {
-                        mostCurrent = max(cachedSteps, parseSteps)
+                        mostCurrent = max(mostCurrent, parseSteps)
                     }
                 }
             }
-            self.currentSteps[userId] = mostCurrent
             self.newStepsToAnimate[userId] = mostCurrent
         }
     }
@@ -103,7 +110,7 @@ class RaceManager: NSObject {
     func checkCacheDate() {
         // make sure that cached steps are from today, or clear them
         if let lastAnimationDate: NSDate = NSUserDefaults.standardUserDefaults().objectForKey("steps:cached:date") as? NSDate {
-            if isToday(lastAnimationDate) {
+            if !isToday(lastAnimationDate) {
                 NSUserDefaults.standardUserDefaults().removeObjectForKey("steps:cached")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
