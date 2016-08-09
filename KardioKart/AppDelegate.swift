@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // Store the deviceToken in the current Installation and save it to Parse
         
-        let installation = PFInstallation.currentInstallation()
+        guard let installation = PFInstallation.currentInstallation() else { return }
         installation.setDeviceTokenFromData(deviceToken)
         let channel: String = "global"
         installation.addUniqueObject(channel, forKey: "channels") // subscribe to global channel
