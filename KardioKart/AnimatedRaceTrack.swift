@@ -35,8 +35,8 @@ class AnimatedRaceTrack: OvalRaceTrack {
     }
 
     // MARK: Display
-    override func pointForSteps(steps: Int) -> CGPoint? {
-        var percent = min(1, Double(steps) / 10000.0) + percentOffset
+    override func pointForSteps(steps: Double) -> CGPoint? {
+        var percent = min(1.0, steps / 10000.0) + percentOffset
         // for an animating track, percent is augmented
         if percent > 1.0 {
             percent = percent - 1.0

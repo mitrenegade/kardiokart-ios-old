@@ -10,9 +10,13 @@ import Foundation
 import HealthKit
 import Parse
 
+let STEPS_QUERY_INTERVAL_FOREGROUND: NSTimeInterval = 10 // 5 second updates while app is active
+
 class HealthManager: NSObject {
     static let sharedManager = HealthManager()
     let healthKitStore: HKHealthStore = HKHealthStore()
+    
+    var timer: NSTimer?
     
     func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!) {
         let healthKitTypesToRead: Set = [HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!]
@@ -57,17 +61,17 @@ class HealthManager: NSObject {
         })
     }
     
-    func getStepCount(completion: ((steps: Double)->Void)?) {
+    func getStepTotal(start start: NSDate?, end: NSDate?, completion: ((steps: Double)->Void)?) {
         guard !Platform.isSimulator else {
             completion!(steps:5000)
             return
         }
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
-        let past = calendar?.startOfDayForDate(NSDate())
+        let beginningOfDay = calendar?.startOfDayForDate(NSDate())
         
         let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
-        let predicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: NSDate(), options: .None)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(start ?? beginningOfDay, endDate: end ?? NSDate(), options: .None)
         
         let query = HKStatisticsQuery(quantityType: sampleType!,
                                       quantitySamplePredicate: predicate,
@@ -83,6 +87,43 @@ class HealthManager: NSObject {
         healthKitStore.executeQuery(query)
     }
     
+    private var SIMULATED_STEPS = 5000
+    func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
+        guard !Platform.isSimulator else {
+            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
+            SIMULATED_STEPS = SIMULATED_STEPS + 50
+            allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
+            completion!(steps:allSamples)
+            return
+        }
+        
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+        let beginningOfDay = calendar?.startOfDayForDate(NSDate())
+
+        let sampleType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(start ?? beginningOfDay, endDate: end ?? NSDate(), options: .None)
+
+        let stepsSampleQuery = HKSampleQuery(sampleType: sampleType!,
+                                             predicate: predicate,
+                                             limit: 1000,
+                                             sortDescriptors: nil)
+        { [unowned self] (query, results, error) in
+            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
+            if let results = results as? [HKQuantitySample] {
+                for sample: HKQuantitySample in results {
+                    let steps = sample.quantity.doubleValueForUnit(HKUnit.countUnit())
+                    let start = sample.startDate
+                    let end = sample.endDate
+                    
+                    allSamples.append(["count":steps, "start": start, "end": end])
+                }
+                completion?(steps: allSamples)
+            }
+        }
+        
+        healthKitStore.executeQuery(stepsSampleQuery)
+    }
+
     
     func setUserSteps(steps: Double, completion: (()->Void)?) {
         guard let _ = PFUser.currentUser() else { return }
@@ -106,7 +147,7 @@ class HealthManager: NSObject {
                     return
                 }
                 
-                self.getStepCount({ (steps) in
+                self.getStepTotal(start: nil, end: nil, completion: { (steps) in
                     self.setUserSteps(steps, completion: { 
                         self.sendLocalNotificationForSteps(steps)
                         completionHandler()
@@ -115,6 +156,9 @@ class HealthManager: NSObject {
             })
             
             healthKitStore.executeQuery(query)
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
         }
     }
 
@@ -146,5 +190,30 @@ class HealthManager: NSObject {
         self.revealController?.presentViewController(alert, animated: true, completion: nil)
          */
     }
+    
+    // MARK: - Backgrounding
+    func didEnterBackground() {
+        self.timer?.invalidate()
+        self.timer = nil
+    }
+    
+    func didEnterForeground() {
+        self.timer?.invalidate()
+        
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(STEPS_QUERY_INTERVAL_FOREGROUND, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        self.timer?.fire()
+    }
+    
+    func tick() {
+        self.getStepSamples(start: nil, end: nil) { (steps) in
+            print("health manager tick")
+            dispatch_async(dispatch_get_main_queue(), { 
+                NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
+            })
+        }
+    }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 }

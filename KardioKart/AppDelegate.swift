@@ -12,7 +12,7 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
-let LOCAL_TEST = true
+let LOCAL_TEST = false
 
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"
@@ -60,10 +60,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        NSNotificationCenter.defaultCenter().postNotificationName("app:to:background", object: nil, userInfo: nil)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        NSNotificationCenter.defaultCenter().postNotificationName("app:to:foreground", object: nil, userInfo: nil)
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
