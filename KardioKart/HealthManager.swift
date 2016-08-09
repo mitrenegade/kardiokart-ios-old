@@ -87,7 +87,7 @@ class HealthManager: NSObject {
         healthKitStore.executeQuery(query)
     }
     
-    private var SIMULATED_STEPS = 0
+    private var SIMULATED_STEPS = 5000
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
         guard !Platform.isSimulator else {
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
