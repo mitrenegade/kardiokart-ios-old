@@ -53,7 +53,7 @@ class RaceManager: NSObject {
                     }
                 }
                 self.trackController?.startAnimationForNewSteps()
-//                self.listenForHealthKitUpdates()
+                self.listenForHealthKitUpdates()
                 self.listenForParseUpdates()
             }
         }
@@ -81,6 +81,7 @@ class RaceManager: NSObject {
     }
     
     func updateParseStepsForUser(user: PFUser) {
+        // animates steps received from parse for another user through live query
         if let userId = user.objectId {
             let parseSteps = user["stepCount"] as? Double ?? 0
             var mostCurrent = self.currentSteps[userId] ?? 0
@@ -176,9 +177,10 @@ class RaceManager: NSObject {
         let parseCount = user["stepCount"] as? Double ?? 0
         let parseDate = user["stepDate"] as? NSDate
         if total > parseCount || !self.isToday(parseDate) {
-            user["stepCount"] = total
-            user["stepDate"] = NSDate()
-            user.saveInBackground()
+
+            HealthManager.sharedManager.setUserSteps(total, completion: {
+                print("user steps \(total) saved to parse")
+            })
         }
     }
     
