@@ -24,6 +24,7 @@ class PowerupManager: NSObject {
     
     // MARK: - Polling for powerups
     internal func tick() {
+        
         self.queryPowerups { (results, error) in
             if let error = error {
                 print("Error in querying powerups: \(error)")
@@ -37,11 +38,17 @@ class PowerupManager: NSObject {
     }
     
     func queryPowerups(completion: ((results: [PFObject]?, error: NSError?)->Void)) {
-//        let query: PFQuery = PFQuery(className: "Powerup")
-//        query.whereKey("count", greaterThan: 0)
-//        query.findObjectsInBackgroundWithBlock { (results, error) in
-//            completion(results: results, error: error)
-//        }
+        guard let race = RaceManager.currentRace() else {
+            completion(results: nil, error: nil)
+            return
+        }
+        
+        let query: PFQuery = PFQuery(className: "Powerup")
+        query.whereKey("count", greaterThan: 0)
+        query.whereKey("race", equalTo: race)
+        query.findObjectsInBackgroundWithBlock { (results, error) in
+            completion(results: results, error: error)
+        }
     }
 
 }

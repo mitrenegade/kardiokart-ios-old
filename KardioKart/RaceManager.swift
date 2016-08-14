@@ -12,7 +12,7 @@ import ParseLiveQuery
 
 class RaceManager: NSObject {
     static let sharedManager = RaceManager()
-
+    
     // TODO: this could be a Race object instead of a RaceManager object
     var trackController: RaceTrackViewController?
     var users: [PFUser]?
@@ -25,6 +25,44 @@ class RaceManager: NSObject {
     // live query for Parse steps
     let liveQueryClient = ParseLiveQuery.Client()
     var subscription: Subscription<PFUser>?
+
+    var _currentRace: PFObject?
+
+    class func currentRace() -> PFObject? {
+        if sharedManager.isRaceToday() {
+            return sharedManager._currentRace
+        }
+        // kick off a query, and set the current race to any result
+        sharedManager.queryRace { (race) in
+            sharedManager._currentRace = race
+        }
+        // return nil because we currently don't have a current race
+        return nil
+    }
+    
+    var today: Int {
+        get {
+            let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
+            guard let day = calendar?.component(NSCalendarUnit.Day, fromDate: NSDate()) else {
+                return -1
+            }
+            return day
+        }
+    }
+    
+    private func queryRace(completion: ((race: PFObject?) -> Void)) {
+        let query = PFQuery(className: "Race")
+        query.whereKey("day", equalTo: today)
+        query.getFirstObjectInBackgroundWithBlock { (object, error) in
+            if let _ = error {
+                print("error!")
+                completion(race: nil)
+            }
+            else {
+                completion(race: object)
+            }
+        }
+    }
     
     // MARK: - load from web - should be ultimate truth
     func queryUsers() {
@@ -190,8 +228,13 @@ class RaceManager: NSObject {
         
         let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
         let day = calendar?.component(NSCalendarUnit.Day, fromDate: date)
-        let today = calendar?.component(NSCalendarUnit.Day, fromDate: NSDate())
         return day == today
     }
 
+    private func isRaceToday() -> Bool {
+        // TODO: make into Race extension
+        guard let race = _currentRace else { return false }
+        guard let day = race.objectForKey("day") as? Int else { return false }
+        return day == today
+    }
 }
