@@ -12,8 +12,7 @@ import ParseLiveQuery
 
 class RaceManager: NSObject {
     static let sharedManager = RaceManager()
-
-    // TODO: this could be a Race object instead of a RaceManager object
+    
     var trackController: RaceTrackViewController?
     var users: [PFUser]?
     var currentUser: PFUser? // current user loaded from queryUsers so information is updated - don't use PFUser.currentUser for steps
@@ -25,6 +24,49 @@ class RaceManager: NSObject {
     // live query for Parse steps
     let liveQueryClient = ParseLiveQuery.Client()
     var subscription: Subscription<PFUser>?
+
+    var _currentRace: PFObject?
+
+    class func currentRace() -> PFObject? {
+        // TODO: currentRace does not have to do with the day, but with the user's race ID?
+        //if sharedManager.isRaceToday() {
+        //    return sharedManager._currentRace
+        //}
+        if sharedManager._currentRace != nil {
+            return sharedManager._currentRace
+        }
+        
+        // kick off a query, and set the current race to any result
+        sharedManager.queryRace { (race) in
+            sharedManager._currentRace = race
+        }
+        // return nil because we currently don't have a current race
+        return nil
+    }
+    
+    var today: Int {
+        get {
+            let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
+            guard let day = calendar?.component(NSCalendarUnit.Day, fromDate: NSDate()) else {
+                return -1
+            }
+            return day
+        }
+    }
+    
+    private func queryRace(completion: ((race: PFObject?) -> Void)) {
+        let query = PFQuery(className: "Race")
+//        query.whereKey("day", equalTo: today)
+        query.getFirstObjectInBackgroundWithBlock { (object, error) in
+            if let _ = error {
+                print("error!")
+                completion(race: nil)
+            }
+            else {
+                completion(race: object)
+            }
+        }
+    }
     
     // MARK: - load from web - should be ultimate truth
     func queryUsers() {
@@ -52,7 +94,7 @@ class RaceManager: NSObject {
                         }
                     }
                 }
-                self.trackController?.startAnimationForNewSteps()
+                NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForHealthKitUpdates()
                 self.listenForParseUpdates()
             }
@@ -60,13 +102,17 @@ class RaceManager: NSObject {
     }
     
     func listenForParseUpdates() {
+        // step updates for other users
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
+        if let userId = PFUser.currentUser()?.objectId {
+            query?.whereKey("objectId", notEqualTo: userId)
+        }
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
                     print("received update for user \(user.objectId!)")
                     self.updateParseStepsForUser(user)
-                    self.trackController?.startAnimationForNewSteps()
+                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 })
         })
     }
@@ -147,6 +193,7 @@ class RaceManager: NSObject {
 
     // MARK: - Active listener
     func refreshLiveSteps(notification: NSNotification) {
+        // updated steps for current user
         guard let user = self.currentUser else { return }
         guard let userId = user.objectId else { return }
         guard let userInfo = notification.userInfo else { return }
@@ -167,9 +214,6 @@ class RaceManager: NSObject {
         
         //userPlace.text = "\(NSDate()): \(total)"
         
-        // animate updated step count
-        self.trackController?.startAnimationForNewSteps()
-        
         // cache to device
         self.updateCachedSteps()
         
@@ -182,6 +226,9 @@ class RaceManager: NSObject {
                 print("user steps \(total) saved to parse")
             })
         }
+
+        // animate updated step count
+        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
     }
     
     // MARK: Utils
@@ -190,8 +237,13 @@ class RaceManager: NSObject {
         
         let calendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)
         let day = calendar?.component(NSCalendarUnit.Day, fromDate: date)
-        let today = calendar?.component(NSCalendarUnit.Day, fromDate: NSDate())
         return day == today
     }
 
+    private func isRaceToday() -> Bool {
+        // TODO: make into Race extension
+        guard let race = _currentRace else { return false }
+        guard let day = race.objectForKey("day") as? Int else { return false }
+        return day == today
+    }
 }

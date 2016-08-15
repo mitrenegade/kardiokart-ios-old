@@ -9,14 +9,29 @@
 import UIKit
 import Parse
 
+let POWERUP_POSITION_BUFFER = 5
+
+// TODO: caching issues. sometimes old steps are loaded from cache. 
+// maybe this is caused by bad internet and each time queryUsers is done, the old values are used, even if new steps have been cached.
+// TODO: drawing issues. When powerups are drawn, they appear over avatars.
+// TODO: Animation issues. refreshAvatars moves avatars without animation. (solved?)
+// TODO: past midnight, existing user steps are still used and not filtered away by date
+
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
-    var userAvatars: [String: RaceTrackAvatar] = [:]
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
     var animationTimer: NSTimer?
     var animationPercent: Double = 0
+    
+    // Avatars
+    var userAvatars: [String: RaceTrackAvatar] = [:]
+    weak var myAvatar: RaceTrackAvatar?
+    
+    // Powerups
+    var powerupViews: [String: UIView] = [:]
+    var powerupPositions: Set<Int> = Set()
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -130,7 +145,9 @@ class RaceTrackViewController: UIViewController {
     
     
     // MARK: - Avatars
-    func avatarForUser(user: PFUser) -> RaceTrackAvatar? {
+    func avatarForUser(user: PFUser?) -> RaceTrackAvatar? {
+        guard let user = user else { return nil }
+        
         var avatar = userAvatars[user.objectId!]
         if avatar == nil {
             avatar = RaceTrackAvatar(user: user)
@@ -139,7 +156,18 @@ class RaceTrackViewController: UIViewController {
             if let point = self.raceTrack.pointForStart() {
                 avatar!.center = point
             }
+            
         }
+        
+        // set myAvatar
+        if user.objectId == manager.currentUser?.objectId {
+            self.myAvatar = avatar
+
+            // make sure current user's avatar is always on top
+            avatar!.removeFromSuperview()
+            self.raceTrack.addSubview(avatar!)
+        }
+        
         return avatar
     }
     
@@ -149,14 +177,18 @@ class RaceTrackViewController: UIViewController {
             guard let avatar = self.avatarForUser(user) else { continue }
             
             let steps = user["stepCount"] as? Double ?? 0
-            if let point = self.raceTrack.pointForSteps(steps) {
-                avatar.center = point
+            if let _ = self.raceTrack.pointForSteps(steps) {
+                //avatar.center = point
                 avatar.hidden = false
+                avatar.removeFromSuperview()
+                self.raceTrack.addSubview(avatar)
             }
             else {
                 avatar.hidden = true
             }
         }
+        
+        self.startAnimationForNewSteps()
     }
     
     // MARK: Position label
@@ -179,7 +211,72 @@ class RaceTrackViewController: UIViewController {
     }
     
     // MARK: - Powerups
+    func clearPowerups() {
+        for (_, view) in self.powerupViews {
+            view.removeFromSuperview()
+        }
+        self.powerupViews.removeAll()
+        self.powerupPositions.removeAll()
+    }
+    
+    func removePowerupView(objectId: String) {
+        guard let powerupView: PowerupView = self.powerupViews[objectId] as? PowerupView else { return }
+        powerupView.removeFromSuperview()
+        if let position = powerupView.powerup?.objectForKey("position") as? Int {
+            self.powerupPositions.remove(position)
+        }
+        self.powerupViews[objectId] = nil
+    }
+    
+    func addPowerupView(powerup: PFObject) {
+        guard let position = powerup.objectForKey("position") as? Int else { return }
+        guard let objectId = powerup.objectId else { return }
+        guard self.powerupViews[objectId] == nil else { return }
+        
+        for i in position - POWERUP_POSITION_BUFFER ..< position + POWERUP_POSITION_BUFFER + 1 {
+            if self.powerupPositions.contains(i) {
+                return
+            }
+        }
+        
+        let newPowerupView = PowerupView(powerup: powerup)
+        if let percent = powerup.objectForKey("position") as? Double {
+            let point = self.raceTrack.pointForPercent(percent/100.0)
+            newPowerupView.center = point
+        }
+        self.raceTrack.addSubview(newPowerupView)
+        self.powerupViews[objectId] = newPowerupView
+        self.powerupPositions.insert(position)
+    }
+    
     func refreshPowerups() {
+        guard let powerups = PowerupManager.sharedManager.powerups else {
+            self.clearPowerups()
+            return
+        }
+        
+        for powerup in powerups {
+            guard let objectId = powerup.objectId else { continue }
+            
+            if let powerupView = self.powerupViews[objectId] as? PowerupView {
+                guard let count = powerupView.powerup?.objectForKey("count") as? Int else { continue }
+                guard let newCount = powerup.objectForKey("count") as? Int else {
+                    self.removePowerupView(objectId)
+                    continue
+                }
+                if newCount == 0 {
+                    self.removePowerupView(objectId)
+                    continue
+                }
+                if newCount != count {
+                    self.removePowerupView(objectId)
+                    self.addPowerupView(powerup)
+                }
+            }
+            else {
+                self.addPowerupView(powerup)
+            }
+        }
     }
     
 }

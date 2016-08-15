@@ -12,7 +12,7 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
-let LOCAL_TEST = true
+let LOCAL_TEST = false
 
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"

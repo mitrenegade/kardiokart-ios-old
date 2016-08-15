@@ -54,4 +54,8 @@ class RaceTrack: UIView {
     func pointForStart() -> CGPoint? {
         return self.pointForSteps(0)
     }
+    
+    func pointForPercent(percent: Double) -> CGPoint {
+        return CGPointMake(0, 0)
+    }
 }
