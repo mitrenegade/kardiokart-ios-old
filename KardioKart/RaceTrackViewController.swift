@@ -18,7 +18,12 @@ class RaceTrackViewController: UIViewController {
     @IBOutlet weak var userPlace: UILabel!
     var animationTimer: NSTimer?
     var animationPercent: Double = 0
+    
+    // Avatars
     var userAvatars: [String: RaceTrackAvatar] = [:]
+    weak var myAvatar: RaceTrackAvatar?
+    
+    // Powerups
     var powerupViews: [String: UIView] = [:]
     var powerupPositions: Set<Int> = Set()
     
@@ -134,7 +139,9 @@ class RaceTrackViewController: UIViewController {
     
     
     // MARK: - Avatars
-    func avatarForUser(user: PFUser) -> RaceTrackAvatar? {
+    func avatarForUser(user: PFUser?) -> RaceTrackAvatar? {
+        guard let user = user else { return nil }
+        
         var avatar = userAvatars[user.objectId!]
         if avatar == nil {
             avatar = RaceTrackAvatar(user: user)
@@ -143,7 +150,18 @@ class RaceTrackViewController: UIViewController {
             if let point = self.raceTrack.pointForStart() {
                 avatar!.center = point
             }
+            
         }
+        
+        // set myAvatar
+        if user.objectId == manager.currentUser?.objectId {
+            self.myAvatar = avatar
+
+            // make sure current user's avatar is always on top
+            avatar!.removeFromSuperview()
+            self.raceTrack.addSubview(avatar!)
+        }
+        
         return avatar
     }
     
@@ -156,6 +174,8 @@ class RaceTrackViewController: UIViewController {
             if let point = self.raceTrack.pointForSteps(steps) {
                 avatar.center = point
                 avatar.hidden = false
+                avatar.removeFromSuperview()
+                self.raceTrack.addSubview(avatar)
             }
             else {
                 avatar.hidden = true
