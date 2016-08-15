@@ -9,6 +9,8 @@
 import UIKit
 import Parse
 
+let POWERUP_POSITION_BUFFER = 5
+
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
     @IBOutlet weak var trackPath: UIView!
@@ -18,6 +20,7 @@ class RaceTrackViewController: UIViewController {
     var animationPercent: Double = 0
     var userAvatars: [String: RaceTrackAvatar] = [:]
     var powerupViews: [String: UIView] = [:]
+    var powerupPositions: Set<Int> = Set()
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -185,12 +188,37 @@ class RaceTrackViewController: UIViewController {
             view.removeFromSuperview()
         }
         self.powerupViews.removeAll()
+        self.powerupPositions.removeAll()
     }
     
     func removePowerupView(objectId: String) {
         guard let powerupView: PowerupView = self.powerupViews[objectId] as? PowerupView else { return }
         powerupView.removeFromSuperview()
+        if let position = powerupView.powerup?.objectForKey("position") as? Int {
+            self.powerupPositions.remove(position)
+        }
         self.powerupViews[objectId] = nil
+    }
+    
+    func addPowerupView(powerup: PFObject) {
+        guard let position = powerup.objectForKey("position") as? Int else { return }
+        guard let objectId = powerup.objectId else { return }
+        guard self.powerupViews[objectId] == nil else { return }
+        
+        for i in position - POWERUP_POSITION_BUFFER ..< position + POWERUP_POSITION_BUFFER + 1 {
+            if self.powerupPositions.contains(i) {
+                return
+            }
+        }
+        
+        let newPowerupView = PowerupView(powerup: powerup)
+        if let percent = powerup.objectForKey("position") as? Double {
+            let point = self.raceTrack.pointForPercent(percent/100.0)
+            newPowerupView.center = point
+        }
+        self.raceTrack.addSubview(newPowerupView)
+        self.powerupViews[objectId] = newPowerupView
+        self.powerupPositions.insert(position)
     }
     
     func refreshPowerups() {
@@ -214,23 +242,11 @@ class RaceTrackViewController: UIViewController {
                 }
                 if newCount != count {
                     self.removePowerupView(objectId)
-                    let newPowerupView = PowerupView(powerup: powerup)
-                    if let percent = powerup.objectForKey("position") as? Double {
-                        let point = self.raceTrack.pointForPercent(percent/100.0)
-                        newPowerupView.center = point
-                    }
-                    self.raceTrack.addSubview(newPowerupView)
-                    self.powerupViews[objectId] = newPowerupView
+                    self.addPowerupView(powerup)
                 }
             }
             else {
-                let newPowerupView = PowerupView(powerup: powerup)
-                if let percent = powerup.objectForKey("position") as? Double {
-                    let point = self.raceTrack.pointForPercent(percent/100.0)
-                    newPowerupView.center = point
-                }
-                self.raceTrack.addSubview(newPowerupView)
-                self.powerupViews[objectId] = newPowerupView
+                self.addPowerupView(powerup)
             }
         }
     }
