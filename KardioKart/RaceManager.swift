@@ -29,9 +29,14 @@ class RaceManager: NSObject {
     var _currentRace: PFObject?
 
     class func currentRace() -> PFObject? {
-        if sharedManager.isRaceToday() {
+        // TODO: currentRace does not have to do with the day, but with the user's race ID?
+        //if sharedManager.isRaceToday() {
+        //    return sharedManager._currentRace
+        //}
+        if sharedManager._currentRace != nil {
             return sharedManager._currentRace
         }
+        
         // kick off a query, and set the current race to any result
         sharedManager.queryRace { (race) in
             sharedManager._currentRace = race
@@ -52,7 +57,7 @@ class RaceManager: NSObject {
     
     private func queryRace(completion: ((race: PFObject?) -> Void)) {
         let query = PFQuery(className: "Race")
-        query.whereKey("day", equalTo: today)
+//        query.whereKey("day", equalTo: today)
         query.getFirstObjectInBackgroundWithBlock { (object, error) in
             if let _ = error {
                 print("error!")
@@ -99,6 +104,9 @@ class RaceManager: NSObject {
     
     func listenForParseUpdates() {
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
+        if let userId = PFUser.currentUser()?.objectId {
+            query?.whereKey("objectId", notEqualTo: userId)
+        }
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 

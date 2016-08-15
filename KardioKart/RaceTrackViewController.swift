@@ -11,12 +11,13 @@ import Parse
 
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
-    var userAvatars: [String: RaceTrackAvatar] = [:]
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
     var animationTimer: NSTimer?
     var animationPercent: Double = 0
+    var userAvatars: [String: RaceTrackAvatar] = [:]
+    var powerupViews: [String: UIView] = [:]
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -179,7 +180,50 @@ class RaceTrackViewController: UIViewController {
     }
     
     // MARK: - Powerups
+    func clearPowerups() {
+        for (_, view) in self.powerupViews {
+            view.removeFromSuperview()
+        }
+        self.powerupViews.removeAll()
+    }
+    
+    func removePowerupView(objectId: String) {
+        guard let powerupView: PowerupView = self.powerupViews[objectId] as? PowerupView else { return }
+        powerupView.removeFromSuperview()
+        self.powerupViews[objectId] = nil
+    }
+    
     func refreshPowerups() {
+        guard let powerups = PowerupManager.sharedManager.powerups else {
+            self.clearPowerups()
+            return
+        }
+        
+        for powerup in powerups {
+            guard let objectId = powerup.objectId else { continue }
+            if let powerupView = self.powerupViews[objectId] as? PowerupView {
+                guard let count = powerupView.powerup?.objectForKey("count") as? Int else { continue }
+                guard let newCount = powerup.objectForKey("count") as? Int else {
+                    self.removePowerupView(objectId)
+                    continue
+                }
+                if newCount == 0 {
+                    self.removePowerupView(objectId)
+                    continue
+                }
+                if newCount != count {
+                    self.removePowerupView(objectId)
+                    let newPowerupView = PowerupView(powerup: powerup)
+                    self.view.addSubview(newPowerupView)
+                    self.powerupViews[objectId] = newPowerupView
+                }
+            }
+            else {
+                let newPowerupView = PowerupView(powerup: powerup)
+                self.view.addSubview(newPowerupView)
+                self.powerupViews[objectId] = newPowerupView
+            }
+        }
     }
     
 }
