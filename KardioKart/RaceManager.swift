@@ -95,7 +95,7 @@ class RaceManager: NSObject {
                         }
                     }
                 }
-                self.trackController?.startAnimationForNewSteps()
+                NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForHealthKitUpdates()
                 self.listenForParseUpdates()
             }
@@ -103,6 +103,7 @@ class RaceManager: NSObject {
     }
     
     func listenForParseUpdates() {
+        // step updates for other users
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
         if let userId = PFUser.currentUser()?.objectId {
             query?.whereKey("objectId", notEqualTo: userId)
@@ -112,7 +113,7 @@ class RaceManager: NSObject {
                 dispatch_async(dispatch_get_main_queue(), { 
                     print("received update for user \(user.objectId!)")
                     self.updateParseStepsForUser(user)
-                    self.trackController?.startAnimationForNewSteps()
+                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 })
         })
     }
@@ -193,6 +194,7 @@ class RaceManager: NSObject {
 
     // MARK: - Active listener
     func refreshLiveSteps(notification: NSNotification) {
+        // updated steps for current user
         guard let user = self.currentUser else { return }
         guard let userId = user.objectId else { return }
         guard let userInfo = notification.userInfo else { return }
@@ -214,7 +216,7 @@ class RaceManager: NSObject {
         //userPlace.text = "\(NSDate()): \(total)"
         
         // animate updated step count
-        self.trackController?.startAnimationForNewSteps()
+        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
         
         // cache to device
         self.updateCachedSteps()

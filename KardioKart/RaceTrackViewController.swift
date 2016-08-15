@@ -11,6 +11,11 @@ import Parse
 
 let POWERUP_POSITION_BUFFER = 5
 
+// TODO: caching issues. sometimes old steps are loaded from cache. 
+// maybe this is caused by bad internet and each time queryUsers is done, the old values are used, even if new steps have been cached.
+// TODO: drawing issues. When powerups are drawn, they appear over avatars.
+// TODO: Animation issues. refreshAvatars moves avatars without animation. (solved?)
+
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!
     @IBOutlet weak var trackPath: UIView!
@@ -171,8 +176,8 @@ class RaceTrackViewController: UIViewController {
             guard let avatar = self.avatarForUser(user) else { continue }
             
             let steps = user["stepCount"] as? Double ?? 0
-            if let point = self.raceTrack.pointForSteps(steps) {
-                avatar.center = point
+            if let _ = self.raceTrack.pointForSteps(steps) {
+                //avatar.center = point
                 avatar.hidden = false
                 avatar.removeFromSuperview()
                 self.raceTrack.addSubview(avatar)
@@ -181,6 +186,8 @@ class RaceTrackViewController: UIViewController {
                 avatar.hidden = true
             }
         }
+        
+        self.startAnimationForNewSteps()
     }
     
     // MARK: Position label
