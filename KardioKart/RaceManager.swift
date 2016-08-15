@@ -13,7 +13,6 @@ import ParseLiveQuery
 class RaceManager: NSObject {
     static let sharedManager = RaceManager()
     
-    // TODO: this could be a Race object instead of a RaceManager object
     var trackController: RaceTrackViewController?
     var users: [PFUser]?
     var currentUser: PFUser? // current user loaded from queryUsers so information is updated - don't use PFUser.currentUser for steps
@@ -215,9 +214,6 @@ class RaceManager: NSObject {
         
         //userPlace.text = "\(NSDate()): \(total)"
         
-        // animate updated step count
-        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
-        
         // cache to device
         self.updateCachedSteps()
         
@@ -230,6 +226,9 @@ class RaceManager: NSObject {
                 print("user steps \(total) saved to parse")
             })
         }
+
+        // animate updated step count
+        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
     }
     
     // MARK: Utils

@@ -15,6 +15,7 @@ let POWERUP_POSITION_BUFFER = 5
 // maybe this is caused by bad internet and each time queryUsers is done, the old values are used, even if new steps have been cached.
 // TODO: drawing issues. When powerups are drawn, they appear over avatars.
 // TODO: Animation issues. refreshAvatars moves avatars without animation. (solved?)
+// TODO: past midnight, existing user steps are still used and not filtered away by date
 
 class RaceTrackViewController: UIViewController {
     @IBOutlet weak var raceTrack: RaceTrack!

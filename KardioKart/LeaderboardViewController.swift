@@ -14,11 +14,12 @@ class LeaderboardViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateSteps), name: "positions:changed", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
-        queryUsers()
         super.viewWillAppear(animated)
+        self.updateSteps()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -29,7 +30,7 @@ class LeaderboardViewController: UITableViewController {
             let userPositionLastDigit = userPosition % 10
             let userPositionPostfix = postfixDict[userPositionLastDigit]!
             cell.positionLabel.text = "\(userPosition)\(userPositionPostfix)"
-            if let steps = user["stepCount"] as? Double {
+            if let steps = RaceManager.sharedManager.newStepsToAnimate[user.objectId!] {
                 cell.stepLabel.text = "\(Int(steps))"
             }
             cell.nameLabel.text = user["name"] as? String
@@ -44,6 +45,17 @@ class LeaderboardViewController: UITableViewController {
         }
         
         return 0
+    }
+    
+    func updateSteps() {
+        if let users = RaceManager.sharedManager.users {
+            self.users = users.sort({ (user1, user2) -> Bool in
+                guard let steps1 = RaceManager.sharedManager.newStepsToAnimate[user1.objectId!] else { return false }
+                guard let steps2 = RaceManager.sharedManager.newStepsToAnimate[user2.objectId!] else { return false }
+                return steps1 > steps2
+            })
+            self.tableView.reloadData()
+        }
     }
     
     func queryUsers() {
