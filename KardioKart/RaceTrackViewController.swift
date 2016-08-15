@@ -201,6 +201,7 @@ class RaceTrackViewController: UIViewController {
         
         for powerup in powerups {
             guard let objectId = powerup.objectId else { continue }
+            
             if let powerupView = self.powerupViews[objectId] as? PowerupView {
                 guard let count = powerupView.powerup?.objectForKey("count") as? Int else { continue }
                 guard let newCount = powerup.objectForKey("count") as? Int else {
@@ -214,13 +215,21 @@ class RaceTrackViewController: UIViewController {
                 if newCount != count {
                     self.removePowerupView(objectId)
                     let newPowerupView = PowerupView(powerup: powerup)
-                    self.view.addSubview(newPowerupView)
+                    if let percent = powerup.objectForKey("position") as? Double {
+                        let point = self.raceTrack.pointForPercent(percent/100.0)
+                        newPowerupView.center = point
+                    }
+                    self.raceTrack.addSubview(newPowerupView)
                     self.powerupViews[objectId] = newPowerupView
                 }
             }
             else {
                 let newPowerupView = PowerupView(powerup: powerup)
-                self.view.addSubview(newPowerupView)
+                if let percent = powerup.objectForKey("position") as? Double {
+                    let point = self.raceTrack.pointForPercent(percent/100.0)
+                    newPowerupView.center = point
+                }
+                self.raceTrack.addSubview(newPowerupView)
                 self.powerupViews[objectId] = newPowerupView
             }
         }

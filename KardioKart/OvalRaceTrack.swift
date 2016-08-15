@@ -106,7 +106,7 @@ class OvalRaceTrack: RaceTrack {
         return .Arc3 // last segment
     }
     
-    internal func pointForPercent(percent: Double) -> CGPoint {
+    override func pointForPercent(percent: Double) -> CGPoint {
         let segment = segmentForPercent(percent)
         switch segment {
         case .Straight0:
