@@ -62,6 +62,9 @@ class RaceTrackViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
         
+        StepManager.sharedManager.initialize()
+        StepManager.sharedManager.startTracking()
+
         manager.trackController = self
         manager.checkCacheDate()
         manager.queryUsers() // query users and listen for updates to steps

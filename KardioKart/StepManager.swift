@@ -14,11 +14,41 @@ import CoreMotion
 class StepManager: NSObject {
     static let sharedManager = StepManager()
 
-    var pedometer = CMPedometer()
+    var pedometer: CMPedometer! // = CMPedometer()
     
     func initialize() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
+        
+        self.authorizePedometer { (success, error) in
+            if let _ = error {
+                print("Shit")
+            }
+        }
+    }
+    
+    func authorizePedometer(completion: ((success:Bool, error:NSError!) -> Void)?) {
+        if !CMPedometer.isStepCountingAvailable() {
+            let error = NSError(domain: "com.Kartio.KardioKart", code: 2, userInfo: [NSLocalizedDescriptionKey:"Pedometer data is not available in this Device"])
+            completion?(success: false, error: error)
+            return
+        }
+
+        if self.pedometer != nil {
+            completion?(success: true, error: nil)
+            return
+        }
+
+        self.pedometer = CMPedometer()
+        pedometer.queryPedometerDataFromDate(NSDate().dateByAddingTimeInterval(-3600), toDate: NSDate()) { (data, error) in
+            if let _ = error {
+                let error = NSError(domain: "com.Kartio.KardioKart", code: 2, userInfo: [NSLocalizedDescriptionKey:"Pedometer was not authorized"])
+                completion?(success: false, error: error)
+                return
+            }
+            
+            completion?(success: true, error: nil)
+        }
     }
     
     // MARK: - Backgrounding

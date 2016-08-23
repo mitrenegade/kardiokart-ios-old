@@ -41,9 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         PowerupManager.sharedManager.initialize()
 
-        StepManager.sharedManager.initialize()
-        StepManager.sharedManager.startTracking()
-        
         HealthManager.sharedManager.enableBackgroundDelivery()
 
         Fabric.with([Crashlytics.self])

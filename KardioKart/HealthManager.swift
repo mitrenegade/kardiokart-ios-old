@@ -40,7 +40,6 @@ class HealthManager: NSObject {
             
             if success {
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: "healthkitEnabled")
-                self.observeSteps()
             }
         }
     }
