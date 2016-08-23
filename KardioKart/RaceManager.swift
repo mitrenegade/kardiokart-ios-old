@@ -69,8 +69,9 @@ class RaceManager: NSObject {
     }
     
     // MARK: - load from web - should be ultimate truth
-    func queryUsers() {
+    func queryUsers(completion: ((success: Bool)->())?) {
         let query = PFUser.query()
+
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
                 self.users = users
@@ -83,7 +84,7 @@ class RaceManager: NSObject {
                     if let userId = user.objectId {
                         let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
                         let parseSteps = user["stepCount"] as? Double ?? 0
-                        if let parseDate = user["stepDate"] as? NSDate where self.isToday(parseDate) {
+                        if let parseDate = user["stepDate"] as? Int where parseDate == self.today {
                             let mostCurrent = max(cachedSteps, parseSteps)
                             self.currentSteps[userId] = mostCurrent
                             self.newStepsToAnimate[userId] = mostCurrent
@@ -95,8 +96,12 @@ class RaceManager: NSObject {
                     }
                 }
                 NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
-                self.listenForHealthKitUpdates()
+                self.listenForStepUpdates()
                 self.listenForParseUpdates()
+                completion?(success: true)
+            }
+            else if let _ = error {
+                completion?(success: false)
             }
         }
     }
@@ -111,13 +116,13 @@ class RaceManager: NSObject {
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
                     print("received update for user \(user.objectId!)")
-                    self.updateParseStepsForUser(user)
+                    self.updateStepsFromParse(user)
                     NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 })
         })
     }
 
-    func listenForHealthKitUpdates() {
+    func listenForStepUpdates() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshLiveSteps(_:)), name: "steps:live:updated", object: nil)
     }
@@ -126,42 +131,41 @@ class RaceManager: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func updateParseStepsForUser(user: PFUser) {
+    func updateStepsFromParse(user: PFUser) {
         // animates steps received from parse for another user through live query
         if let userId = user.objectId {
             let parseSteps = user["stepCount"] as? Double ?? 0
             var mostCurrent = self.currentSteps[userId] ?? 0
-            if let dateInfo = user["stepDate"] as? [String: AnyObject] {
-                // HACK: in the subscription handler, the raw user type is returned
-                // stepDate has a representation like 
-                // 
-                // stepDate =     {
-                //     "__type" = Date;
-                //     iso = "2016-08-09T03:27:32.978Z";
-                // };
-                if let parseDate = dateInfo["iso"] as? String {
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                    dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
-                    let date = dateFormatter.dateFromString(parseDate)
-                    if self.isToday(date) {
-                        mostCurrent = max(mostCurrent, parseSteps)
-                    }
-                }
+            if let day = user["stepDate"] as? Int where day == today {
+                mostCurrent = max(mostCurrent, parseSteps)
             }
             self.newStepsToAnimate[userId] = mostCurrent
         }
     }
 
+    func updateStepsToParse(steps: Double, completion: (()->Void)?) {
+        guard let _ = PFUser.currentUser() else { return }
+        
+        var params: [String: AnyObject] = ["stepCount": steps]
+        params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
+        
+        PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
+            print("results: \(results) error: \(error)")
+            completion?()
+        })
+    }
+
     // MARK: Cached steps
     func checkCacheDate() {
         // make sure that cached steps are from today, or clear them
-        if let lastAnimationDate: NSDate = NSUserDefaults.standardUserDefaults().objectForKey("steps:cached:date") as? NSDate {
-            if !isToday(lastAnimationDate) {
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("steps:cached")
-                NSUserDefaults.standardUserDefaults().synchronize()
-            }
+        if let lastAnimationDate: NSDate = self.lastCacheDate where isToday(lastAnimationDate) {
+            print("Current cached steps are for today, do nothing")
+            return
         }
+        
+        // otherwise clear it
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("steps:cached")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func cachedStepsForUser(user: PFUser) -> Double {
@@ -186,7 +190,7 @@ class RaceManager: NSObject {
         
         print("allCachedSteps: \(allCachedSteps)")
         NSUserDefaults.standardUserDefaults().setObject(allCachedSteps, forKey: key)
-        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "steps:cached:date")
+        self.lastCacheDate = NSDate()
         
         NSUserDefaults.standardUserDefaults().synchronize()
     }
@@ -206,6 +210,11 @@ class RaceManager: NSObject {
             }
         }
         
+        guard total > self.newStepsToAnimate[userId] else {
+            print("Received step total \(total) but stepcount already at \(self.newStepsToAnimate[userId])")
+            return
+        }
+        
         // update stepcount locally
         self.newStepsToAnimate[userId] = total
         if self.currentSteps[userId] == nil {
@@ -222,7 +231,7 @@ class RaceManager: NSObject {
         let parseDate = user["stepDate"] as? NSDate
         if total > parseCount || !self.isToday(parseDate) {
 
-            HealthManager.sharedManager.setUserSteps(total, completion: {
+            self.updateStepsToParse(total, completion: {
                 print("user steps \(total) saved to parse")
             })
         }
@@ -245,5 +254,14 @@ class RaceManager: NSObject {
         guard let race = _currentRace else { return false }
         guard let day = race.objectForKey("day") as? Int else { return false }
         return day == today
+    }
+    
+    var lastCacheDate: NSDate? {
+        get {
+            return NSUserDefaults.standardUserDefaults().objectForKey("steps:cached:date") as? NSDate
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(lastCacheDate, forKey: "steps:cached:date")
+        }
     }
 }

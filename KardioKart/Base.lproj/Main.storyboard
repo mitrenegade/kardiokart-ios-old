@@ -310,6 +310,9 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="j5W-S8-CCF">
+                                <rect key="frame" x="169" y="290" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.99607843137254903" green="0.8666666666666667" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -319,6 +322,7 @@
                             <constraint firstItem="55f-9P-WDC" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" constant="248" id="BpZ-2I-ktT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="55f-9P-WDC" secondAttribute="trailing" constant="42" id="ERT-Nz-9Ka"/>
                             <constraint firstItem="55f-9P-WDC" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="I9A-5R-X7g"/>
+                            <constraint firstItem="j5W-S8-CCF" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="J2A-wP-oLb"/>
                             <constraint firstItem="zbt-EV-wk2" firstAttribute="top" secondItem="x3o-7b-CIO" secondAttribute="bottom" constant="134" id="N8V-oT-tPm"/>
                             <constraint firstItem="x3o-7b-CIO" firstAttribute="top" secondItem="S4t-w2-5nb" secondAttribute="bottom" constant="114" id="QYB-fE-MuP"/>
                             <constraint firstItem="x3o-7b-CIO" firstAttribute="centerX" secondItem="xCE-6S-YXR" secondAttribute="centerX" id="Xo1-f4-i2a"/>
@@ -327,6 +331,7 @@
                             <constraint firstItem="USL-i3-xMn" firstAttribute="leading" secondItem="xCE-6S-YXR" secondAttribute="leadingMargin" id="lLM-bF-eJV"/>
                             <constraint firstItem="55f-9P-WDC" firstAttribute="centerY" secondItem="xCE-6S-YXR" secondAttribute="centerY" id="maW-Tk-TYD"/>
                             <constraint firstItem="55f-9P-WDC" firstAttribute="leading" secondItem="xCE-6S-YXR" secondAttribute="leadingMargin" constant="243" id="oc8-Sz-1cs"/>
+                            <constraint firstItem="j5W-S8-CCF" firstAttribute="centerY" secondItem="xCE-6S-YXR" secondAttribute="centerY" id="xyf-Nl-ymw"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -343,6 +348,7 @@
                     <tabBarItem key="tabBarItem" title="Race" image="race_progress_icon" selectedImage="race_progress_icon" id="zUe-k6-xRF"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="j5W-S8-CCF" id="0nR-ad-sMV"/>
                         <outlet property="lapCount" destination="USL-i3-xMn" id="dll-ML-9BU"/>
                         <outlet property="raceTrack" destination="x3o-7b-CIO" id="eeC-4c-Bna"/>
                         <outlet property="trackPath" destination="x3o-7b-CIO" id="wUl-A6-Ttx"/>

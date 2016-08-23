@@ -42,8 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PowerupManager.sharedManager.initialize()
 
         HealthManager.sharedManager.enableBackgroundDelivery()
-        HealthManager.sharedManager.observeSteps()
-        
+
         Fabric.with([Crashlytics.self])
         
         // TODO: Move this to where you establish a user session

@@ -22,6 +22,8 @@ class RaceTrackViewController: UIViewController {
     @IBOutlet weak var trackPath: UIView!
     @IBOutlet weak var lapCount: UILabel!
     @IBOutlet weak var userPlace: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     var animationTimer: NSTimer?
     var animationPercent: Double = 0
     
@@ -62,9 +64,22 @@ class RaceTrackViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
         
+        StepManager.sharedManager.initialize()
+        StepManager.sharedManager.startTracking()
+
         manager.trackController = self
         manager.checkCacheDate()
-        manager.queryUsers() // query users and listen for updates to steps
+        // query users and listen for updates to steps
+        self.activityIndicator.startAnimating()
+        manager.queryUsers { (success) in
+            if !success {
+                self.simpleAlert("Could not load users", message: "There was an error. Please restart the app and try again")
+                self.activityIndicator.stopAnimating()
+            }
+            else {
+                self.activityIndicator.stopAnimating()
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
