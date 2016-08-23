@@ -26,6 +26,8 @@
 		8E01D78F1D38612A00664BD8 /* OvalRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E01D78E1D38612A00664BD8 /* OvalRaceTrack.swift */; };
 		8E17D5DC1D6164A7008B2ABA /* PowerupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E17D5DB1D6164A7008B2ABA /* PowerupView.swift */; };
 		8E3834A11D52EC5C0032DB8F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3834A01D52EC5C0032DB8F /* Platform.swift */; };
+		8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F34271D6A56E900AA69D0 /* StepManager.swift */; };
+		8E98F22B1D6A7028003A7A63 /* NSDate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */; };
 		8EB31E241D454515006E8100 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */; };
 		8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */; };
 		8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */; };
@@ -83,6 +85,8 @@
 		8E01D78E1D38612A00664BD8 /* OvalRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalRaceTrack.swift; sourceTree = "<group>"; };
 		8E17D5DB1D6164A7008B2ABA /* PowerupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupView.swift; sourceTree = "<group>"; };
 		8E3834A01D52EC5C0032DB8F /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		8E4F34271D6A56E900AA69D0 /* StepManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepManager.swift; sourceTree = "<group>"; };
+		8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Utils.swift"; sourceTree = "<group>"; };
 		8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
 		8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupManager.swift; sourceTree = "<group>"; };
 		8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
@@ -166,6 +170,7 @@
 				8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */,
 				8449AB631BC628DD0076071E /* UIView+Storyboard.swift */,
 				8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */,
+				8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */,
 				8E3834A01D52EC5C0032DB8F /* Platform.swift */,
 			);
 			path = KardioKart;
@@ -206,6 +211,7 @@
 			children = (
 				8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */,
 				8494FCC01BC37A3C00CE554E /* HealthManager.swift */,
+				8E4F34271D6A56E900AA69D0 /* StepManager.swift */,
 				8ED2D1161D59764F00F1AA11 /* RaceManager.swift */,
 			);
 			name = Managers;
@@ -322,7 +328,7 @@
 				TargetAttributes = {
 					8494FC841BC3346D00CE554E = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = 36A757JM2P;
+						DevelopmentTeam = H799H8B8DD;
 						SystemCapabilities = {
 							com.apple.HealthKit = {
 								enabled = 1;
@@ -471,10 +477,12 @@
 				8ED2D1151D57A3DC00F1AA11 /* LapsRaceTrack.swift in Sources */,
 				8494FCC31BC3867800CE554E /* LeaderboardViewController.swift in Sources */,
 				9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */,
+				8E98F22B1D6A7028003A7A63 /* NSDate+Utils.swift in Sources */,
 				9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */,
 				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
 				8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */,
 				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
+				8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,12 +624,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: jingqing ren (9U7H34T5V8)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "e9e46891-3e98-4be2-8780-6ccd79d4fc97";
+				PROVISIONING_PROFILE = "42c79e64-36e2-4a44-b899-27fdab7d9186";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -633,10 +641,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = KardioKart/KardioKart.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: jingqing ren (36A757JM2P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "$(SRCROOT)/KardioKart/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.chemBlink.test;
+				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
 				PROVISIONING_PROFILE = "b42670e5-9a47-4244-8000-58ea2ff2b356";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";

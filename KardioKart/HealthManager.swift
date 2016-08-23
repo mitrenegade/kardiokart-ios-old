@@ -126,19 +126,6 @@ class HealthManager: NSObject {
         healthKitStore.executeQuery(stepsSampleQuery)
     }
 
-    
-    func setUserSteps(steps: Double, completion: (()->Void)?) {
-        guard let _ = PFUser.currentUser() else { return }
-        
-        var params: [String: AnyObject] = ["stepCount": steps]
-        params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
-
-        PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-            print("results: \(results) error: \(error)")
-            completion?()
-        })
-    }
-    
     func observeSteps() {
         if isHealthEnabled() {
             let steps = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!
@@ -150,7 +137,7 @@ class HealthManager: NSObject {
                 }
                 
                 self.getStepTotal(start: nil, end: nil, completion: { (steps) in
-                    self.setUserSteps(steps, completion: { 
+                    RaceManager.sharedManager.updateStepsToParse(steps, completion: {
                         self.sendLocalNotificationForSteps(steps)
                         completionHandler()
                     })
