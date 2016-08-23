@@ -69,7 +69,7 @@ class RaceManager: NSObject {
     }
     
     // MARK: - load from web - should be ultimate truth
-    func queryUsers() {
+    func queryUsers(completion: ((success: Bool)->())?) {
         let query = PFUser.query()
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
@@ -97,6 +97,10 @@ class RaceManager: NSObject {
                 NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForStepUpdates()
                 self.listenForParseUpdates()
+                completion?(success: true)
+            }
+            else if let _ = error {
+                completion?(success: false)
             }
         }
     }
