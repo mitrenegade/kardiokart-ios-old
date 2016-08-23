@@ -28,6 +28,11 @@ class StepManager: NSObject {
     }
     
     func authorizePedometer(completion: ((success:Bool, error:NSError!) -> Void)?) {
+        guard !Platform.isSimulator else {
+            completion?(success: true, error: nil)
+            return
+        }
+
         if !CMPedometer.isStepCountingAvailable() {
             let error = NSError(domain: "com.Kartio.KardioKart", code: 2, userInfo: [NSLocalizedDescriptionKey:"Pedometer data is not available in this Device"])
             completion?(success: false, error: error)
@@ -72,8 +77,15 @@ class StepManager: NSObject {
         }
     }
 
-    private var SIMULATED_STEPS = 5000
+    private var SIMULATED_STEPS = 100
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
+        guard !Platform.isSimulator else {
+            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
+            SIMULATED_STEPS = SIMULATED_STEPS + 50
+            allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
+            completion!(steps:allSamples)
+            return
+        }
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let beginningOfDay = calendar?.startOfDayForDate(NSDate())

@@ -74,6 +74,7 @@ class RaceTrackViewController: UIViewController {
         manager.queryUsers { (success) in
             if !success {
                 self.simpleAlert("Could not load users", message: "There was an error. Please restart the app and try again")
+                self.activityIndicator.stopAnimating()
             }
             else {
                 self.activityIndicator.stopAnimating()

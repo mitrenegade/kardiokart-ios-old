@@ -71,6 +71,7 @@ class RaceManager: NSObject {
     // MARK: - load from web - should be ultimate truth
     func queryUsers(completion: ((success: Bool)->())?) {
         let query = PFUser.query()
+
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if let users = result as? [PFUser] {
                 self.users = users
@@ -83,7 +84,7 @@ class RaceManager: NSObject {
                     if let userId = user.objectId {
                         let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
                         let parseSteps = user["stepCount"] as? Double ?? 0
-                        if let parseDate = user["stepDate"] as? NSDate where self.isToday(parseDate) {
+                        if let parseDate = user["stepDate"] as? Int where parseDate == self.today {
                             let mostCurrent = max(cachedSteps, parseSteps)
                             self.currentSteps[userId] = mostCurrent
                             self.newStepsToAnimate[userId] = mostCurrent
@@ -135,23 +136,8 @@ class RaceManager: NSObject {
         if let userId = user.objectId {
             let parseSteps = user["stepCount"] as? Double ?? 0
             var mostCurrent = self.currentSteps[userId] ?? 0
-            if let dateInfo = user["stepDate"] as? [String: AnyObject] {
-                // HACK: in the subscription handler, the raw user type is returned
-                // stepDate has a representation like 
-                // 
-                // stepDate =     {
-                //     "__type" = Date;
-                //     iso = "2016-08-09T03:27:32.978Z";
-                // };
-                if let parseDate = dateInfo["iso"] as? String {
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                    dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
-                    let date = dateFormatter.dateFromString(parseDate)
-                    if self.isToday(date) {
-                        mostCurrent = max(mostCurrent, parseSteps)
-                    }
-                }
+            if let day = user["stepDate"] as? Int where day == today {
+                mostCurrent = max(mostCurrent, parseSteps)
             }
             self.newStepsToAnimate[userId] = mostCurrent
         }
