@@ -220,6 +220,11 @@ class RaceManager: NSObject {
             }
         }
         
+        guard total > self.newStepsToAnimate[userId] else {
+            print("Received step total \(total) but stepcount already at \(self.newStepsToAnimate[userId])")
+            return
+        }
+        
         // update stepcount locally
         self.newStepsToAnimate[userId] = total
         if self.currentSteps[userId] == nil {

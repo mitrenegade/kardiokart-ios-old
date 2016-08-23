@@ -17,6 +17,7 @@ class HealthManager: NSObject {
     let healthKitStore: HKHealthStore = HKHealthStore()
     
     var timer: NSTimer?
+    var backgroundQuery: HKObserverQuery?
     
     func authorizeHealthKit(completion: ((success:Bool, error:NSError!) -> Void)!) {
         let healthKitTypesToRead: Set = [HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!]
@@ -42,6 +43,12 @@ class HealthManager: NSObject {
                 self.observeSteps()
             }
         }
+    }
+    
+    func createListeners() {
+        // NOT USED if StepManager is the in-app system
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
     }
     
     func isHealthEnabled() -> Bool {
@@ -128,6 +135,10 @@ class HealthManager: NSObject {
 
     func observeSteps() {
         if isHealthEnabled() {
+            if self.backgroundQuery != nil {
+                self.stopObservingSteps()
+            }
+            
             let steps = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!
             let query = HKObserverQuery(sampleType: steps, predicate: nil, updateHandler: {
                 query, completionHandler, error in
@@ -137,17 +148,21 @@ class HealthManager: NSObject {
                 }
                 
                 self.getStepTotal(start: nil, end: nil, completion: { (steps) in
-                    RaceManager.sharedManager.updateStepsToParse(steps, completion: {
-                        self.sendLocalNotificationForSteps(steps)
-                        completionHandler()
+                    dispatch_async(dispatch_get_main_queue(), {
+                        NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
                     })
+                    completionHandler()
                 })
             })
-            
+            self.backgroundQuery = query
             healthKitStore.executeQuery(query)
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterBackground), name: "app:to:background", object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didEnterForeground), name: "app:to:foreground", object: nil)
+        }
+    }
+    
+    func stopObservingSteps() {
+        if let query = self.backgroundQuery {
+            healthKitStore.stopQuery(query)
+            self.backgroundQuery = nil
         }
     }
 

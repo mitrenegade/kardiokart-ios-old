@@ -23,12 +23,13 @@ class StepManager: NSObject {
     
     // MARK: - Backgrounding
     func didEnterBackground() {
-        // cache steps
-        // enable background updates from health manager?
+        // enable background updates from health manager
+        HealthManager.sharedManager.observeSteps()
     }
     
     func didEnterForeground() {
-        // start tracking again
+        // disable health manager
+        HealthManager.sharedManager.stopObservingSteps()
     }
 
     // MARK: Step tracking
@@ -38,22 +39,11 @@ class StepManager: NSObject {
             dispatch_async(dispatch_get_main_queue(), {
                 NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
             })
-            
-            // cache steps if we hit a box or if the app is closed
         }
     }
 
     private var SIMULATED_STEPS = 5000
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
-        /*
-        guard !Platform.isSimulator else {
-            var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
-            SIMULATED_STEPS = SIMULATED_STEPS + 50
-            allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
-            completion!(steps:allSamples)
-            return
-        }
-        */
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let beginningOfDay = calendar?.startOfDayForDate(NSDate())
@@ -66,22 +56,16 @@ class StepManager: NSObject {
                 print("results: \(pedometerData)")
                 let steps = pedometerData.numberOfSteps.doubleValue
                 allSamples.append(["count": steps, "start": startDate])
-                /*
-                for sample: AnyObject in results {
-                    print("sample: \(sample)")
-                    let steps = sample.quantity.doubleValueForUnit(HKUnit.countUnit())
-                    let start = sample.startDate
-                    let end = sample.endDate
-                    
-                    allSamples.append(["count":steps, "start": start, "end": end])
-                }
-                 */
                 completion?(steps: allSamples)
             }
         }
     }
 
     // MARK: Cached step counts
+    // to simplify things, cached dates and steps will always be for the beginning of the day. 
+    // ie we don't cache steps or dates...StepManager essentially only returns steps for the whole day
+    // this number is sent to RaceManager which has a system of caching for each user, and will handle
+    // events like getting power ups
     var lastCacheDate: NSDate? {
         get {
             if let date = NSUserDefaults.standardUserDefaults().objectForKey("pedometer:cached:date") as? NSDate where date.isToday() {
