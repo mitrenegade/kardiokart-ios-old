@@ -52,10 +52,18 @@ class PowerupManager: NSObject {
         query.whereKey("raceId", equalTo: raceId)
         query.whereKey("count", greaterThan: 0)
         self.subscription = liveQueryClient.subscribe(query)
-            .handle(Event.Updated, { (_, result) in
+            .handle(Event.Updated, { (_, powerup) in
+                if let powerups = self.powerups {
+                    for p in powerups {
+                        if p.objectId == powerup.objectId {
+                            self.powerups!.removeAtIndex(powerups.indexOf(p)!)
+                            self.powerups!.append(powerup)
+                        }
+                    }
+                }
                 dispatch_async(dispatch_get_main_queue(), {
-                    print("received update for powerups: \(result)")
-//                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                    print("received update for powerup: \(powerup)")
+                    NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
                 })
             })
         isSubscribed = true
