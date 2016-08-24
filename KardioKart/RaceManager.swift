@@ -118,6 +118,10 @@ class RaceManager: NSObject {
     }
     
     func subscribeToUserUpdates() {
+        if LOCAL_TEST {
+            return
+        }
+
         // step updates for other users
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
         if let userId = PFUser.currentUser()?.objectId {

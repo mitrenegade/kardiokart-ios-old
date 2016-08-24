@@ -68,12 +68,10 @@ class HealthManager: NSObject {
     }
     
     func getStepTotal(start start: NSDate?, end: NSDate?, completion: ((steps: Double)->Void)?) {
-        /*
         guard !Platform.isSimulator else {
-            completion!(steps:5000)
+            completion!(steps:11000)
             return
         }
-        */
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let beginningOfDay = calendar?.startOfDayForDate(NSDate())
@@ -148,7 +146,7 @@ class HealthManager: NSObject {
                 
                 self.getStepTotal(start: nil, end: nil, completion: { (steps) in
                     dispatch_async(dispatch_get_main_queue(), {
-                        NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": steps])
+                        NSNotificationCenter.defaultCenter().postNotificationName("steps:live:updated", object: nil, userInfo: ["steps": [["count":steps]]])
                     })
                     completionHandler()
                 })

@@ -45,6 +45,10 @@ class PowerupManager: NSObject {
     }
     
     func subscribeToUpdates() {
+        if LOCAL_TEST {
+            return
+        }
+        
         // powerup updates
         guard let race = RaceManager.currentRace() else { return }
         guard let raceId = race.objectId else { return }
