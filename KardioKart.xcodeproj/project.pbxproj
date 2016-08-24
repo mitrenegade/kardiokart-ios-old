@@ -646,7 +646,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.renderapps.kardiokart;
 				PRODUCT_NAME = KardioKart;
-				PROVISIONING_PROFILE = "b42670e5-9a47-4244-8000-58ea2ff2b356";
+				PROVISIONING_PROFILE = "27e131fd-103f-409f-8d4b-482bd62286ba";
 				SWIFT_OBJC_BRIDGING_HEADER = "KardioKart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

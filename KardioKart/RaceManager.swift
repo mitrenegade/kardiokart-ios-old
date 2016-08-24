@@ -26,7 +26,7 @@ class RaceManager: NSObject {
     var subscription: Subscription<PFUser>?
 
     var _currentRace: PFObject?
-
+    
     class func currentRace() -> PFObject? {
         // TODO: currentRace does not have to do with the day, but with the user's race ID?
         //if sharedManager.isRaceToday() {
@@ -42,6 +42,17 @@ class RaceManager: NSObject {
         }
         // return nil because we currently don't have a current race
         return nil
+    }
+    
+    func initialize() {
+        // kick off a query, and set the current race to any result
+        self.queryRace { (race) in
+            self._currentRace = race
+            if !PowerupManager.sharedManager.isSubscribed {
+                PowerupManager.sharedManager.getAllPowerups()
+                PowerupManager.sharedManager.subscribeToUpdates()
+            }
+        }
     }
     
     var today: Int {
@@ -97,7 +108,7 @@ class RaceManager: NSObject {
                 }
                 NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForStepUpdates()
-                self.listenForParseUpdates()
+                self.subscribeToUserUpdates()
                 completion?(success: true)
             }
             else if let _ = error {
@@ -106,7 +117,7 @@ class RaceManager: NSObject {
         }
     }
     
-    func listenForParseUpdates() {
+    func subscribeToUserUpdates() {
         // step updates for other users
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
         if let userId = PFUser.currentUser()?.objectId {

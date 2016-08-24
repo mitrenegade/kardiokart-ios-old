@@ -243,7 +243,7 @@ class RaceTrackViewController: UIViewController {
         self.powerupViews[objectId] = nil
     }
     
-    func addPowerupView(powerup: PFObject) {
+    func addPowerupView(powerup: Powerup) {
         guard let position = powerup.objectForKey("position") as? Int else { return }
         guard let objectId = powerup.objectId else { return }
         guard self.powerupViews[objectId] == nil else { return }

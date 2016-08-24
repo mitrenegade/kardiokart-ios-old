@@ -9,27 +9,67 @@
 
 import UIKit
 import Parse
+import ParseLiveQuery
+
+class Powerup: PFObject {
+    @NSManaged var count: NSNumber?
+    @NSManaged var position: NSNumber?
+    @NSManaged var race: PFObject?
+}
+
+extension Powerup: PFSubclassing {
+    static func parseClassName() -> String {
+        return "Powerup"
+    }
+}
 
 class PowerupManager: NSObject {
     static let sharedManager = PowerupManager()
 
     var timer: NSTimer?
-    var powerups: [PFObject]?
+    var powerups: [Powerup]?
     
+    // live query for Parse objects
+    let liveQueryClient = ParseLiveQuery.Client()
+    var subscription: Subscription<Powerup>?
+    var isSubscribed: Bool = false
+
     func initialize() {
+        /*
         let interval: NSTimeInterval = 60 // poll every minute for new boxes
         timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         timer!.fire()
+        */
+        
+        Powerup.registerSubclass()
     }
     
-    // MARK: - Polling for powerups
-    internal func tick() {
+    func subscribeToUpdates() {
+        // powerup updates
+        guard let race = RaceManager.currentRace() else { return }
+        guard let raceId = race.objectId else { return }
+        let query = Powerup.query()!
+        query.whereKey("raceId", equalTo: raceId)
+        query.whereKey("count", greaterThan: 0)
+        self.subscription = liveQueryClient.subscribe(query)
+            .handle(Event.Updated, { (_, result) in
+                dispatch_async(dispatch_get_main_queue(), {
+                    print("received update for powerups: \(result)")
+//                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                })
+            })
+        isSubscribed = true
+    }
+
+    
+    // MARK: - Request for all powerups - NOT USED for polling, only on startup
+    internal func getAllPowerups() {
         self.queryPowerups { (results, error) in
             if let error = error {
                 print("Error in querying powerups: \(error)")
             }
             else {
-                self.powerups = results
+                self.powerups = results as? [Powerup]
                 print("Powerups: \(self.powerups?.count)")
                 NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
             }
@@ -44,7 +84,7 @@ class PowerupManager: NSObject {
         
         let query: PFQuery = PFQuery(className: "Powerup")
         query.whereKey("count", greaterThan: 0)
-        query.whereKey("race", equalTo: race)
+        query.whereKey("raceId", equalTo: race.objectId!)
         query.findObjectsInBackgroundWithBlock { (results, error) in
             // todo: if no powerups have been retrieved and query times out, retry x times
             completion(results: results, error: error)
