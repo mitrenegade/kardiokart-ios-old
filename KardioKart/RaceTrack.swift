@@ -48,7 +48,10 @@ class RaceTrack: UIView {
 
     // MARK: - Track calculations
     func pointForSteps(steps: Double) -> CGPoint? {
-        return CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2)
+        let percent = self.trackPosition(steps)
+        let point = self.pointForPercent(percent)
+        //        print("steps: \(steps) percent \(percent) point \(point)")
+        return point
     }
     
     func pointForStart() -> CGPoint? {
@@ -57,5 +60,9 @@ class RaceTrack: UIView {
     
     func pointForPercent(percent: Double) -> CGPoint {
         return CGPointMake(0, 0)
+    }
+    
+    func trackPosition(steps: Double) -> Double {
+        return 0
     }
 }
