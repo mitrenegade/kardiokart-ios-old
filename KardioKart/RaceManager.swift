@@ -130,7 +130,7 @@ class RaceManager: NSObject {
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
-                    print("received update for user \(user.objectId!)")
+                    //print("received update for user \(user.objectId!)")
                     self.updateStepsFromParse(user)
                     NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 })
@@ -165,7 +165,7 @@ class RaceManager: NSObject {
         params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
         
         PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-            print("results: \(results) error: \(error)")
+            //print("results: \(results) error: \(error)")
             completion?()
         })
     }
@@ -203,7 +203,7 @@ class RaceManager: NSObject {
             allCachedSteps[userId] = endSteps
         }
         
-        print("allCachedSteps: \(allCachedSteps)")
+        //print("allCachedSteps: \(allCachedSteps)")
         NSUserDefaults.standardUserDefaults().setObject(allCachedSteps, forKey: key)
         self.lastCacheDate = NSDate()
         

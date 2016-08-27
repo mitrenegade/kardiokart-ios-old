@@ -28,7 +28,7 @@ class PowerupManager: NSObject {
 
     var timer: NSTimer?
     var powerups: [Powerup]?
-    
+        
     // live query for Parse objects
     let liveQueryClient = ParseLiveQuery.Client()
     var subscription: Subscription<Powerup>?
@@ -66,7 +66,7 @@ class PowerupManager: NSObject {
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), {
-                    print("received update for powerup: \(powerup)")
+                    //print("received update for powerup: \(powerup)")
                     NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
                 })
             })
@@ -78,11 +78,11 @@ class PowerupManager: NSObject {
     internal func getAllPowerups() {
         self.queryPowerups { (results, error) in
             if let error = error {
-                print("Error in querying powerups: \(error)")
+                //print("Error in querying powerups: \(error)")
             }
             else {
                 self.powerups = results as? [Powerup]
-                print("Powerups: \(self.powerups?.count)")
+                //print("Powerups: \(self.powerups?.count)")
                 NSNotificationCenter.defaultCenter().postNotificationName("powerups:changed", object: nil)
             }
         }

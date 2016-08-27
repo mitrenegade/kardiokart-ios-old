@@ -34,6 +34,7 @@ class RaceTrackViewController: UIViewController {
     // Powerups
     var powerupViews: [String: UIView] = [:]
     var powerups: [Int:Powerup] = [Int:Powerup]()
+    var acquiringPowerupIndex: Int = -1
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -117,7 +118,7 @@ class RaceTrackViewController: UIViewController {
     
     func nextAnimation() {
         guard let users = manager.users else { return }
-        print("animationPercent \(animationPercent)")
+//        print("animationPercent \(animationPercent)")
         animationPercent += 1
 
         for user: PFUser in users {
@@ -130,7 +131,7 @@ class RaceTrackViewController: UIViewController {
                 step = endSteps
             }
             if user.objectId == manager.currentUser?.objectId {
-                print("animating start \(startSteps) step \(step) end \(endSteps)")
+//                print("animating start \(startSteps) step \(step) end \(endSteps)")
             }
             self.animateUser(user, step: step)
             
@@ -151,7 +152,7 @@ class RaceTrackViewController: UIViewController {
         guard let avatar = self.avatarForUser(user) else { return }
         
         if user.objectId == manager.currentUser?.objectId {
-            print("Animating steps for user \(user.objectId!) to \(step)")
+            //print("Animating steps for user \(user.objectId!) to \(step)")
         }
         
         if let point = self.raceTrack.pointForSteps(step) {
@@ -162,10 +163,12 @@ class RaceTrackViewController: UIViewController {
             avatar.hidden = true
         }
         
-        if user == PFUser.currentUser() {
-            let percent = self.raceTrack.trackPosition(step)
-            if let powerup = powerups[Int(percent)] {
-                self.acquirePowerup(powerup)
+        if user.objectId == PFUser.currentUser()?.objectId {
+            let percent = self.raceTrack.trackPosition(step) * 100
+            let index = Int(percent)
+            print("User percent \(index)")
+            if let powerup = powerups[index] {
+                self.acquirePowerup(powerup, index: index)
             }
         }
     }
@@ -308,7 +311,9 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
-    func acquirePowerup(powerup: Powerup) {
+    func acquirePowerup(powerup: Powerup, index: Int) {
+        guard index != acquiringPowerupIndex else { return }
+        acquiringPowerupIndex = index
         PowerupManager.sharedManager.acquirePowerup(powerup)
     }
 }

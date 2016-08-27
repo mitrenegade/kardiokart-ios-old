@@ -95,7 +95,7 @@ class StepManager: NSObject {
         self.pedometer.startPedometerUpdatesFromDate(startDate) { (data, error) in
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
             if let pedometerData = data {
-                print("results: \(pedometerData)")
+                //print("results: \(pedometerData)")
                 let steps = pedometerData.numberOfSteps.doubleValue
                 allSamples.append(["count": steps, "start": startDate])
                 completion?(steps: allSamples)
