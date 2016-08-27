@@ -103,4 +103,14 @@ class PowerupManager: NSObject {
         }
     }
 
+    func acquirePowerup(powerup: Powerup) {
+        guard let _ = PFUser.currentUser() else { return }
+        guard let powerupId = powerup.objectId else { return }
+        
+        let params: [String: AnyObject] = ["powerupId": powerupId]
+        
+        PFCloud.callFunctionInBackground("acquirePowerup", withParameters: params, block: { (results, error) in
+            print("results: \(results) error: \(error)")
+        })
+    }
 }

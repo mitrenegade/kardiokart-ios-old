@@ -161,6 +161,13 @@ class RaceTrackViewController: UIViewController {
         else {
             avatar.hidden = true
         }
+        
+        if user == PFUser.currentUser() {
+            let percent = self.raceTrack.trackPosition(step)
+            if let powerup = powerups[Int(percent)] {
+                self.acquirePowerup(powerup)
+            }
+        }
     }
     
     
@@ -301,4 +308,7 @@ class RaceTrackViewController: UIViewController {
         }
     }
     
+    func acquirePowerup(powerup: Powerup) {
+        PowerupManager.sharedManager.acquirePowerup(powerup)
+    }
 }
