@@ -64,7 +64,7 @@ class PowerupManager: NSObject {
         guard let raceId = race.objectId else { return }
         let query = Powerup.query()!
         query.whereKey("raceId", equalTo: raceId)
-        query.whereKey("count", greaterThan: 0)
+        query.whereKey("active", notEqualTo: false)
         self.subscription = liveQueryClient.subscribe(query)
             .handle(Event.Updated, { (_, powerup) in
                 if let powerups = self.powerups {

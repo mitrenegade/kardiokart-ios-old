@@ -136,14 +136,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String else {
-            return
+        if let type = userInfo["type"] as? String where type == "powerups:created"{
+            PowerupManager.sharedManager.getAllPowerups()
         }
-        
-        //let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        //alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        
-        //self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        else {
+            //let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            //alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            //self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Analytics
