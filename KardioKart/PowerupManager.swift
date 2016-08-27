@@ -121,7 +121,12 @@ class PowerupManager: NSObject {
         
         PFCloud.callFunctionInBackground("acquirePowerup", withParameters: params, block: { (results, error) in
             print("results: \(results) error: \(error)")
-            completion(results: results as? [PowerupItem], error: error)
+            if let item = results as? PowerupItem {
+                completion(results: [item], error: nil)
+            }
+            else {
+                completion(results: nil, error: error)
+            }
         })
     }
 }
