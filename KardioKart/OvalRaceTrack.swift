@@ -55,15 +55,13 @@ class OvalRaceTrack: RaceTrack {
     
 
     // MARK: Display
-    override func pointForSteps(steps: Double) -> CGPoint? {
+    override func trackPosition(steps: Double) -> Double {
         var percent = min(1, Double(steps) / totalSteps)
         // for an animating track, percent is augmented
         if percent > 1.0 {
             percent = percent - 1.0
         }
-        let point = self.pointForPercent(percent)
-//        print("steps: \(steps) percent \(percent) point \(point)")
-        return point
+        return percent
     }
     
     // MARK: - Calculations

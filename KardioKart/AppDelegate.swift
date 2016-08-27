@@ -39,9 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         initializeUserInterface()
         
-        PowerupManager.sharedManager.initialize()
-
         HealthManager.sharedManager.enableBackgroundDelivery()
+        RaceManager.sharedManager.initialize()
 
         Fabric.with([Crashlytics.self])
         

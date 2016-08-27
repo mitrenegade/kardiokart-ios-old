@@ -35,6 +35,8 @@ class SignInViewController: UIViewController {
                 }
             } else {
                 print("Uh oh. The user cancelled the Facebook login.")
+                self.simpleAlert("Invalid facebook login", message: "There was an issue logging in or signing up with your Facebook account. Please let us know about this error.")
+                // this usually means the server is down. todo: check error
             }
         }
     }

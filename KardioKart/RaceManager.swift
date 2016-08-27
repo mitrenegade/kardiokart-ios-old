@@ -26,7 +26,7 @@ class RaceManager: NSObject {
     var subscription: Subscription<PFUser>?
 
     var _currentRace: PFObject?
-
+    
     class func currentRace() -> PFObject? {
         // TODO: currentRace does not have to do with the day, but with the user's race ID?
         //if sharedManager.isRaceToday() {
@@ -42,6 +42,17 @@ class RaceManager: NSObject {
         }
         // return nil because we currently don't have a current race
         return nil
+    }
+    
+    func initialize() {
+        // kick off a query, and set the current race to any result
+        self.queryRace { (race) in
+            self._currentRace = race
+            if !PowerupManager.sharedManager.isSubscribed {
+                PowerupManager.sharedManager.getAllPowerups()
+                PowerupManager.sharedManager.subscribeToUpdates()
+            }
+        }
     }
     
     var today: Int {
@@ -97,7 +108,7 @@ class RaceManager: NSObject {
                 }
                 NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForStepUpdates()
-                self.listenForParseUpdates()
+                self.subscribeToUserUpdates()
                 completion?(success: true)
             }
             else if let _ = error {
@@ -106,7 +117,11 @@ class RaceManager: NSObject {
         }
     }
     
-    func listenForParseUpdates() {
+    func subscribeToUserUpdates() {
+        if LOCAL_TEST {
+            return
+        }
+
         // step updates for other users
         let query = PFUser.query()?.whereKeyExists("stepCount") // TODO: query.where("raceId" == self.raceId)
         if let userId = PFUser.currentUser()?.objectId {
@@ -115,7 +130,7 @@ class RaceManager: NSObject {
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
-                    print("received update for user \(user.objectId!)")
+                    //print("received update for user \(user.objectId!)")
                     self.updateStepsFromParse(user)
                     NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 })
@@ -150,7 +165,7 @@ class RaceManager: NSObject {
         params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
         
         PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-            print("results: \(results) error: \(error)")
+            //print("results: \(results) error: \(error)")
             completion?()
         })
     }
@@ -188,7 +203,7 @@ class RaceManager: NSObject {
             allCachedSteps[userId] = endSteps
         }
         
-        print("allCachedSteps: \(allCachedSteps)")
+        //print("allCachedSteps: \(allCachedSteps)")
         NSUserDefaults.standardUserDefaults().setObject(allCachedSteps, forKey: key)
         self.lastCacheDate = NSDate()
         
