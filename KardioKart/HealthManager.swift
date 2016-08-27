@@ -162,25 +162,6 @@ class HealthManager: NSObject {
             self.backgroundQuery = nil
         }
     }
-
-    // MARK: - local notifications
-    //create local notification
-    func sendLocalNotificationForSteps(steps: Double) {
-        /*
-        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
-
-        let notification = UILocalNotification()
-        notification.fireDate = NSDate().dateByAddingTimeInterval(5)
-        
-        notification.alertBody = "New step count: \(steps)"
-        notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-        let scheduled = UIApplication.sharedApplication().scheduledLocalNotifications
-        print("scheduled notifications: \(scheduled)")
-        */
-    }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         print("local notification received: \(notification)")

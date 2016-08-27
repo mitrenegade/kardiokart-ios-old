@@ -46,6 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // TODO: Move this to where you establish a user session
         self.logUser()
+        
+        //enable for all notifications
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
 
         return true
     }
@@ -94,6 +97,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
     }
 
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types != .None {
+            application.registerForRemoteNotifications()
+        }
+    }
+    
     // Push
     // MARK: - Push
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -127,14 +136,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         guard let title = userInfo["title"] as? String else { return }
         guard let message = userInfo["message"] as? String else { return }
-        guard let sender = userInfo["sender"] as? String else {
-            return
+        if let type = userInfo["type"] as? String where type == "powerups:created"{
+            PowerupManager.sharedManager.getAllPowerups()
         }
-        
-        //let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        //alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        
-        //self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        else {
+            //let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            //alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+            //self.revealController?.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Analytics

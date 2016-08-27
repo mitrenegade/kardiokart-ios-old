@@ -23,6 +23,16 @@ extension Powerup: PFSubclassing {
     }
 }
 
+class PowerupItem: PFObject {
+    @NSManaged var type: String?
+}
+
+extension PowerupItem: PFSubclassing {
+    static func parseClassName() -> String {
+        return "PowerupItem"
+    }
+}
+
 class PowerupManager: NSObject {
     static let sharedManager = PowerupManager()
 
@@ -54,7 +64,7 @@ class PowerupManager: NSObject {
         guard let raceId = race.objectId else { return }
         let query = Powerup.query()!
         query.whereKey("raceId", equalTo: raceId)
-        query.whereKey("count", greaterThan: 0)
+        query.whereKey("active", notEqualTo: false)
         self.subscription = liveQueryClient.subscribe(query)
             .handle(Event.Updated, { (_, powerup) in
                 if let powerups = self.powerups {
@@ -77,7 +87,7 @@ class PowerupManager: NSObject {
     // MARK: - Request for all powerups - NOT USED for polling, only on startup
     internal func getAllPowerups() {
         self.queryPowerups { (results, error) in
-            if let error = error {
+            if error != nil {
                 //print("Error in querying powerups: \(error)")
             }
             else {
@@ -103,7 +113,7 @@ class PowerupManager: NSObject {
         }
     }
 
-    func acquirePowerup(powerup: Powerup) {
+    func acquirePowerup(powerup: Powerup, completion: ((results: [PowerupItem]?, error: NSError?)->Void)) {
         guard let _ = PFUser.currentUser() else { return }
         guard let powerupId = powerup.objectId else { return }
         
@@ -111,6 +121,12 @@ class PowerupManager: NSObject {
         
         PFCloud.callFunctionInBackground("acquirePowerup", withParameters: params, block: { (results, error) in
             print("results: \(results) error: \(error)")
+            if let item = results as? PowerupItem {
+                completion(results: [item], error: nil)
+            }
+            else {
+                completion(results: nil, error: error)
+            }
         })
     }
 }

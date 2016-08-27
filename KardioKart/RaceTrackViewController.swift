@@ -166,7 +166,7 @@ class RaceTrackViewController: UIViewController {
         if user.objectId == PFUser.currentUser()?.objectId {
             let percent = self.raceTrack.trackPosition(step) * 100
             let index = Int(percent)
-            print("User percent \(index)")
+            //print("User percent \(index)")
             if let powerup = powerups[index] {
                 self.acquirePowerup(powerup, index: index)
             }
@@ -314,6 +314,19 @@ class RaceTrackViewController: UIViewController {
     func acquirePowerup(powerup: Powerup, index: Int) {
         guard index != acquiringPowerupIndex else { return }
         acquiringPowerupIndex = index
-        PowerupManager.sharedManager.acquirePowerup(powerup)
+        PowerupManager.sharedManager.acquirePowerup(powerup) { (results, error) in
+            if let error = error {
+                print("Acquire powerup error: \(error)")
+            }
+            else {
+                if let item = results?.first {
+                    var type = "unknown item"
+                    if let itemType = item.type {
+                        type = itemType
+                    }
+                    self.simpleAlert("You got a powerup!", message: "You have received a(n) \(type)")
+                }
+            }
+        }
     }
 }
