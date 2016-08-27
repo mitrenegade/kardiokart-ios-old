@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-let POWERUP_POSITION_BUFFER = 5
+let POWERUP_POSITION_BUFFER = 0
 
 // TODO: caching issues. sometimes old steps are loaded from cache. 
 // maybe this is caused by bad internet and each time queryUsers is done, the old values are used, even if new steps have been cached.
@@ -33,7 +33,7 @@ class RaceTrackViewController: UIViewController {
     
     // Powerups
     var powerupViews: [String: UIView] = [:]
-    var powerupPositions: Set<Int> = Set()
+    var powerups: [Int:Powerup] = [Int:Powerup]()
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -60,6 +60,8 @@ class RaceTrackViewController: UIViewController {
             userAvatars[user]?.removeFromSuperview()
             userAvatars[user] = nil
         }
+        
+        self.clearPowerups()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
@@ -234,14 +236,14 @@ class RaceTrackViewController: UIViewController {
             view.removeFromSuperview()
         }
         self.powerupViews.removeAll()
-        self.powerupPositions.removeAll()
+        self.powerups.removeAll()
     }
     
     func removePowerupView(objectId: String) {
         guard let powerupView: PowerupView = self.powerupViews[objectId] as? PowerupView else { return }
         powerupView.removeFromSuperview()
         if let position = powerupView.powerup?.objectForKey("position") as? Int {
-            self.powerupPositions.remove(position)
+            self.powerups[position] = nil
         }
         self.powerupViews[objectId] = nil
     }
@@ -251,8 +253,10 @@ class RaceTrackViewController: UIViewController {
         guard let objectId = powerup.objectId else { return }
         guard self.powerupViews[objectId] == nil else { return }
         
+        // Powerup position buffer is 0 because web handles not inserting powerups close to each other
         for i in position - POWERUP_POSITION_BUFFER ..< position + POWERUP_POSITION_BUFFER + 1 {
-            if self.powerupPositions.contains(i) {
+            if let _ = self.powerups[i] {
+                // item exists within a range of the powerup
                 return
             }
         }
@@ -264,7 +268,7 @@ class RaceTrackViewController: UIViewController {
         }
         self.raceTrack.addSubview(newPowerupView)
         self.powerupViews[objectId] = newPowerupView
-        self.powerupPositions.insert(position)
+        self.powerups[position] = powerup
     }
     
     func refreshPowerups() {
