@@ -46,6 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // TODO: Move this to where you establish a user session
         self.logUser()
+        
+        //enable for all notifications
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
 
         return true
     }
@@ -94,6 +97,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
     }
 
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types != .None {
+            application.registerForRemoteNotifications()
+        }
+    }
+    
     // Push
     // MARK: - Push
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
