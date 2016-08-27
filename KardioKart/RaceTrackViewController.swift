@@ -86,6 +86,9 @@ class RaceTrackViewController: UIViewController {
         super.viewWillAppear(animated)
         manager.checkCacheDate()
         updateCurrentLapLabel()
+        
+        self.refreshPowerups()
+        self.refreshAvatars()
     }
 
     override func didReceiveMemoryWarning() {
