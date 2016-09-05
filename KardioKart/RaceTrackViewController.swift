@@ -104,9 +104,11 @@ class RaceTrackViewController: UIViewController {
         self.refreshAvatars()
         
         // TEST
+        /*
         wait(3) {
             self.acquirePowerup(self.powerups.values.first!, index: 0)
         }
+        */
         self.updatePowerupItemView()
     }
 
