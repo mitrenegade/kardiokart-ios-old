@@ -12,7 +12,7 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
-let LOCAL_TEST = false
+let LOCAL_TEST = true
 
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"
@@ -49,6 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //enable for all notifications
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
+
+        /*
+         // TEST
+        let total = 1350.0
+        RaceManager.sharedManager.updateStepsToParse(total, completion: {
+            print("user steps \(total) saved to parse")
+        })
+        */
 
         return true
     }

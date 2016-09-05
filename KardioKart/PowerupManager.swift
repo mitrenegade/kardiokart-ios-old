@@ -11,28 +11,6 @@ import UIKit
 import Parse
 import ParseLiveQuery
 
-class Powerup: PFObject {
-    @NSManaged var count: NSNumber?
-    @NSManaged var position: NSNumber?
-    @NSManaged var race: PFObject?
-}
-
-extension Powerup: PFSubclassing {
-    static func parseClassName() -> String {
-        return "Powerup"
-    }
-}
-
-class PowerupItem: PFObject {
-    @NSManaged var type: String?
-}
-
-extension PowerupItem: PFSubclassing {
-    static func parseClassName() -> String {
-        return "PowerupItem"
-    }
-}
-
 class PowerupManager: NSObject {
     static let sharedManager = PowerupManager()
 
@@ -121,7 +99,7 @@ class PowerupManager: NSObject {
         
         PFCloud.callFunctionInBackground("acquirePowerup", withParameters: params, block: { (results, error) in
             print("results: \(results) error: \(error)")
-            if let item = results as? PowerupItem {
+            if let info = results as? [NSObject: AnyObject], item = info["item"] as? PowerupItem {
                 completion(results: [item], error: nil)
             }
             else {
@@ -129,4 +107,18 @@ class PowerupManager: NSObject {
             }
         })
     }
+    
+    func queryPowerupItems(completion: ((results: [PFObject]?, error: NSError?)->Void)? ) {
+        guard let user = PFUser.currentUser() else { return }
+        let relation = user.relationForKey("items")
+        relation.query().findObjectsInBackgroundWithBlock { (results, error) in
+            if let error = error {
+                completion?(results: nil, error: error)
+            }
+            else {
+                completion?(results: results, error: error)
+            }
+        }
+    }
+
 }

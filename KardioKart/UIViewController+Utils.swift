@@ -33,6 +33,15 @@ extension UIViewController {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate
     }
+    
+    func wait(delay:Double, then:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), then)
+    }
 }
 
 extension NSObject {

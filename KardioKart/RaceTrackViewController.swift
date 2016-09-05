@@ -36,6 +36,15 @@ class RaceTrackViewController: UIViewController {
     var powerups: [Int:Powerup] = [Int:Powerup]()
     var acquiringPowerupIndex: Int = -1
     
+    // Powerup Items
+    // imageview goes from right to left
+    @IBOutlet weak var item0: UIImageView!
+    @IBOutlet weak var item1: UIImageView!
+    @IBOutlet weak var item2: UIImageView!
+    @IBOutlet weak var item3: UIImageView!
+    var powerupItemViews: [UIImageView]!
+    var powerupItems: [PowerupItem]?
+    
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
         get {
@@ -63,6 +72,7 @@ class RaceTrackViewController: UIViewController {
         }
         
         self.clearPowerups()
+        powerupItemViews = [item0, item1, item2, item3]
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
@@ -92,6 +102,12 @@ class RaceTrackViewController: UIViewController {
         
         self.refreshPowerups()
         self.refreshAvatars()
+        
+        // TEST
+        wait(3) {
+            self.acquirePowerup(self.powerups.values.first!, index: 0)
+        }
+        self.updatePowerupItemView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -313,8 +329,15 @@ class RaceTrackViewController: UIViewController {
     
     func acquirePowerup(powerup: Powerup, index: Int) {
         guard index != acquiringPowerupIndex else { return }
+        guard let powerupView = self.powerupViews[powerup.objectId!] as? PowerupView else { return }
+        if let items = self.powerupItems {
+            if items.count >= 3 {
+                return
+            }
+        }
+
         acquiringPowerupIndex = index
-        PowerupManager.sharedManager.acquirePowerup(powerup) { (results, error) in
+        PowerupManager.sharedManager.acquirePowerup(powerup) {[weak self] (results, error) in
             if let error = error {
                 print("Acquire powerup error: \(error)")
             }
@@ -324,7 +347,75 @@ class RaceTrackViewController: UIViewController {
                     if let itemType = item.type {
                         type = itemType
                     }
-                    self.simpleAlert("You got a powerup!", message: "You have received a(n) \(type)")
+                    print("You have received a(n) \(type)")
+                    self?.animatePowerup(item, fromView: powerupView)
+                }
+            }
+        }
+    }
+    
+    func animatePowerup(item: PowerupItem, fromView: PowerupView) {
+        let image = item.icon
+        let iconView: UIImageView = UIImageView(image: image)
+        iconView.frame = item0.frame
+        self.view.addSubview(iconView)
+        
+        var fromPoint: CGPoint = fromView.center
+        fromPoint.x += self.raceTrack.frame.origin.x
+        fromPoint.y += self.raceTrack.frame.origin.y
+        iconView.center = fromPoint
+        let toView = self.powerupItemViews[self.powerupItems?.count ?? 0]
+        var toPoint = toView.center
+        toPoint.x += toView.superview!.frame.origin.x
+        toPoint.y += toView.superview!.frame.origin.y
+        
+        UIView.animateWithDuration(2, animations: {
+            iconView.center = toPoint
+            }) { (complete) in
+                iconView.removeFromSuperview()
+                iconView.hidden = true
+                
+                self.powerupItems = nil
+                self.updatePowerupItemView()
+        }
+    }
+    
+    
+    func resetPowerupItemView() {
+        self.powerupItems = nil
+        
+        for view: UIImageView in self.powerupItemViews {
+            view.image = nil
+        }
+        self.item0.image = UIImage(named: "morePowerups")
+    }
+    
+    func updatePowerupItemView() {
+        if let userPowerups = self.powerupItems {
+            var count = 0
+            for powerup in userPowerups {
+                let iconView = self.powerupItemViews[count]
+                let image = powerup.icon
+                iconView.image = image
+                count += 1
+            }
+            if count <= 3 {
+                let iconView = self.powerupItemViews[count]
+                iconView.image = UIImage(named: "morePowerups")
+            }
+        }
+        else {
+            PowerupManager.sharedManager.queryPowerupItems { (results, error) in
+                if let error = error {
+                    self.resetPowerupItemView()
+                    self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                    return
+                }
+                else {
+                    if let userPowerups = results as? [PowerupItem] {
+                        self.powerupItems = userPowerups
+                        self.updatePowerupItemView()
+                    }
                 }
             }
         }
