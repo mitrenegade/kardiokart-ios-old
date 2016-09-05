@@ -330,6 +330,11 @@ class RaceTrackViewController: UIViewController {
     func acquirePowerup(powerup: Powerup, index: Int) {
         guard index != acquiringPowerupIndex else { return }
         guard let powerupView = self.powerupViews[powerup.objectId!] as? PowerupView else { return }
+        if let items = self.powerupItems {
+            if items.count >= 3 {
+                return
+            }
+        }
 
         acquiringPowerupIndex = index
         PowerupManager.sharedManager.acquirePowerup(powerup) {[weak self] (results, error) in
