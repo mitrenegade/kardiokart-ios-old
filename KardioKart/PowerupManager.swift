@@ -11,28 +11,6 @@ import UIKit
 import Parse
 import ParseLiveQuery
 
-class Powerup: PFObject {
-    @NSManaged var count: NSNumber?
-    @NSManaged var position: NSNumber?
-    @NSManaged var race: PFObject?
-}
-
-extension Powerup: PFSubclassing {
-    static func parseClassName() -> String {
-        return "Powerup"
-    }
-}
-
-class PowerupItem: PFObject {
-    @NSManaged var type: String?
-}
-
-extension PowerupItem: PFSubclassing {
-    static func parseClassName() -> String {
-        return "PowerupItem"
-    }
-}
-
 class PowerupManager: NSObject {
     static let sharedManager = PowerupManager()
 

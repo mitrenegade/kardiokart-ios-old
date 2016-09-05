@@ -29,6 +29,8 @@
 		8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F34271D6A56E900AA69D0 /* StepManager.swift */; };
 		8E98F22B1D6A7028003A7A63 /* NSDate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */; };
 		8EB31E241D454515006E8100 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */; };
+		8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC14D641D7DE80C00432E8A /* Powerup.swift */; };
+		8EC14D671D7DE82300432E8A /* PowerupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC14D661D7DE82300432E8A /* PowerupItem.swift */; };
 		8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */; };
 		8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */; };
 		8ED2D1151D57A3DC00F1AA11 /* LapsRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1141D57A3DC00F1AA11 /* LapsRaceTrack.swift */; };
@@ -88,6 +90,8 @@
 		8E4F34271D6A56E900AA69D0 /* StepManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepManager.swift; sourceTree = "<group>"; };
 		8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Utils.swift"; sourceTree = "<group>"; };
 		8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
+		8EC14D641D7DE80C00432E8A /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
+		8EC14D661D7DE82300432E8A /* PowerupItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupItem.swift; sourceTree = "<group>"; };
 		8ECB74BD1D4B1B4A002134AA /* PowerupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupManager.swift; sourceTree = "<group>"; };
 		8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ED2D1141D57A3DC00F1AA11 /* LapsRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LapsRaceTrack.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 		8494FC871BC3346D00CE554E /* KardioKart */ = {
 			isa = PBXGroup;
 			children = (
+				8EC14D631D7DE7D500432E8A /* Models */,
 				8494FCBD1BC3798700CE554E /* KardioKart.entitlements */,
 				8ED2D1131D56F11B00F1AA11 /* Storyboards */,
 				8499A3B91BC57C65002A4099 /* Views */,
@@ -237,6 +242,15 @@
 				8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */,
 			);
 			name = Track;
+			sourceTree = "<group>";
+		};
+		8EC14D631D7DE7D500432E8A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8EC14D641D7DE80C00432E8A /* Powerup.swift */,
+				8EC14D661D7DE82300432E8A /* PowerupItem.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8ED2D1131D56F11B00F1AA11 /* Storyboards */ = {
@@ -482,6 +496,8 @@
 				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
 				8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */,
 				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
+				8EC14D671D7DE82300432E8A /* PowerupItem.swift in Sources */,
+				8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */,
 				8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
