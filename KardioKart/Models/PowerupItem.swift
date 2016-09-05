@@ -26,3 +26,21 @@ extension PowerupItem: PFSubclassing {
     }
 }
 
+extension PowerupItem {
+    // utils
+    var isMushroom: Bool {
+        return self.type?.lowercaseString == PowerupItemType.Mushroom.rawValue
+    }
+
+    var isRedShell: Bool {
+        return self.type?.lowercaseString == PowerupItemType.RedShell.rawValue
+    }
+    
+    var icon: UIImage {
+        var image = UIImage(named: "Mushroom")!
+        if self.isRedShell {
+            image = UIImage(named: "RedShell")!
+        }
+        return image
+    }
+}

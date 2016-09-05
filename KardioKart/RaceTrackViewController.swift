@@ -92,6 +92,10 @@ class RaceTrackViewController: UIViewController {
         
         self.refreshPowerups()
         self.refreshAvatars()
+        
+        wait(3) {
+            self.acquirePowerup(self.powerups.values.first!, index: 0)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -313,8 +317,10 @@ class RaceTrackViewController: UIViewController {
     
     func acquirePowerup(powerup: Powerup, index: Int) {
         guard index != acquiringPowerupIndex else { return }
+        guard let powerupView = self.powerupViews[powerup.objectId!] as? PowerupView else { return }
+
         acquiringPowerupIndex = index
-        PowerupManager.sharedManager.acquirePowerup(powerup) { (results, error) in
+        PowerupManager.sharedManager.acquirePowerup(powerup) {[weak self] (results, error) in
             if let error = error {
                 print("Acquire powerup error: \(error)")
             }
@@ -324,9 +330,26 @@ class RaceTrackViewController: UIViewController {
                     if let itemType = item.type {
                         type = itemType
                     }
-                    self.simpleAlert("You got a powerup!", message: "You have received a(n) \(type)")
+                    print("You have received a(n) \(type)")
+                    self?.animatePowerup(item, fromView: powerupView)
                 }
             }
+        }
+    }
+    
+    func animatePowerup(item: PowerupItem, fromView: PowerupView) {
+        guard let user = PFUser.currentUser() else { return }
+
+        let image = item.icon
+        let iconView: UIImageView = UIImageView(image: image)
+        iconView.frame = fromView.frame
+        self.raceTrack.addSubview(iconView)
+        
+        UIView.animateWithDuration(1, animations: { 
+            iconView.center = CGPointMake(0, 0)
+            }) { (complete) in
+                iconView.removeFromSuperview()
+                iconView.hidden = true
         }
     }
 }
