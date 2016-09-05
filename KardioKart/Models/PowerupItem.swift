@@ -39,7 +39,7 @@ extension PowerupItem {
     var icon: UIImage {
         var image = UIImage(named: "Mushroom")!
         if self.isRedShell {
-            image = UIImage(named: "RedShell")!
+            image = UIImage(named: "Red Shell")!
         }
         return image
     }

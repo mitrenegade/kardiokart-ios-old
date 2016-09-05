@@ -36,6 +36,14 @@ class RaceTrackViewController: UIViewController {
     var powerups: [Int:Powerup] = [Int:Powerup]()
     var acquiringPowerupIndex: Int = -1
     
+    // Powerup Items
+    // imageview goes from right to left
+    @IBOutlet weak var item0: UIImageView!
+    @IBOutlet weak var item1: UIImageView!
+    @IBOutlet weak var item2: UIImageView!
+    @IBOutlet weak var item3: UIImageView!
+    var powerupItemViews: [UIImageView]!
+    
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
         get {
@@ -63,6 +71,7 @@ class RaceTrackViewController: UIViewController {
         }
         
         self.clearPowerups()
+        powerupItemViews = [item0, item1, item2, item3]
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
@@ -350,6 +359,33 @@ class RaceTrackViewController: UIViewController {
             }) { (complete) in
                 iconView.removeFromSuperview()
                 iconView.hidden = true
+        }
+    }
+    
+    func resetPowerupItemView() {
+        for view: UIImageView in self.powerupItemViews {
+            view.image = nil
+        }
+        self.item0.image = UIImage(named: "morePowerups")
+    }
+    
+    func updatePowerupItemView() {
+        guard let user = PFUser.currentUser() else { return }
+        guard let userPowerups = user["items"] as? [PowerupItem] else {
+            self.resetPowerupItemView()
+            return
+        }
+        
+        var count = 0
+        for powerup in userPowerups {
+            let iconView = self.powerupItemViews[count]
+            let image = powerup.icon
+            iconView.image = image
+            count += 1
+        }
+        if count <= 3 {
+            let iconView = self.powerupItemViews[count]
+            iconView.image = UIImage(named: "morePowerups")
         }
     }
 }
