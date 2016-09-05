@@ -102,9 +102,13 @@ class RaceTrackViewController: UIViewController {
         self.refreshPowerups()
         self.refreshAvatars()
         
+        /* 
+        // TEST
         wait(3) {
             self.acquirePowerup(self.powerups.values.first!, index: 0)
         }
+        */
+        self.updatePowerupItemView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -371,21 +375,31 @@ class RaceTrackViewController: UIViewController {
     
     func updatePowerupItemView() {
         guard let user = PFUser.currentUser() else { return }
-        guard let userPowerups = user["items"] as? [PowerupItem] else {
-            self.resetPowerupItemView()
-            return
-        }
-        
-        var count = 0
-        for powerup in userPowerups {
-            let iconView = self.powerupItemViews[count]
-            let image = powerup.icon
-            iconView.image = image
-            count += 1
-        }
-        if count <= 3 {
-            let iconView = self.powerupItemViews[count]
-            iconView.image = UIImage(named: "morePowerups")
+        let relation = user.relationForKey("items")
+        relation.query().findObjectsInBackgroundWithBlock { (results, error) in
+            if let error = error {
+                self.resetPowerupItemView()
+                self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                return
+            }
+            else {
+                guard let userPowerups = results as? [PowerupItem] else {
+                    self.resetPowerupItemView()
+                    return
+                }
+                
+                var count = 0
+                for powerup in userPowerups {
+                    let iconView = self.powerupItemViews[count]
+                    let image = powerup.icon
+                    iconView.image = image
+                    count += 1
+                }
+                if count <= 3 {
+                    let iconView = self.powerupItemViews[count]
+                    iconView.image = UIImage(named: "morePowerups")
+                }
+            }
         }
     }
 }
