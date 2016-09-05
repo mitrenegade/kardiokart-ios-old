@@ -43,6 +43,7 @@ class RaceTrackViewController: UIViewController {
     @IBOutlet weak var item2: UIImageView!
     @IBOutlet weak var item3: UIImageView!
     var powerupItemViews: [UIImageView]!
+    var powerupItems: [PowerupItem]?
     
     private var didInitialAnimation: Bool = false
     var needsAnimation: Bool {
@@ -102,12 +103,10 @@ class RaceTrackViewController: UIViewController {
         self.refreshPowerups()
         self.refreshAvatars()
         
-        /* 
         // TEST
         wait(3) {
             self.acquirePowerup(self.powerups.values.first!, index: 0)
         }
-        */
         self.updatePowerupItemView()
     }
 
@@ -363,10 +362,16 @@ class RaceTrackViewController: UIViewController {
             }) { (complete) in
                 iconView.removeFromSuperview()
                 iconView.hidden = true
+                
+                self.powerupItems = nil
+                self.updatePowerupItemView()
         }
     }
     
+    
     func resetPowerupItemView() {
+        self.powerupItems = nil
+        
         for view: UIImageView in self.powerupItemViews {
             view.image = nil
         }
@@ -374,30 +379,31 @@ class RaceTrackViewController: UIViewController {
     }
     
     func updatePowerupItemView() {
-        guard let user = PFUser.currentUser() else { return }
-        let relation = user.relationForKey("items")
-        relation.query().findObjectsInBackgroundWithBlock { (results, error) in
-            if let error = error {
-                self.resetPowerupItemView()
-                self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
-                return
+        if let userPowerups = self.powerupItems {
+            var count = 0
+            for powerup in userPowerups {
+                let iconView = self.powerupItemViews[count]
+                let image = powerup.icon
+                iconView.image = image
+                count += 1
             }
-            else {
-                guard let userPowerups = results as? [PowerupItem] else {
+            if count <= 3 {
+                let iconView = self.powerupItemViews[count]
+                iconView.image = UIImage(named: "morePowerups")
+            }
+        }
+        else {
+            PowerupManager.sharedManager.queryPowerupItems { (results, error) in
+                if let error = error {
                     self.resetPowerupItemView()
+                    self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
                     return
                 }
-                
-                var count = 0
-                for powerup in userPowerups {
-                    let iconView = self.powerupItemViews[count]
-                    let image = powerup.icon
-                    iconView.image = image
-                    count += 1
-                }
-                if count <= 3 {
-                    let iconView = self.powerupItemViews[count]
-                    iconView.image = UIImage(named: "morePowerups")
+                else {
+                    if let userPowerups = results as? [PowerupItem] {
+                        self.powerupItems = userPowerups
+                        self.updatePowerupItemView()
+                    }
                 }
             }
         }

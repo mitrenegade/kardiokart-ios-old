@@ -107,4 +107,18 @@ class PowerupManager: NSObject {
             }
         })
     }
+    
+    func queryPowerupItems(completion: ((results: [PFObject]?, error: NSError?)->Void)? ) {
+        guard let user = PFUser.currentUser() else { return }
+        let relation = user.relationForKey("items")
+        relation.query().findObjectsInBackgroundWithBlock { (results, error) in
+            if let error = error {
+                completion?(results: nil, error: error)
+            }
+            else {
+                completion?(results: results, error: error)
+            }
+        }
+    }
+
 }
