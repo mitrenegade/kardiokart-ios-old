@@ -355,15 +355,22 @@ class RaceTrackViewController: UIViewController {
     }
     
     func animatePowerup(item: PowerupItem, fromView: PowerupView) {
-        guard let user = PFUser.currentUser() else { return }
-
         let image = item.icon
         let iconView: UIImageView = UIImageView(image: image)
-        iconView.frame = fromView.frame
-        self.raceTrack.addSubview(iconView)
+        iconView.frame = item0.frame
+        self.view.addSubview(iconView)
         
-        UIView.animateWithDuration(1, animations: { 
-            iconView.center = CGPointMake(0, 0)
+        var fromPoint: CGPoint = fromView.center
+        fromPoint.x += self.raceTrack.frame.origin.x
+        fromPoint.y += self.raceTrack.frame.origin.y
+        iconView.center = fromPoint
+        let toView = self.powerupItemViews[self.powerupItems?.count ?? 0]
+        var toPoint = toView.center
+        toPoint.x += toView.superview!.frame.origin.x
+        toPoint.y += toView.superview!.frame.origin.y
+        
+        UIView.animateWithDuration(2, animations: {
+            iconView.center = toPoint
             }) { (complete) in
                 iconView.removeFromSuperview()
                 iconView.hidden = true
