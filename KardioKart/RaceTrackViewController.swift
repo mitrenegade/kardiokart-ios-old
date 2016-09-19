@@ -108,13 +108,14 @@ class RaceTrackViewController: UIViewController {
         self.refreshPowerups()
         self.refreshAvatars()
         
-        // TEST
-        /*
-        wait(3) {
-            self.acquirePowerup(self.powerups.values.first!, index: 0)
-        }
-        */
         self.updatePowerupItemView()
+
+        // TEST
+//        wait(3) {
+//            self.acquirePowerup(self.powerups.values.first!, index: 0)
+            // airplane mode
+//            StepManager.sharedManager.startTracking()
+//        }
     }
 
     override func didReceiveMemoryWarning() {

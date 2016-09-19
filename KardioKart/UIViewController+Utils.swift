@@ -28,15 +28,6 @@ extension UIViewController {
         let alert: UIAlertController = UIAlertController.simpleAlert(title, message: message, completion: completion)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    func wait(delay:Double, then:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), then)
-    }
 }
 
 extension NSObject {
@@ -69,6 +60,15 @@ extension NSObject {
     
     func notify(notificationName: String, object: AnyObject?, userInfo: [NSObject: AnyObject]?) {
         NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: object, userInfo: userInfo)
+    }
+    
+    func wait(delay:Double, then:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), then)
     }
 }
 

@@ -22,6 +22,15 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func loginWithFacebook(sender: UIButton) {
+        if LOCAL_TEST {
+            PFUser.enableAutomaticUser()
+            if let user = PFUser.currentUser() {
+                user["name"] = "Mario"
+                user.saveInBackground()
+                self.performSegueWithIdentifier("ShowHealthKitSetupSegue", sender: self.navigationController)
+            }
+            return
+        }
         let readPermissions = ["public_profile", "email", "user_friends"]
         PFFacebookUtils.logInInBackgroundWithReadPermissions(readPermissions) {
             (user: PFUser?, error: NSError?) -> Void in
