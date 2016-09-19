@@ -29,11 +29,6 @@ extension UIViewController {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func appDelegate() -> AppDelegate {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        return appDelegate
-    }
-    
     func wait(delay:Double, then:()->()) {
         dispatch_after(
             dispatch_time(
@@ -45,14 +40,31 @@ extension UIViewController {
 }
 
 extension NSObject {
+    func appDelegate() -> AppDelegate {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appDelegate
+    }
+    
     
     // MARK: - Notifications
+    func listenFor(notification: NotificationType, action: Selector, object: AnyObject?) {
+        listenFor(notification.rawValue, action: action, object: object)
+    }
+    
     func listenFor(notificationName: String, action: Selector, object: AnyObject?) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: action, name: notificationName, object: object)
     }
     
+    func stopListeningFor(notification: NotificationType) {
+        stopListeningFor(notification.rawValue)
+    }
+    
     func stopListeningFor(notificationName: String) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: notificationName, object: nil)
+    }
+    
+    func notify(notification: NotificationType, object: AnyObject? = nil, userInfo: [NSObject: AnyObject]? = nil) {
+        notify(notification.rawValue, object: object, userInfo: userInfo)
     }
     
     func notify(notificationName: String, object: AnyObject?, userInfo: [NSObject: AnyObject]?) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pD5-Mg-tza">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -619,6 +619,49 @@
             </objects>
             <point key="canvasLocation" x="405" y="322"/>
         </scene>
+        <!--Splash Screen View Controller-->
+        <scene sceneID="zpA-PA-6Rh">
+            <objects>
+                <viewController id="pD5-Mg-tza" customClass="SplashScreenViewController" customModule="KardioKart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="En6-8c-1Pl"/>
+                        <viewControllerLayoutGuide type="bottom" id="vy1-Gc-HOU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sU8-h0-fSt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stop_light" translatesAutoresizingMaskIntoConstraints="NO" id="0QO-L7-8M9">
+                                <rect key="frame" x="260" y="200" width="80" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="1k3-bv-PY7"/>
+                                    <constraint firstAttribute="height" constant="200" id="CBO-0A-eu9"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kardio_kart_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Pfi-Ju-jde">
+                                <rect key="frame" x="190.5" y="61" width="219" height="79"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="219" id="13Q-yD-T9m"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.99607843139999996" green="0.86666666670000003" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="0QO-L7-8M9" firstAttribute="centerY" secondItem="sU8-h0-fSt" secondAttribute="centerY" id="0u4-oO-Jzl"/>
+                            <constraint firstItem="0QO-L7-8M9" firstAttribute="centerX" secondItem="sU8-h0-fSt" secondAttribute="centerX" id="4jo-Ww-MzJ"/>
+                            <constraint firstItem="0QO-L7-8M9" firstAttribute="top" secondItem="Pfi-Ju-jde" secondAttribute="bottom" constant="60" id="7yk-2b-nrc"/>
+                            <constraint firstItem="Pfi-Ju-jde" firstAttribute="centerX" secondItem="sU8-h0-fSt" secondAttribute="centerX" id="YCq-s1-q16"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="mUJ-Om-UUp" kind="presentation" identifier="GoToLoginSignup" id="7Un-lQ-oqM"/>
+                        <segue destination="r5T-3n-yHR" kind="presentation" identifier="GoToRace" id="w4Q-hl-ndF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lJL-Mw-z2t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-362" y="1259"/>
+        </scene>
     </scenes>
     <resources>
         <image name="facebook_login_button" width="440" height="80"/>
@@ -629,6 +672,7 @@
         <image name="powerup_store" width="750" height="1334"/>
         <image name="race_progress_icon" width="30" height="30"/>
         <image name="red_light" width="160" height="400"/>
+        <image name="stop_light" width="160" height="400"/>
         <image name="tune_up_button" width="317" height="84"/>
         <image name="yellow_light" width="160" height="400"/>
     </resources>

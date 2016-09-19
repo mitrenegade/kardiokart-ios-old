@@ -111,7 +111,10 @@ class RaceManager: NSObject {
                 self.subscribeToUserUpdates()
                 completion?(success: true)
             }
-            else if let _ = error {
+            else if let error = error {
+                if error.code == 209 {
+                    print("invalid session")
+                }
                 completion?(success: false)
             }
         }

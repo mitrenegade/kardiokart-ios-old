@@ -27,6 +27,8 @@
 		8E17D5DC1D6164A7008B2ABA /* PowerupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E17D5DB1D6164A7008B2ABA /* PowerupView.swift */; };
 		8E3834A11D52EC5C0032DB8F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3834A01D52EC5C0032DB8F /* Platform.swift */; };
 		8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F34271D6A56E900AA69D0 /* StepManager.swift */; };
+		8E6D08981D8DA22C00D140BF /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D08971D8DA22C00D140BF /* SplashScreenViewController.swift */; };
+		8E6D089A1D8DA25E00D140BF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D08991D8DA25E00D140BF /* Constants.swift */; };
 		8E98F22B1D6A7028003A7A63 /* NSDate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */; };
 		8EB31E241D454515006E8100 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */; };
 		8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC14D641D7DE80C00432E8A /* Powerup.swift */; };
@@ -88,6 +90,8 @@
 		8E17D5DB1D6164A7008B2ABA /* PowerupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupView.swift; sourceTree = "<group>"; };
 		8E3834A01D52EC5C0032DB8F /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		8E4F34271D6A56E900AA69D0 /* StepManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepManager.swift; sourceTree = "<group>"; };
+		8E6D08971D8DA22C00D140BF /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		8E6D08991D8DA25E00D140BF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Utils.swift"; sourceTree = "<group>"; };
 		8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
 		8EC14D641D7DE80C00432E8A /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				8494FC8F1BC3346D00CE554E /* Assets.xcassets */,
 				8494FC941BC3346D00CE554E /* Info.plist */,
 				8494FC881BC3346D00CE554E /* AppDelegate.swift */,
+				8E6D08991D8DA25E00D140BF /* Constants.swift */,
 				8494FCB81BC33D0E00CE554E /* KardioKart-Bridging-Header.h */,
 				8449AB631BC628DD0076071E /* UIView+Storyboard.swift */,
 				8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */,
@@ -202,6 +207,7 @@
 		8494FCC41BC4087700CE554E /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8E6D08971D8DA22C00D140BF /* SplashScreenViewController.swift */,
 				8494FC8A1BC3346D00CE554E /* SignInViewController.swift */,
 				8494FCB91BC36AAF00CE554E /* HealthKitViewController.swift */,
 				8494FCBB1BC374EB00CE554E /* LoadingViewController.swift */,
@@ -476,8 +482,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E6D089A1D8DA25E00D140BF /* Constants.swift in Sources */,
 				8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */,
 				8E3834A11D52EC5C0032DB8F /* Platform.swift in Sources */,
+				8E6D08981D8DA22C00D140BF /* SplashScreenViewController.swift in Sources */,
 				8E17D5DC1D6164A7008B2ABA /* PowerupView.swift in Sources */,
 				8494FC8B1BC3346D00CE554E /* SignInViewController.swift in Sources */,
 				8E01D78F1D38612A00664BD8 /* OvalRaceTrack.swift in Sources */,

@@ -12,7 +12,7 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
-let LOCAL_TEST = false
+let LOCAL_TEST = true
 
 let PARSE_APP_ID: String = "8DNaf4CXUXGYNMo9D7AJIJsbCZF2jtntIzBUOLpX"
 let PARSE_SERVER_URL_LOCAL: String = "http://localhost:1337/parse"
@@ -36,8 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions);
-        
-        initializeUserInterface()
         
         HealthManager.sharedManager.enableBackgroundDelivery()
         RaceManager.sharedManager.initialize()
@@ -90,21 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
-    func initializeUserInterface() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
-        if PFUser.currentUser() != nil {
-            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("TabBarController")
-            window?.rootViewController = initialViewController
-        } else {
-            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("OnboardingNavigationController")
-            window?.rootViewController = initialViewController
-        }
-        
-        self.window?.makeKeyAndVisible()
-    }
-
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         if notificationSettings.types != .None {
             application.registerForRemoteNotifications()
