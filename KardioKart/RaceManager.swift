@@ -46,8 +46,10 @@ class RaceManager: NSObject {
     
     func initialize() {
         // kick off a query, and set the current race to any result
+        print("here")
         self.queryRace { (race) in
             self._currentRace = race
+            self.notify("race:changed", object: nil, userInfo: nil)
             if !PowerupManager.sharedManager.isSubscribed {
                 PowerupManager.sharedManager.getAllPowerups()
                 PowerupManager.sharedManager.subscribeToUpdates()
@@ -81,6 +83,8 @@ class RaceManager: NSObject {
     
     // MARK: - load from web - should be ultimate truth
     func queryUsers(completion: ((success: Bool, error: NSError?)->())?) {
+        guard let race = _currentRace else { completion?(success: false, error: nil); return; }
+        
         let query = PFUser.query()
 
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in

@@ -77,7 +77,7 @@ class StepManager: NSObject {
         }
     }
 
-    private var SIMULATED_STEPS = 1000
+    private var SIMULATED_STEPS = 4100
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
         guard !Platform.isSimulator else {
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
