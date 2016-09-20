@@ -98,19 +98,26 @@ class RaceManager: NSObject {
                     // compare with cache and update to most recent
                     if let userId = user.objectId {
                         let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
-                        let parseSteps = user["stepCount"] as? Double ?? 0
-                        if let parseDate = user["stepDate"] as? Int where parseDate == self.today {
-                            let mostCurrent = max(cachedSteps, parseSteps)
-                            self.currentSteps[userId] = mostCurrent
-                            self.newStepsToAnimate[userId] = mostCurrent
-                        }
-                        else {
-                            self.currentSteps[userId] = cachedSteps
-                            self.newStepsToAnimate[userId] = cachedSteps
-                        }
+                        let activity = user["activity"] as? Activity
+                        activity?.fetchIfNeededInBackgroundWithBlock({ (results, error) in
+                            let parseSteps = activity?["stepCount"] as? Double ?? 0
+                            if let parseDate = activity?["stepDate"] as? Int where parseDate == self.today {
+                                let mostCurrent = max(cachedSteps, parseSteps)
+                                self.currentSteps[userId] = mostCurrent
+                                self.newStepsToAnimate[userId] = mostCurrent
+                                
+                                if mostCurrent != cachedSteps {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                                }
+                            }
+                            else {
+                                self.currentSteps[userId] = cachedSteps
+                                self.newStepsToAnimate[userId] = cachedSteps
+                            }
+                        })
                     }
                 }
-                NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+
                 self.listenForStepUpdates()
                 self.subscribeToUserUpdates()
                 completion?(success: true, error: nil)
@@ -190,28 +197,23 @@ class RaceManager: NSObject {
     func cachedStepsForUser(user: PFUser) -> Double {
         guard let userId = user.objectId else { return 0 }
         
-        let key = "steps:cached"
-        let allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Double] ?? [:]
-        let userCachedSteps = allCachedSteps[userId] ?? 0
+        let key = "steps:cached:\(userId)"
+        let userCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? Double ?? 0
         return userCachedSteps
     }
     
     func updateCachedSteps() {
         guard let users = self.users else { return }
         
-        let key = "steps:cached"
-        var allCachedSteps = NSUserDefaults.standardUserDefaults().objectForKey(key) as? [String: Double] ?? [:]
         for user in users {
             guard let userId = user.objectId else { continue }
             let endSteps = currentSteps[userId] ?? 0
-            allCachedSteps[userId] = endSteps
+            let key = "steps:cached:\(userId)"
+            NSUserDefaults.standardUserDefaults().setObject(endSteps, forKey: key)
         }
-        
-        //print("allCachedSteps: \(allCachedSteps)")
-        NSUserDefaults.standardUserDefaults().setObject(allCachedSteps, forKey: key)
-        self.lastCacheDate = NSDate()
-        
         NSUserDefaults.standardUserDefaults().synchronize()
+        self.lastCacheDate = NSDate()
+
     }
 
     // MARK: - Active listener

@@ -29,6 +29,7 @@
 		8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4F34271D6A56E900AA69D0 /* StepManager.swift */; };
 		8E6D08981D8DA22C00D140BF /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D08971D8DA22C00D140BF /* SplashScreenViewController.swift */; };
 		8E6D089A1D8DA25E00D140BF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D08991D8DA25E00D140BF /* Constants.swift */; };
+		8E6D089C1D90ADFA00D140BF /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6D089B1D90ADFA00D140BF /* Activity.swift */; };
 		8E98F22B1D6A7028003A7A63 /* NSDate+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */; };
 		8EB31E241D454515006E8100 /* AnimatedRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */; };
 		8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC14D641D7DE80C00432E8A /* Powerup.swift */; };
@@ -92,6 +93,7 @@
 		8E4F34271D6A56E900AA69D0 /* StepManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepManager.swift; sourceTree = "<group>"; };
 		8E6D08971D8DA22C00D140BF /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		8E6D08991D8DA25E00D140BF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8E6D089B1D90ADFA00D140BF /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		8E98F22A1D6A7028003A7A63 /* NSDate+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Utils.swift"; sourceTree = "<group>"; };
 		8EB31E231D454515006E8100 /* AnimatedRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedRaceTrack.swift; sourceTree = "<group>"; };
 		8EC14D641D7DE80C00432E8A /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			children = (
 				8EC14D641D7DE80C00432E8A /* Powerup.swift */,
 				8EC14D661D7DE82300432E8A /* PowerupItem.swift */,
+				8E6D089B1D90ADFA00D140BF /* Activity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
 				8EC14D671D7DE82300432E8A /* PowerupItem.swift in Sources */,
 				8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */,
+				8E6D089C1D90ADFA00D140BF /* Activity.swift in Sources */,
 				8E4F34281D6A56E900AA69D0 /* StepManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
