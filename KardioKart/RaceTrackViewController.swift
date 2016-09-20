@@ -115,6 +115,7 @@ class RaceTrackViewController: UIViewController {
     
     // MARK: Race
     func refreshRace() {
+        self.stopListeningFor("race:changed")
         // when race has been loaded, query users and listen for updates to steps
         self.activityIndicator.startAnimating()
         manager.queryUsers { (success, error) in
