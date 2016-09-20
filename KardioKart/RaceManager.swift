@@ -74,7 +74,6 @@ class RaceManager: NSObject {
     
     private func queryRace(completion: ((race: PFObject?, error: NSError?) -> Void)) {
         let query = PFQuery(className: "Race")
-//        query.whereKey("day", equalTo: today)
         query.getFirstObjectInBackgroundWithBlock { (object, error) in
             if let _ = error {
                 print("error!")
@@ -104,9 +103,9 @@ class RaceManager: NSObject {
                     if let userId = user.objectId {
                         let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
                         if let activity = user["activity"] as? Activity {
-                            activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (results, error) in
-                                let parseSteps = activity["stepCount"] as? Double ?? 0
-                                if let parseDate = activity["stepDate"] as? Int where parseDate == self?.today {
+                            activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (result, error) in
+                                if let _ = result as? Activity, parseDate = activity["stepDate"] as? Int where parseDate == self?.today {
+                                    let parseSteps = activity["stepCount"] as? Double ?? 0
                                     let mostCurrent = max(cachedSteps, parseSteps)
                                     self?.currentSteps[userId] = mostCurrent
                                     self?.newStepsToAnimate[userId] = mostCurrent
@@ -118,6 +117,7 @@ class RaceManager: NSObject {
                                     }
                                 }
                                 else {
+                                    // either parseDate is incorrect, or activity doesn't exist
                                     self?.currentSteps[userId] = cachedSteps
                                     self?.newStepsToAnimate[userId] = cachedSteps
                                 }
@@ -133,6 +133,11 @@ class RaceManager: NSObject {
 
                 self.listenForStepUpdates()
                 self.subscribeToUserUpdates()
+                
+                if self.currentUser == nil {
+                    print("oops no current user loaded, must be a new race entrant")
+                    self.currentUser = PFUser.currentUser()
+                }
                 completion?(success: true, error: nil)
             }
             else if let error = error {
@@ -176,13 +181,13 @@ class RaceManager: NSObject {
     func updateStepsFromParse(user: PFUser) {
         // animates steps received from parse for another user through live query
         if let userId = user.objectId, let activity = user["activity"] as? Activity {
-            activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (results, error) in
-                let parseSteps = activity["stepCount"] as? Double ?? 0
-                var mostCurrent = self?.currentSteps[userId] ?? 0
-                if let day = activity["stepDate"] as? Int where day == self?.today {
+            activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (result, error) in
+                if let _ = result as? Activity, parseDate = activity["stepDate"] as? Int where parseDate == self?.today {
+                    let parseSteps = activity["stepCount"] as? Double ?? 0
+                    var mostCurrent = self?.currentSteps[userId] ?? 0
                     mostCurrent = max(mostCurrent, parseSteps)
+                    self?.newStepsToAnimate[userId] = mostCurrent
                 }
-                self?.newStepsToAnimate[userId] = mostCurrent
             })
         }
     }
@@ -194,7 +199,7 @@ class RaceManager: NSObject {
         params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
         
         PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
-            //print("results: \(results) error: \(error)")
+            print("results: \(results) error: \(error)")
             completion?()
         })
     }
@@ -268,11 +273,19 @@ class RaceManager: NSObject {
         // update to parse if changed
         if let activity = user["activity"] as? Activity {
             activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (result, error) in
-                let parseCount = activity["stepCount"] as? Double ?? 0
-                let parseDate = activity["stepDate"] as? NSDate
-                let isToday = self?.isToday(parseDate) ?? false
-                if total > parseCount || !isToday {
-                    
+                if let _ = result as? Activity {
+                    let parseCount = activity["stepCount"] as? Double ?? 0
+                    let parseDate = activity["stepDate"] as? NSDate
+                    let isToday = self?.isToday(parseDate) ?? false
+                    if total > parseCount || !isToday {
+                        
+                        self?.updateStepsToParse(total, completion: {
+                            print("user steps \(total) saved to parse")
+                        })
+                    }
+                }
+                else {
+                    // activity was deleted somehow - just recreated
                     self?.updateStepsToParse(total, completion: {
                         print("user steps \(total) saved to parse")
                     })
