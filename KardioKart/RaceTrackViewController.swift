@@ -426,7 +426,12 @@ class RaceTrackViewController: UIViewController {
             PowerupManager.sharedManager.queryPowerupItems { (results, error) in
                 if let error = error {
                     self.resetPowerupItemView()
-                    self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                    if error.code == 209 {
+                        RaceManager.sharedManager.logout()
+                    }
+                    else {
+                        self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                    }
                     return
                 }
                 else {
