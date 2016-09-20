@@ -37,22 +37,27 @@ class RaceManager: NSObject {
         }
         
         // kick off a query, and set the current race to any result
-        sharedManager.queryRace { (race) in
-            sharedManager._currentRace = race
-        }
+        sharedManager.initialize()
+        
         // return nil because we currently don't have a current race
         return nil
     }
     
     func initialize() {
         // kick off a query, and set the current race to any result
-        print("here")
-        self.queryRace { (race) in
-            self._currentRace = race
-            self.notify("race:changed", object: nil, userInfo: nil)
-            if !PowerupManager.sharedManager.isSubscribed {
-                PowerupManager.sharedManager.getAllPowerups()
-                PowerupManager.sharedManager.subscribeToUpdates()
+        print("querying for race")
+        self.queryRace { (race, error) in
+            if let _ = error {
+                print("could not load race. possibly a 209")
+            }
+            else {
+                self._currentRace = race
+                print("race query completed")
+                self.notify("race:changed", object: nil, userInfo: nil)
+                if !PowerupManager.sharedManager.isSubscribed {
+                    PowerupManager.sharedManager.getAllPowerups()
+                    PowerupManager.sharedManager.subscribeToUpdates()
+                }
             }
         }
     }
@@ -67,16 +72,16 @@ class RaceManager: NSObject {
         }
     }
     
-    private func queryRace(completion: ((race: PFObject?) -> Void)) {
+    private func queryRace(completion: ((race: PFObject?, error: NSError?) -> Void)) {
         let query = PFQuery(className: "Race")
 //        query.whereKey("day", equalTo: today)
         query.getFirstObjectInBackgroundWithBlock { (object, error) in
             if let _ = error {
                 print("error!")
-                completion(race: nil)
+                completion(race: nil, error: error)
             }
             else {
-                completion(race: object)
+                completion(race: object, error: nil)
             }
         }
     }

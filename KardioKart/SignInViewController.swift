@@ -25,7 +25,7 @@ class SignInViewController: UIViewController {
         if LOCAL_TEST {
             PFUser.enableAutomaticUser()
             if let user = PFUser.currentUser() {
-                user["name"] = "Mario"
+                user["name"] = "Luigi"
                 user.saveInBackground()
                 self.performSegueWithIdentifier("ShowHealthKitSetupSegue", sender: self.navigationController)
             }
