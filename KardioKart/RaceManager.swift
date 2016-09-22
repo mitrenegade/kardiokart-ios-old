@@ -137,6 +137,9 @@ class RaceManager: NSObject {
                 if self.currentUser == nil {
                     print("oops no current user loaded, must be a new race entrant")
                     self.currentUser = PFUser.currentUser()
+                    
+                    // migrate user
+                    self.migrateUser()
                 }
                 completion?(success: true, error: nil)
             }
@@ -180,6 +183,18 @@ class RaceManager: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    func migrateUser() {
+        // v0.1.6 migration: users must be updated with an Activity and Race pointer
+        let initialSteps: Double = 0
+        self.updateStepsToParse(initialSteps) {
+            self.queryUsers({ (success, error) in
+                if success {
+                    self.notify("positions:changed", object: nil, userInfo: nil)
+                }
+            })
+        }
+    }
+    
     func updateStepsFromParse(user: PFUser) {
         // animates steps received from parse for another user through live query
         if let userId = user.objectId, let activity = user["activity"] as? Activity {
@@ -199,7 +214,6 @@ class RaceManager: NSObject {
         
         var params: [String: AnyObject] = ["stepCount": steps]
         params["isBackground"] = UIApplication.sharedApplication().applicationState == UIApplicationState.Background
-        
         PFCloud.callFunctionInBackground("updateStepsForUser", withParameters: params, block: { (results, error) in
             print("results: \(results) error: \(error)")
             completion?()
