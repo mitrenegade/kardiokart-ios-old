@@ -74,15 +74,57 @@ class RaceTrackViewController: UIViewController {
         self.clearPowerups()
         powerupItemViews = [item0, item1, item2, item3]
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshAvatars), name: "positions:changed", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshPowerups), name: "powerups:changed", object: nil)
+        self.listenFor("positions:changed", action: #selector(refreshAvatars), object: nil)
+        self.listenFor("powerups:changed", action: #selector(refreshPowerups), object: nil)
         
         StepManager.sharedManager.initialize()
         StepManager.sharedManager.startTracking()
 
         manager.trackController = self
         manager.checkCacheDate()
-        // query users and listen for updates to steps
+        if RaceManager.currentRace() != nil {
+            self.refreshRace()
+        }
+        else {
+            self.listenFor("race:changed", action: #selector(refreshRace), object: nil)
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        manager.checkCacheDate()
+        updateCurrentLapLabel()
+        
+        self.refreshPowerups()
+        self.refreshAvatars()
+        
+        self.updatePowerupItemView()
+
+        // TEST
+        /*
+        wait(5) {
+//            self.acquirePowerup(self.powerups.values.first!, index: 0)
+            // airplane mode
+            StepManager.sharedManager.startTracking()
+        }
+        */
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        self.stopListeningFor("positions:changed")
+        self.stopListeningFor("powerups:changed")
+        self.stopListeningFor("race:changed")
+    }
+    
+    // MARK: Race
+    func refreshRace() {
+        self.stopListeningFor("race:changed")
+        // when race has been loaded, query users and listen for updates to steps
         self.activityIndicator.startAnimating()
         manager.queryUsers { (success, error) in
             if !success {
@@ -98,29 +140,6 @@ class RaceTrackViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
             }
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        manager.checkCacheDate()
-        updateCurrentLapLabel()
-        
-        self.refreshPowerups()
-        self.refreshAvatars()
-        
-        self.updatePowerupItemView()
-
-        // TEST
-//        wait(3) {
-//            self.acquirePowerup(self.powerups.values.first!, index: 0)
-            // airplane mode
-//            StepManager.sharedManager.startTracking()
-//        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: Animation of cached steps
@@ -416,7 +435,12 @@ class RaceTrackViewController: UIViewController {
             PowerupManager.sharedManager.queryPowerupItems { (results, error) in
                 if let error = error {
                     self.resetPowerupItemView()
-                    self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                    if error.code == 209 {
+                        RaceManager.sharedManager.logout()
+                    }
+                    else {
+                        self.simpleAlert("Powerups not found", defaultMessage: "There was an issue loading your powerups", error: error)
+                    }
                     return
                 }
                 else {
