@@ -38,6 +38,7 @@
 		8ED2D1121D56F10D00F1AA11 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */; };
 		8ED2D1151D57A3DC00F1AA11 /* LapsRaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1141D57A3DC00F1AA11 /* LapsRaceTrack.swift */; };
 		8ED2D1171D59764F00F1AA11 /* RaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED2D1161D59764F00F1AA11 /* RaceManager.swift */; };
+		8EFB84A81D940B4F00FA46D9 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB84A71D940B4F00FA46D9 /* Race.swift */; };
 		92453009E267C002F0C8D7A6 /* Pods_KardioKart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE5A4218B2B889A2747CF18 /* Pods_KardioKart.framework */; };
 		9F1E05FF1BDD175400D927DC /* RaceTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */; };
 		9F1E06011BDD181100D927DC /* RaceTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1E06001BDD181100D927DC /* RaceTrack.swift */; };
@@ -102,6 +103,7 @@
 		8ED2D1111D56F10D00F1AA11 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8ED2D1141D57A3DC00F1AA11 /* LapsRaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LapsRaceTrack.swift; sourceTree = "<group>"; };
 		8ED2D1161D59764F00F1AA11 /* RaceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceManager.swift; sourceTree = "<group>"; };
+		8EFB84A71D940B4F00FA46D9 /* Race.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
 		9F1E05FE1BDD175400D927DC /* RaceTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrackViewController.swift; sourceTree = "<group>"; };
 		9F1E06001BDD181100D927DC /* RaceTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceTrack.swift; sourceTree = "<group>"; };
 		B679B92544A6664551333CAF /* Pods-KardioKart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KardioKart.release.xcconfig"; path = "Pods/Target Support Files/Pods-KardioKart/Pods-KardioKart.release.xcconfig"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				8EC14D641D7DE80C00432E8A /* Powerup.swift */,
+				8EFB84A71D940B4F00FA46D9 /* Race.swift */,
 				8EC14D661D7DE82300432E8A /* PowerupItem.swift */,
 				8E6D089B1D90ADFA00D140BF /* Activity.swift */,
 			);
@@ -507,6 +510,7 @@
 				8494FCC11BC37A3C00CE554E /* HealthManager.swift in Sources */,
 				8ECB74BE1D4B1B4A002134AA /* PowerupManager.swift in Sources */,
 				8449AB641BC628DD0076071E /* UIView+Storyboard.swift in Sources */,
+				8EFB84A81D940B4F00FA46D9 /* Race.swift in Sources */,
 				8EC14D671D7DE82300432E8A /* PowerupItem.swift in Sources */,
 				8EC14D651D7DE80C00432E8A /* Powerup.swift in Sources */,
 				8E6D089C1D90ADFA00D140BF /* Activity.swift in Sources */,

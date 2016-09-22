@@ -25,9 +25,9 @@ class RaceManager: NSObject {
     let liveQueryClient = ParseLiveQuery.Client()
     var subscription: Subscription<PFUser>?
 
-    var _currentRace: PFObject?
+    var _currentRace: Race?
     
-    class func currentRace() -> PFObject? {
+    class func currentRace() -> Race? {
         // TODO: currentRace does not have to do with the day, but with the user's race ID?
         //if sharedManager.isRaceToday() {
         //    return sharedManager._currentRace
@@ -51,7 +51,7 @@ class RaceManager: NSObject {
                 print("could not load race. possibly a 209")
             }
             else {
-                self._currentRace = race
+                self._currentRace = race as? Race
                 print("race query completed")
                 self.notify("race:changed", object: nil, userInfo: nil)
                 if !PowerupManager.sharedManager.isSubscribed {
@@ -155,10 +155,12 @@ class RaceManager: NSObject {
         }
 
         // step updates for other users
-        let query = PFUser.query()?.whereKey("race", equalTo: race)
+        let query = PFUser.query()
         if let userId = PFUser.currentUser()?.objectId {
             query?.whereKey("objectId", notEqualTo: userId)
         }
+        //let raceQuery = Race.query()
+        //query?.whereKey("race", matchesQuery: raceQuery!)
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
