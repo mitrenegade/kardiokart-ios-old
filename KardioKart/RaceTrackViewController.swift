@@ -84,10 +84,15 @@ class RaceTrackViewController: UIViewController {
         manager.checkCacheDate()
         // query users and listen for updates to steps
         self.activityIndicator.startAnimating()
-        manager.queryUsers { (success) in
+        manager.queryUsers { (success, error) in
             if !success {
-                self.simpleAlert("Could not load users", message: "There was an error. Please restart the app and try again")
-                self.activityIndicator.stopAnimating()
+                if let error = error where error.code == 209 {
+                    RaceManager.sharedManager.logout()
+                }
+                else {
+                    self.simpleAlert("Could not load users", message: "There was an error. Please restart the app and try again")
+                    self.activityIndicator.stopAnimating()
+                }
             }
             else {
                 self.activityIndicator.stopAnimating()
@@ -103,13 +108,14 @@ class RaceTrackViewController: UIViewController {
         self.refreshPowerups()
         self.refreshAvatars()
         
-        // TEST
-        /*
-        wait(3) {
-            self.acquirePowerup(self.powerups.values.first!, index: 0)
-        }
-        */
         self.updatePowerupItemView()
+
+        // TEST
+//        wait(3) {
+//            self.acquirePowerup(self.powerups.values.first!, index: 0)
+            // airplane mode
+//            StepManager.sharedManager.startTracking()
+//        }
     }
 
     override func didReceiveMemoryWarning() {

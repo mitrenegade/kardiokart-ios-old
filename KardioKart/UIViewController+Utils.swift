@@ -28,10 +28,38 @@ extension UIViewController {
         let alert: UIAlertController = UIAlertController.simpleAlert(title, message: message, completion: completion)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
+}
+
+extension NSObject {
     func appDelegate() -> AppDelegate {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate
+    }
+    
+    
+    // MARK: - Notifications
+    func listenFor(notification: NotificationType, action: Selector, object: AnyObject?) {
+        listenFor(notification.rawValue, action: action, object: object)
+    }
+    
+    func listenFor(notificationName: String, action: Selector, object: AnyObject?) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: action, name: notificationName, object: object)
+    }
+    
+    func stopListeningFor(notification: NotificationType) {
+        stopListeningFor(notification.rawValue)
+    }
+    
+    func stopListeningFor(notificationName: String) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: notificationName, object: nil)
+    }
+    
+    func notify(notification: NotificationType, object: AnyObject? = nil, userInfo: [NSObject: AnyObject]? = nil) {
+        notify(notification.rawValue, object: object, userInfo: userInfo)
+    }
+    
+    func notify(notificationName: String, object: AnyObject?, userInfo: [NSObject: AnyObject]?) {
+        NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: object, userInfo: userInfo)
     }
     
     func wait(delay:Double, then:()->()) {
@@ -41,22 +69,6 @@ extension UIViewController {
                 Int64(delay * Double(NSEC_PER_SEC))
             ),
             dispatch_get_main_queue(), then)
-    }
-}
-
-extension NSObject {
-    
-    // MARK: - Notifications
-    func listenFor(notificationName: String, action: Selector, object: AnyObject?) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: action, name: notificationName, object: object)
-    }
-    
-    func stopListeningFor(notificationName: String) {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: notificationName, object: nil)
-    }
-    
-    func notify(notificationName: String, object: AnyObject?, userInfo: [NSObject: AnyObject]?) {
-        NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: object, userInfo: userInfo)
     }
 }
 

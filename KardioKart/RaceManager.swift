@@ -80,7 +80,7 @@ class RaceManager: NSObject {
     }
     
     // MARK: - load from web - should be ultimate truth
-    func queryUsers(completion: ((success: Bool)->())?) {
+    func queryUsers(completion: ((success: Bool, error: NSError?)->())?) {
         let query = PFUser.query()
 
         query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
@@ -109,10 +109,10 @@ class RaceManager: NSObject {
                 NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
                 self.listenForStepUpdates()
                 self.subscribeToUserUpdates()
-                completion?(success: true)
+                completion?(success: true, error: nil)
             }
-            else if let _ = error {
-                completion?(success: false)
+            else if let error = error {
+                completion?(success: false, error: error)
             }
         }
     }
@@ -279,4 +279,12 @@ class RaceManager: NSObject {
             NSUserDefaults.standardUserDefaults().setObject(lastCacheDate, forKey: "steps:cached:date")
         }
     }
+    
+    // MARK: User session
+    func logout() {
+        PFUser.logOutInBackgroundWithBlock { (error) in
+            self.notify(.LogoutSuccess)
+        }
+    }
+
 }

@@ -77,14 +77,19 @@ class StepManager: NSObject {
         }
     }
 
-    private var SIMULATED_STEPS = 100
+    private var SIMULATED_STEPS = 1000
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
         guard !Platform.isSimulator else {
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
             SIMULATED_STEPS = SIMULATED_STEPS + 50
             allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
             completion!(steps:allSamples)
+            
+            //wait(5) {
+            //    self.startTracking()
+            //}
             return
+
         }
         
         let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
