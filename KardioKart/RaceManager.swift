@@ -154,6 +154,9 @@ class RaceManager: NSObject {
                     print("oops no current user loaded, must be a new race entrant")
                     self.currentUser = PFUser.currentUser()
                     
+                    // add current user to user list so we don't have to do another user query
+                    self.users?.append(self.currentUser!)
+                    
                     self.forceActivityUpdate()
                 }
                 completion?(success: true, error: nil)
