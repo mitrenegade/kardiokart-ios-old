@@ -66,6 +66,9 @@ class LeaderboardViewController: UITableViewController {
                 self.users = result
                 self.tableView.reloadData()
             }
+            else {
+                print("Error \(error)")
+            }
         }
     }
 }

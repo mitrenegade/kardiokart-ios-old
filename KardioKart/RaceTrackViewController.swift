@@ -93,7 +93,6 @@ class RaceTrackViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
         manager.checkCacheDate()
-        updateCurrentLapLabel()
         
         self.refreshPowerups()
         self.refreshAvatars()
@@ -138,6 +137,9 @@ class RaceTrackViewController: UIViewController {
             }
             else {
                 self.activityIndicator.stopAnimating()
+                
+                // initial step update doesn't get triggered on first login because users don't exist
+                StepManager.sharedManager.startTracking()
             }
         }
     }
@@ -177,6 +179,9 @@ class RaceTrackViewController: UIViewController {
 //                print("animating start \(startSteps) step \(step) end \(endSteps)")
             }
             self.animateUser(user, step: step)
+            if user == RaceManager.sharedManager.currentUser {
+                updateCurrentLapLabel(step)
+            }
             
             if animationPercent >= 100 {
                 manager.currentSteps[userId] = manager.newStepsToAnimate[userId]
@@ -188,6 +193,8 @@ class RaceTrackViewController: UIViewController {
             animationTimer = nil
             
             animationPercent = 0
+            
+            RaceManager.sharedManager.updateCachedSteps()
         }
     }
 
@@ -249,7 +256,7 @@ class RaceTrackViewController: UIViewController {
         for user in users {
             guard let avatar = self.avatarForUser(user) else { continue }
             
-            let steps = user["stepCount"] as? Double ?? 0
+            let steps = RaceManager.sharedManager.cachedStepsForUser(user)
             if let _ = self.raceTrack.pointForSteps(steps) {
                 //avatar.center = point
                 avatar.hidden = false
@@ -273,14 +280,12 @@ class RaceTrackViewController: UIViewController {
         userPlace.text = "\(userPosition)\(userPositionPostfix) Place"
     }
     
-    func updateCurrentLapLabel() {
-        if let user = manager.currentUser{
-            let lapLength:Double = 2500
-            let totalLaps:Int = 20
-            let step_count = user["stepCount"] as? Double ?? 0.0
-            let currentLap:Int = Int(step_count / lapLength)
-            lapCount.text = "Lap \(currentLap) of \(totalLaps)"
-        }
+    func updateCurrentLapLabel(step: Double) {
+        let lapLength:Double = 2500
+        let totalLaps:Int = 20
+        
+        let currentLap:Int = Int(step / lapLength)
+        lapCount.text = "Lap \(currentLap) of \(totalLaps)"
     }
     
     // MARK: - Powerups

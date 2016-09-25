@@ -46,6 +46,7 @@ class RaceManager: NSObject {
     func initialize() {
         // kick off a query, and set the current race to any result
         print("querying for race")
+        self.listenForStepUpdates()
         self.queryRace { (race, error) in
             if let _ = error {
                 print("could not load race. possibly a 209")
@@ -101,11 +102,11 @@ class RaceManager: NSObject {
                     }
                     // compare with cache and update to most recent
                     if let userId = user.objectId {
-                        let cachedSteps = self.cachedStepsForUser(user) // guaranteed to be today's or 0
                         if let activity = user["activity"] as? Activity {
                             activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (result, error) in
                                 if let _ = result as? Activity, parseDate = activity["stepDate"] as? Int where parseDate == self?.today {
                                     let parseSteps = activity["stepCount"] as? Double ?? 0
+                                    let cachedSteps = self?.cachedStepsForUser(user) ?? 0 // load cached step after background thread is done
                                     let mostCurrent = max(cachedSteps, parseSteps)
                                     self?.currentSteps[userId] = mostCurrent
                                     self?.newStepsToAnimate[userId] = mostCurrent
@@ -118,31 +119,42 @@ class RaceManager: NSObject {
                                 }
                                 else {
                                     // either parseDate is incorrect, or activity doesn't exist
-                                    self?.currentSteps[userId] = cachedSteps
-                                    self?.newStepsToAnimate[userId] = cachedSteps
-                                    dispatch_async(dispatch_get_main_queue(), {
-                                        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
-                                    })
+                                    if user == self?.currentUser {
+                                        self?.forceActivityUpdate()
+                                    }
+                                    else {
+                                        let cachedSteps = self?.cachedStepsForUser(user) ?? 0 // load cached step after background thread is done
+                                        self?.currentSteps[userId] = cachedSteps
+                                        self?.newStepsToAnimate[userId] = cachedSteps
+                                        dispatch_async(dispatch_get_main_queue(), {
+                                            NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                                        })
+                                    }
                                 }
                                 })
                         }
                         else {
-                            self.currentSteps[userId] = cachedSteps
-                            self.newStepsToAnimate[userId] = cachedSteps
-                            NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
-                        }
+                            if user == self.currentUser {
+                                self.forceActivityUpdate()
+                            }
+                            else {
+                                let cachedSteps = self.cachedStepsForUser(user) ?? 0 // load cached step after background thread is done
+                                self.currentSteps[userId] = cachedSteps
+                                self.newStepsToAnimate[userId] = cachedSteps
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                                })
+                            }                        }
                     }
                 }
 
-                self.listenForStepUpdates()
                 self.subscribeToUserUpdates()
                 
                 if self.currentUser == nil {
                     print("oops no current user loaded, must be a new race entrant")
                     self.currentUser = PFUser.currentUser()
                     
-                    // migrate user
-                    self.migrateUser()
+                    self.forceActivityUpdate()
                 }
                 completion?(success: true, error: nil)
             }
@@ -186,16 +198,9 @@ class RaceManager: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func migrateUser() {
+    func forceActivityUpdate() {
         // v0.1.6 migration: users must be updated with an Activity and Race pointer
-        let initialSteps: Double = 0
-        self.updateStepsToParse(initialSteps) {
-            self.queryUsers({ (success, error) in
-                if success {
-                    self.notify("positions:changed", object: nil, userInfo: nil)
-                }
-            })
-        }
+        StepManager.sharedManager.startTracking() // force step request and update to parse
     }
     
     func updateStepsFromParse(user: PFUser) {
@@ -289,33 +294,10 @@ class RaceManager: NSObject {
         // cache to device
         self.updateCachedSteps()
         
-        // update to parse if changed
-        if let activity = user["activity"] as? Activity {
-            activity.fetchIfNeededInBackgroundWithBlock({ [weak self] (result, error) in
-                if let _ = result as? Activity {
-                    let parseCount = activity["stepCount"] as? Double ?? 0
-                    let parseDate = activity["stepDate"] as? NSDate
-                    let isToday = self?.isToday(parseDate) ?? false
-                    if total > parseCount || !isToday {
-                        
-                        self?.updateStepsToParse(total, completion: {
-                            print("user steps \(total) saved to parse")
-                        })
-                    }
-                }
-                else {
-                    // activity was deleted somehow - just recreated
-                    self?.updateStepsToParse(total, completion: {
-                        print("user steps \(total) saved to parse")
-                    })
-                }
-            })
-        }
-        else {
-            self.updateStepsToParse(total, completion: {
-                print("user steps \(total) saved to parse")
-            })
-        }
+        // update to parse if changed. other validation is done on cloud server
+        self.updateStepsToParse(total, completion: {
+            print("user steps \(total) saved to parse")
+        })
 
         // animate updated step count
         NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
