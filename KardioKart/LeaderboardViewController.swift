@@ -15,6 +15,8 @@ class LeaderboardViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateSteps), name: "positions:changed", object: nil)
+        
+        self.listenFor("positions:changed", action: #selector(updateSteps), object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,20 +57,6 @@ class LeaderboardViewController: UITableViewController {
                 return steps1 > steps2
             })
             self.tableView.reloadData()
-        }
-    }
-    
-    func queryUsers() {
-        let query = PFUser.query()
-        query?.orderByDescending("stepCount")
-        query?.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-            if let result = result {
-                self.users = result
-                self.tableView.reloadData()
-            }
-            else {
-                print("Error \(error)")
-            }
         }
     }
 }
