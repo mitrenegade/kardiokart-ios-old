@@ -114,15 +114,29 @@ class PowerupManager: NSObject {
     
     func queryPowerupItems(completion: ((results: [PFObject]?, error: NSError?)->Void)? ) {
         guard let user = PFUser.currentUser() else { return }
+        guard let race = RaceManager.currentRace() else { return }
+
+        // match only powerupItems for the user in the current race
+        // user isn't the same objectas the user from the queried items; must use matchesKey:inQuery
+        // relationQuery returns ALL powerupItems for a user
+        // the actual query is on PowerupItem, which must match the userId and the race
+        
         let relation = user.relationForKey("items")
-        relation.query().findObjectsInBackgroundWithBlock { (results, error) in
+        let relationQuery = relation.query()
+        let raceQuery = Race.query()?.whereKey("objectId", equalTo: race.objectId!)
+        
+        let query = PowerupItem.query()
+        query?.whereKey("objectId", matchesKey: "objectId", inQuery: relationQuery)
+        query?.whereKey("race", matchesQuery: raceQuery!)
+        query?.findObjectsInBackgroundWithBlock({ (results, error) in
             if let error = error {
                 completion?(results: nil, error: error)
             }
             else {
+                print("Results \(results) \(results!.count)")
                 completion?(results: results, error: error)
             }
-        }
+        })
     }
 
 }

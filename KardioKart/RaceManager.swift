@@ -180,8 +180,10 @@ class RaceManager: NSObject {
         if let userId = PFUser.currentUser()?.objectId {
             query?.whereKey("objectId", notEqualTo: userId)
         }
-        //let raceQuery = Race.query()
-        //query?.whereKey("race", matchesQuery: raceQuery!)
+
+//        let raceQuery = Race.query()?.whereKey("objectId", equalTo:race.objectId!)
+//        query?.whereKey("race", matchesQuery: raceQuery!)
+        
         self.subscription = liveQueryClient.subscribe(query!)
             .handle(Event.Updated, { (_, user) in
                 dispatch_async(dispatch_get_main_queue(), { 
