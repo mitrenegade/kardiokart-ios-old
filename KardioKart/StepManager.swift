@@ -85,9 +85,9 @@ class StepManager: NSObject {
             allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
             completion!(steps:allSamples)
             
-            wait(5) {
-                self.startTracking()
-            }
+            //wait(5) {
+            //    self.startTracking()
+            //}
             return
 
         }
