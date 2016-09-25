@@ -77,11 +77,11 @@ class StepManager: NSObject {
         }
     }
 
-    private var SIMULATED_STEPS = 4300
+    private var SIMULATED_STEPS = 6200
     func getStepSamples(start start: NSDate?, end: NSDate?, completion: ((steps: AnyObject)->Void)?) {
         guard !Platform.isSimulator else {
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()
-            SIMULATED_STEPS = SIMULATED_STEPS + 50
+            SIMULATED_STEPS = SIMULATED_STEPS + 100
             allSamples.append(["count":SIMULATED_STEPS, "start": NSDate(), "end": NSDate()])
             completion!(steps:allSamples)
             
@@ -96,6 +96,9 @@ class StepManager: NSObject {
         let beginningOfDay = calendar?.startOfDayForDate(NSDate())
 
         let startDate = start ?? beginningOfDay!
+
+        // cancel in case this has been called before
+        self.pedometer.stopPedometerUpdates()
         
         self.pedometer.startPedometerUpdatesFromDate(startDate) { (data, error) in
             var allSamples: [[String: AnyObject]] = [[String: AnyObject]]()

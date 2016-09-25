@@ -66,7 +66,7 @@ class PowerupManager: NSObject {
     internal func getAllPowerups() {
         self.queryPowerups { (results, error) in
             if error != nil {
-                //print("Error in querying powerups: \(error)")
+                print("Error in querying powerups: \(error)")
             }
             else {
                 self.powerups = results as? [Powerup]
@@ -87,6 +87,10 @@ class PowerupManager: NSObject {
         query.whereKey("raceId", equalTo: race.objectId!)
         query.findObjectsInBackgroundWithBlock { (results, error) in
             // todo: if no powerups have been retrieved and query times out, retry x times
+            if let error = error {
+                print("Error \(error)")
+            }
+
             completion(results: results, error: error)
         }
     }
