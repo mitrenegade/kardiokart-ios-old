@@ -120,6 +120,9 @@ class RaceManager: NSObject {
                                     // either parseDate is incorrect, or activity doesn't exist
                                     self?.currentSteps[userId] = cachedSteps
                                     self?.newStepsToAnimate[userId] = cachedSteps
+                                    dispatch_async(dispatch_get_main_queue(), {
+                                        NSNotificationCenter.defaultCenter().postNotificationName("positions:changed", object: nil)
+                                    })
                                 }
                                 })
                         }
